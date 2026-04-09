@@ -1,6 +1,4 @@
-package it.unibo.chaosjack.model.impl;
-
-import it.unibo.chaosjack.model.api.Card;
+package it.unibo.samplejavafx.mvcexample.model;
 
 /**
  * Implementation of a standard playing card.

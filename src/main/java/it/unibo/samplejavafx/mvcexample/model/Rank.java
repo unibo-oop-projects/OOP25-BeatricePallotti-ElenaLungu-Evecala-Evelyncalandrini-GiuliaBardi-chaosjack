@@ -1,4 +1,4 @@
-package it.unibo.chaosjack.model.impl;
+package it.unibo.samplejavafx.mvcexample.model;
 
 /**
  * Enumeration for standard card ranks and their base Blackjack values.

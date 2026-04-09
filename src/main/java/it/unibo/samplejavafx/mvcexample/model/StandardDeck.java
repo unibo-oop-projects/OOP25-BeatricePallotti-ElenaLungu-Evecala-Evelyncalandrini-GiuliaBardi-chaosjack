@@ -1,12 +1,9 @@
-package it.unibo.chaosjack.model.impl;
+package it.unibo.samplejavafx.mvcexample.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import it.unibo.chaosjack.model.api.Card;
-import it.unibo.chaosjack.model.api.Deck;
 
 /**
  * Implementation of a standard 52-card deck.
