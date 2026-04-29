@@ -24,9 +24,13 @@ public record RoundResult(Outcome outcome, int playerPoints, int dealerPoints, i
          */
         DEALER_WON("Dealer win!"),
         /**
-         * push with other player
+         * push with dealer
          */
-        PUSH("You push"),
+        PUSH("You push with Dealer"),
+        /**
+         * push with other players
+         */
+        PLAYERS_PUSH("You push with other player"),
         /**
          * player does BlackJack
          */
@@ -45,8 +49,13 @@ public record RoundResult(Outcome outcome, int playerPoints, int dealerPoints, i
             return message;
         }
 
-        
     }
 
-
+    /**
+     * @return valure of payOut
+     */
+    public int getPayOut() {
+        return this.payOut;
+    }
+    
 }

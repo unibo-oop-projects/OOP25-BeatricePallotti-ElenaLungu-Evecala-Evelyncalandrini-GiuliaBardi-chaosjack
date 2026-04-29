@@ -80,6 +80,6 @@ public interface Table {
     /**
      * @return the total number of rounds won by the player
      */
-    int getWinsCount();
+    int getWinsCount(String playerName);
 
 }
