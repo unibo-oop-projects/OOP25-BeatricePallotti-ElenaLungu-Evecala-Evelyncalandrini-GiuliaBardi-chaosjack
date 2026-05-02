@@ -122,7 +122,7 @@ public class TableImpl implements Table{
                 winCounters.put(winnerName, winCounters.getOrDefault(winnerName, 0) + 1);
             }
             
-            if (bestPlayers.size() > 1){
+            if (bestPlayers.size() > 1) {
                 return new RoundResult(Outcome.PLAYERS_PUSH, max, dealerScore, getPot()*2);
             } 
             String oneWinner = bestPlayers.get(0);
