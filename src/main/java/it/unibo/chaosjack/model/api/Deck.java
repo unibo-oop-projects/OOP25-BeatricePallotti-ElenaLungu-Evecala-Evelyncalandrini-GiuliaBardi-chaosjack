@@ -1,10 +1,7 @@
 package it.unibo.chaosjack.model.api;
 
-<<<<<<< HEAD
-public interface Deck {
-   //temporary
-}
-=======
+
+
 import java.util.Optional;
 
 /**
@@ -28,4 +25,4 @@ public interface Deck {
      */
     int remainingCards();
 }
->>>>>>> origin/elena-deck-model
+

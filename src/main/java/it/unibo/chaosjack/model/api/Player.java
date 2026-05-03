@@ -1,13 +1,33 @@
 package it.unibo.chaosjack.model.api;
 
-import java.util.List;
+/**
+ * This interface represents the player in the Blackjack game where it can bet money.
+ */
+public interface Player extends Partecipant{ 
 
-public interface Player {
+    /**
+     * Sets the amount of money the player wants to wager on the current hand.
+     */
+    void setBet(int amount);
 
-     void addCard(Card card); 
-     int getScore();
-     boolean isBusted(); //tells if I'm above 21
-     List<Card> getHand(); //gives the card in  the hand of the player
-     void stand();//when the player wants to end the game
+    /**
+     * Retrieves the current balance available in the player's wallet.
+     */
+    int getWallet();
+
+    /**
+     * Updates the player's wallet balance by adding or subtracting a specific amount.
+     */
+    boolean updateWallet(int amount);
+
+    /**
+     * @return the current amount of the bet
+     */
+    int getCurrentBet();
+
+    /**
+     * It doubles the amount of the current bet
+     */
+    void doubleDown(); 
 
 }

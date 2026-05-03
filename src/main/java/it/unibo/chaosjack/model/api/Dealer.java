@@ -1,8 +1,21 @@
 package it.unibo.chaosjack.model.api;
 
-public interface Dealer extends Player {
-    
-    boolean shouldHit(); //this method tells me to keep hitting if the dealer didn't reach 17 yet
-    void playTurn(Deck deck); //is the method that manages the turn
-    
+/**
+ * This interface represents the Dealer in the Blackjack game.
+ */
+public interface Dealer extends Partecipant {
+
+    /**
+     * Decides whether the dealer should take another card.
+     * The dealer typically hits until the hand reaches a total of 17.
+     * @return true if the dealer should hit
+     */
+    boolean shouldHit();
+
+    /**
+     * Manages the dealer's entire turn.
+     * This method automates the process of drawing cards from the deck
+     * based on the dealer's hit conditions.
+     */
+    void playTurn(Deck deck);
 }

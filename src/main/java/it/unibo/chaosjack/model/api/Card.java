@@ -1,11 +1,7 @@
 package it.unibo.chaosjack.model.api;
 
-<<<<<<< HEAD
-public class Card {
-    //temporary
-}
 
-=======
+
 /**
  * Interface representing a generic game card.
  */
@@ -20,4 +16,4 @@ public interface Card {
      */
     String getName();
 }
->>>>>>> origin/elena-deck-model
+
