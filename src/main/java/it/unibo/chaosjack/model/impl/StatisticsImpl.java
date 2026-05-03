@@ -13,6 +13,7 @@ public class StatisticsImpl implements Statistics{
     private final Map<String, Integer> wins = new HashMap<>();
     private final Map<String, Integer> black = new HashMap<>();
     private final Map<String, Integer> bonusWin = new HashMap<>();
+    private final Map<String, Integer> bonusBlack = new HashMap<>();
     private final Map<String, Integer> losses = new HashMap<>();
     private final Map<String, Integer> pushes = new HashMap<>();
     private final Map<String, Integer> netProfit = new HashMap<>();
@@ -23,13 +24,14 @@ public class StatisticsImpl implements Statistics{
         int payOut = result.getPayOut();
 
         switch (outcome) {
-            case PLAYER_WON, PLAYER_BLACKJACK, PLAYER_BONUS -> {
+            case PLAYER_WON, PLAYER_BLACKJACK, PLAYER_BONUS, BLACKJACK_BONUS -> {
                 wins.put(playerName, wins.getOrDefault(playerName, 0) + 1);
                 if (outcome == Outcome.PLAYER_BLACKJACK) {
                     black.put(playerName, black.getOrDefault(playerName, 0) + 1);
-                }
-                if (outcome == Outcome.PLAYER_BONUS) {
+                } else if (outcome == Outcome.PLAYER_BONUS) {
                     bonusWin.put(playerName, bonusWin.getOrDefault(playerName, 0) + 1);
+                } else if (outcome == Outcome.BLACKJACK_BONUS) {
+                    bonusBlack.put(playerName, bonusBlack.getOrDefault(playerName, 0) + 1);
                 }
                 netProfit.put(playerName, netProfit.getOrDefault(playerName, 0) + (payOut - betAmount));
             }
@@ -63,6 +65,11 @@ public class StatisticsImpl implements Statistics{
     @Override
     public Map<String, Integer> getBonusHistory() {
        return new HashMap<>(bonusWin);
+    }
+
+    @Override
+    public Map<String, Integer> getBlackBonusHistory() {
+       return new HashMap<>(bonusBlack);
     }
 
     @Override

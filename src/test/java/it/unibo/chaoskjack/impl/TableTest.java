@@ -415,11 +415,11 @@ public class TableTest {
 
         RoundResult result = table.getWinner();
 
-        assertEquals(Outcome.PLAYER_BONUS, result.outcome());
+        assertEquals(Outcome.BLACKJACK_BONUS, result.outcome());
         assertEquals(1000, result.getPayOut());
         assertEquals(1, table.geStatistics().getWinHistory().getOrDefault("Marameo", 0));
-        assertEquals(1, table.geStatistics().getBonusHistory().getOrDefault("Marameo", 0));
-        assertEquals(0, table.geStatistics().getBonusHistory().getOrDefault("Bob", 0));
+        assertEquals(1, table.geStatistics().getBlackBonusHistory().getOrDefault("Marameo", 0));
+        assertEquals(0, table.geStatistics().getBlackBonusHistory().getOrDefault("Bob", 0));
     }
 
     @Test

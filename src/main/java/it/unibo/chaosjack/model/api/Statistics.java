@@ -36,6 +36,11 @@ public interface Statistics {
     Map<String, Integer> getBonusHistory();
 
     /**
+     * @return the number of wins with BlackJack with bonus for each player
+     */
+    Map<String, Integer> getBlackBonusHistory();
+
+    /**
      * @return the number of lose for each player
      */
     Map<String, Integer> getLossHistory();

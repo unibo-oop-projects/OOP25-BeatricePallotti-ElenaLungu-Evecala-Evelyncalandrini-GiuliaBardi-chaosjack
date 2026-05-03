@@ -141,7 +141,7 @@ public class TableImpl implements Table {
             final boolean isMonocolor = winnerHand.sameColor(winnerHand.getCards());
             final int bonus = isMonocolor ? 3 : 2;
             if (max == MAX_SCORE && isMonocolor) {
-                result = new RoundResult(Outcome.PLAYER_BONUS, max, dealerScore, getPot() * (bonus + 2));
+                result = new RoundResult(Outcome.BLACKJACK_BONUS, max, dealerScore, getPot() * (bonus + 2));
             } else if (max == MAX_SCORE) {
                 result = new RoundResult(Outcome.PLAYER_BLACKJACK, max, dealerScore, getPot() * 3);
             } else if (isMonocolor == true) {

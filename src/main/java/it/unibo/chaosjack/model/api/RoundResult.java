@@ -38,7 +38,11 @@ public record RoundResult(Outcome outcome, int playerPoints, int dealerPoints, i
         /**
          * player does BlackJack
          */
-        PLAYER_BLACKJACK("BlackJack!!!");
+        PLAYER_BLACKJACK("BlackJack!!!"),
+        /**
+         * player doea BlackJack with bonus
+         */
+        BLACKJACK_BONUS("BlackJack with BONUS");
 
         private final String message;
 
