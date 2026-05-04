@@ -15,7 +15,7 @@ import it.unibo.chaosjack.model.api.Statistics;
 /**
  * Implementation of the Table interface
  */
-public class TableImpl implements Table {
+public final class TableImpl implements Table {
     private static final int MAX_SCORE = 21;
     private State currentState;
     //private final Map<String, Integer> winCounters = new HashMap<>();
@@ -89,7 +89,7 @@ public class TableImpl implements Table {
         }
         for (final String name : players) {
             if (name.equals(playerName)){
-                if (wallet.removeFunds(amount) == false) {
+                if (!(wallet.removeFunds(amount))) {
                     throw new IllegalArgumentException("insufficient founds");
                 }
                 final int currentPot = playerPots.getOrDefault(playerName, 0);
@@ -122,7 +122,7 @@ public class TableImpl implements Table {
             }
         }
 
-        RoundResult result;
+        final RoundResult result;
 
         if (bestPlayers.isEmpty() || (dealerScore <= MAX_SCORE && dealerScore > max)) {
             result = new RoundResult(Outcome.DEALER_WON, max == -1 ? 0 : max, dealerScore, 0);
@@ -144,7 +144,7 @@ public class TableImpl implements Table {
                 result = new RoundResult(Outcome.BLACKJACK_BONUS, max, dealerScore, getPot() * (bonus + 2));
             } else if (max == MAX_SCORE) {
                 result = new RoundResult(Outcome.PLAYER_BLACKJACK, max, dealerScore, getPot() * 3);
-            } else if (isMonocolor == true) {
+            } else if (isMonocolor) {
                 result = new RoundResult(Outcome.PLAYER_BONUS, max, dealerScore, getPot() * bonus);
             } else {
                 result = new RoundResult(Outcome.PLAYER_WON, max, dealerScore, getPot() * bonus);
@@ -152,11 +152,11 @@ public class TableImpl implements Table {
         }
 
         for (final String name : getPlayers()) {
-            int bet = playerPots.getOrDefault(name, 0);
+            final int bet = playerPots.getOrDefault(name, 0);
             if (bestPlayers.contains(name)) {
                 statistics.updateStats(name, result, bet);
             } else {
-                RoundResult individuaLoss = new RoundResult(Outcome.DEALER_WON, getPlayerScore(name), dealerScore, 0);
+                final RoundResult individuaLoss = new RoundResult(Outcome.DEALER_WON, getPlayerScore(name), dealerScore, 0);
                 statistics.updateStats(name, individuaLoss, bet);
             }
         }

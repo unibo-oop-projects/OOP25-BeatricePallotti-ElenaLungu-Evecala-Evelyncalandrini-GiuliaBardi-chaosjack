@@ -7,9 +7,12 @@ import it.unibo.chaosjack.model.api.RoundResult;
 import it.unibo.chaosjack.model.api.RoundResult.Outcome;
 import it.unibo.chaosjack.model.api.Statistics;
 
-public class StatisticsImpl implements Statistics{
+/**
+ * Implementation of interface Statistics
+ */
+public final class StatisticsImpl implements Statistics {
 
-    private int totalRounds = 0;
+    private int totalRounds;
     private final Map<String, Integer> wins = new HashMap<>();
     private final Map<String, Integer> black = new HashMap<>();
     private final Map<String, Integer> bonusWin = new HashMap<>();
@@ -19,9 +22,9 @@ public class StatisticsImpl implements Statistics{
     private final Map<String, Integer> netProfit = new HashMap<>();
 
     @Override
-    public void updateStats(String playerName, RoundResult result, int betAmount) {
-        Outcome outcome = result.outcome();
-        int payOut = result.getPayOut();
+    public void updateStats(final String playerName, final RoundResult result, final int betAmount) {
+        final Outcome outcome = result.outcome();
+        final int payOut = result.getPayOut();
 
         switch (outcome) {
             case PLAYER_WON, PLAYER_BLACKJACK, PLAYER_BONUS, BLACKJACK_BONUS -> {
@@ -33,7 +36,7 @@ public class StatisticsImpl implements Statistics{
                 } else if (outcome == Outcome.BLACKJACK_BONUS) {
                     bonusBlack.put(playerName, bonusBlack.getOrDefault(playerName, 0) + 1);
                 }
-                netProfit.put(playerName, netProfit.getOrDefault(playerName, 0) + (payOut - betAmount));
+                netProfit.put(playerName, netProfit.getOrDefault(playerName, 0) + payOut - betAmount);
             }
             case DEALER_WON, PUSH -> {
                 losses.put(playerName, losses.getOrDefault(playerName, 0) + 1);
@@ -41,7 +44,7 @@ public class StatisticsImpl implements Statistics{
             }
             case PLAYERS_PUSH -> {
                 pushes.put(playerName, pushes.getOrDefault(playerName, 0) + 1);
-                netProfit.put(playerName, netProfit.getOrDefault(playerName, 0) + ((payOut / 2) - betAmount));
+                netProfit.put(playerName, netProfit.getOrDefault(playerName, 0) + (payOut / 2) - betAmount);
             }
 
         }

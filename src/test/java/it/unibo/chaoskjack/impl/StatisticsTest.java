@@ -1,6 +1,6 @@
 package it.unibo.chaoskjack.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions. *;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,10 @@ import it.unibo.chaosjack.model.api.Statistics;
 import it.unibo.chaosjack.model.api.RoundResult.Outcome;
 import it.unibo.chaosjack.model.impl.StatisticsImpl;
 
-public class StatisticsTest {
+/**
+ * Test for method of StatisticsImpl
+ */
+class StatisticsTest {
     private static final int BET = 100;
     private static final int INITIAL_COUNT = 0;
     private static final int SINGLE_INCREMENT = 1;
@@ -66,7 +69,7 @@ public class StatisticsTest {
 
     @Test
     void testPlayersPush() {
-        RoundResult pushResult = new RoundResult(Outcome.PLAYERS_PUSH, SCORE_20, SCORE_18, PAYOUT_PUSH_MULTIPLE);
+        final RoundResult pushResult = new RoundResult(Outcome.PLAYERS_PUSH, SCORE_20, SCORE_18, PAYOUT_PUSH_MULTIPLE);
         stats.updateStats(P1, pushResult, BET);
         stats.updateStats(P2, pushResult, BET);
 

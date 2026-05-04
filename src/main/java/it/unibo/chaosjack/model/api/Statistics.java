@@ -9,9 +9,10 @@ public interface Statistics {
 
     /**
      * Records the result of a completed round
+     * 
      * @param playerName name of the player
      * @param result of the round just finish
-     * @betAmount value of bet in the round for each player
+     * @param betAmount value of bet in the round for each player
      */
     void updateStats(String playerName, RoundResult result, int betAmount);
 
@@ -63,7 +64,6 @@ public interface Statistics {
     /**
      * reset of the statistics
      */
-    void resetStats();
-    
+    void resetStats(); 
     
 }

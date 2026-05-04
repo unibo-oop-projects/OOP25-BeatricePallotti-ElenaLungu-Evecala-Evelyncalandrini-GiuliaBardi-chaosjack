@@ -1,6 +1,6 @@
 package it.unibo.chaoskjack.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions. *;
 
 import java.util.List;
 
@@ -22,7 +22,10 @@ import it.unibo.chaosjack.model.impl.StandardCard;
 import it.unibo.chaosjack.model.impl.Suit;
 import it.unibo.chaosjack.model.impl.TableImpl;
 
-public class TableTest {
+/**
+ * Test for method of TableImpl
+ */
+class TableTest {
     private static final int INITIAL_BALANCE = 2000;
     private static final int INITIAL_POT = 0;
     private static final int STANDARD_BET = 100;
@@ -52,10 +55,11 @@ public class TableTest {
     private static final int ROUND_TWO = 2;
     private static final int DEFAULT_INCREMENT = 1;
 
-    private Table table;
-    private Wallet wallet;
     private static final String P1 = "Marameo";
     private static final String P2 = "Bob";
+
+    private Table table;
+    private Wallet wallet;
     private final List<String> players = List.of(P1, P2);
     
     @BeforeEach
@@ -65,9 +69,9 @@ public class TableTest {
             @Override
             public int getBalance() {return balance;}
             @Override
-            public void addFunds(int amount){balance += amount;}
+            public void addFunds(final int amount){balance += amount;}
             @Override
-            public boolean removeFunds(int amount){
+            public boolean removeFunds(final int amount){
                 if (balance >= amount) {balance -= amount; return true;}
                 return false;
             }
@@ -92,7 +96,7 @@ public class TableTest {
 
     @Test
     void testStepPassageValidation() {
-        assertThrows(IllegalStateException.class, () -> table.stepPassage());
+        assertThrows(IllegalStateException.class, table::stepPassage);
 
         table.placeBet(P2, STANDARD_BET);
         table.stepPassage();
@@ -123,13 +127,13 @@ public class TableTest {
     
     @Test
     void testGetWinnerPlayerWins() {
-        GameEngine winEngine = createEngine(SCORE_WINNING, SCORE_MID);
+        final GameEngine winEngine = createEngine(SCORE_WINNING, SCORE_MID);
         table = new TableImpl(wallet, List.of(P1), winEngine);
 
         table.placeBet(P1, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
         assertEquals(Outcome.PLAYER_WON, result.outcome());
         assertEquals(PAYOUT_WIN_SINGLE, result.getPayOut(), "the wins must be double value of the pot");
         assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
@@ -137,13 +141,13 @@ public class TableTest {
 
     @Test
     void testWinnerMultiplePlayersTieAndWin() {
-        GameEngine winEngine = createEngine(SCORE_WINNING, SCORE_MID);
+        final GameEngine winEngine = createEngine(SCORE_WINNING, SCORE_MID);
         table = new TableImpl(wallet, players, winEngine);
 
         table.placeBet(P1, STANDARD_BET);
         table.placeBet(P2, STANDARD_BET);
         table.stepPassage();
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
         assertEquals(Outcome.PLAYERS_PUSH, result.outcome());
         assertEquals(PAYOUT_WIN_DOUBLE, result.getPayOut(), "the wins must be double value of the pot");
         assertEquals(DEFAULT_INCREMENT, table.geStatistics().getPushHistory().getOrDefault(P1, 0));
@@ -152,13 +156,13 @@ public class TableTest {
 
     @Test
     void testWinnerPushWithDealer() {
-        GameEngine pushEngine = createEngine(SCORE_HIGH, SCORE_HIGH);
+        final GameEngine pushEngine = createEngine(SCORE_HIGH, SCORE_HIGH);
         table = new TableImpl(wallet, List.of(P1), pushEngine);
         
         table.placeBet(P1, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
         assertEquals(Outcome.PUSH, result.outcome());
         assertEquals(PAYOUT_LOSS, result.getPayOut(), "Standard push with dealer");
         assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
@@ -167,13 +171,13 @@ public class TableTest {
 
     @Test
     void testWinnerDealerWins() {
-        GameEngine lossEngine = createEngine(SCORE_MID, SCORE_WINNING);
+        final GameEngine lossEngine = createEngine(SCORE_MID, SCORE_WINNING);
         table = new TableImpl(wallet, List.of(P1), lossEngine);
         
         table.placeBet(P1, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
         assertEquals(Outcome.DEALER_WON, result.outcome());
         assertEquals(PAYOUT_LOSS, result.getPayOut());
         assertEquals(DEFAULT_INCREMENT, table.geStatistics().getLossHistory().getOrDefault(P1, 0));
@@ -182,14 +186,14 @@ public class TableTest {
 
     @Test
     void testWinnerAllPlayerGoOut() {
-        GameEngine outEngine = createEngine(SCORE_BUSTED, SCORE_WINNING);
+        final GameEngine outEngine = createEngine(SCORE_BUSTED, SCORE_WINNING);
         table = new TableImpl(wallet, players, outEngine);
 
         table.placeBet(P1, STANDARD_BET);
         table.placeBet(P2, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
         assertEquals(Outcome.DEALER_WON, result.outcome());
         assertEquals(PAYOUT_LOSS, result.getPayOut());
         assertEquals(DEFAULT_INCREMENT, table.geStatistics().getLossHistory().getOrDefault(P1, 0));
@@ -198,11 +202,13 @@ public class TableTest {
 
     @Test
     void testDealerGoOut() {
-        GameEngine outDealerEngine = new GameEngine() {
+        final GameEngine outDealerEngine = new GameEngine() {
+
             @Override 
-            public int getPlayerScore(String name) { 
-                return name.equals(P1) ? SCORE_WINNING : SCORE_HIGH; 
+            public int getPlayerScore(final String name) { 
+                return P1.equals(name) ? SCORE_WINNING : SCORE_HIGH; 
             }
+
             @Override
             public Hand getDealerHand() { 
                 return new Hand() {
@@ -210,51 +216,63 @@ public class TableTest {
                     public int getScore() { return SCORE_DEALER_BUSTED; }
                 };
             }
+
             @Override
-            public void changeState(TurnState newState) {}
+            public void changeState(final TurnState newState) {
+            }
+
             @Override
-            public void nextTurn() {}
+            public void nextTurn() {
+            }
+
             @Override
             public Deck getDeck() { return null; }
+
             @Override
             public List<Player> getPlayers() { 
-                Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
+                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
 
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.DIAMONDS));
-                return List.of(p1,p2);
+                return List.of(p1, p2);
             }
+
             @Override
-            public void hit() {}
+            public void hit() {
+            }
+
             @Override
-            public void stand() {}
+            public void stand() {
+            }
             
         };
-;
+
         table = new TableImpl(wallet, players, outDealerEngine);
 
         table.placeBet(P1, STANDARD_BET);
         table.placeBet(P2, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
         assertEquals(Outcome.PLAYER_WON, result.outcome());
         assertEquals(PAYOUT_WIN_DOUBLE, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault("Marameo", 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault("Bob", 0));
+        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault(P2, 0));
     }
     
 
     @Test
     void testOneWinsOneLoses() {
-        GameEngine mixEngine = new GameEngine() {
+        final GameEngine mixEngine = new GameEngine() {
+
             @Override 
-            public int getPlayerScore(String name) { 
-                return name.equals(P1)? SCORE_LOSING : SCORE_WINNING; 
+            public int getPlayerScore(final String name) { 
+                return P1.equals(name)? SCORE_LOSING : SCORE_WINNING; 
             }
+
             @Override
             public Hand getDealerHand() { 
                 return new Hand() {
@@ -262,26 +280,36 @@ public class TableTest {
                     public int getScore() { return SCORE_MID; }
                 };
             }
+
             @Override
-            public void changeState(TurnState newState) {}
+            public void changeState(final TurnState newState) {
+            }
+            
             @Override
-            public void nextTurn() {}
+            public void nextTurn() {
+            }
+            
             @Override
             public Deck getDeck() { return null; }
+
             @Override
             public List<Player> getPlayers() { 
-                Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
+                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                  p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.DIAMONDS));
-                return List.of(p1,p2);
+                return List.of(p1, p2);
             }
+
             @Override
-            public void hit() {}
+            public void hit() {
+            }
+
             @Override
-            public void stand() {}
+            public void stand() {
+            }
             
         };
 
@@ -291,21 +319,23 @@ public class TableTest {
         table.placeBet(P2, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
 
         assertEquals(Outcome.PLAYER_WON, result.outcome());
         assertEquals(PAYOUT_WIN_DOUBLE, result.getPayOut());
-        assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault("Marameo", 0));
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault("Bob", 0));
+        assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P2, 0));
     }
 
     @Test
     void testWinsPLayerWithBonus() {
-        GameEngine bonusWinEngine = new GameEngine() {
+        final GameEngine bonusWinEngine = new GameEngine() {
+
             @Override 
-            public int getPlayerScore(String name) { 
-                return name.equals(P1) ? SCORE_HIGH : SCORE_MID; 
+            public int getPlayerScore(final String name) { 
+                return P1.equals(name) ? SCORE_HIGH : SCORE_MID; 
             }
+
             @Override
             public Hand getDealerHand() { 
                 return new Hand() {
@@ -313,26 +343,36 @@ public class TableTest {
                     public int getScore() { return SCORE_MID; }
                 };
             }
+
             @Override
-            public void changeState(TurnState newState) {}
+            public void changeState(TurnState newState) {
+            }
+
             @Override
-            public void nextTurn() {}
+            public void nextTurn() {
+            }
+
             @Override
             public Deck getDeck() { return null; }
+           
             @Override
             public List<Player> getPlayers() { 
-                Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
+                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
-                return List.of(p1,p2);
+                return List.of(p1, p2);
             }
+            
             @Override
-            public void hit() {}
+            public void hit() {
+            }
+            
             @Override
-            public void stand() {}
+            public void stand() {
+            }
             
         };
 
@@ -342,21 +382,23 @@ public class TableTest {
         table.placeBet(P2, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
 
         assertEquals(Outcome.PLAYER_BONUS, result.outcome());
         assertEquals(PAYOUT_BONUS, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBonusHistory().getOrDefault("Marameo", 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getBonusHistory().getOrDefault("Bob", 0));
+        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBonusHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.geStatistics().getBonusHistory().getOrDefault(P2, 0));
     }
 
     @Test
     void testWinnerPLayerBlackJack() {
-        GameEngine bjEngine = new GameEngine() {
+        final GameEngine bjEngine = new GameEngine() {
+
             @Override 
-            public int getPlayerScore(String name) { 
-                return name.equals(P1) ? SCORE_BLACKJACK : SCORE_WINNING; 
+            public int getPlayerScore(final String name) { 
+                return P1.equals(name) ? SCORE_BLACKJACK : SCORE_WINNING; 
             }
+
             @Override
             public Hand getDealerHand() { 
                 return new Hand() {
@@ -364,50 +406,58 @@ public class TableTest {
                     public int getScore() { return SCORE_MID; }
                 };
             }
+
             @Override
-            public void changeState(TurnState newState) {}
-            @Override
-            public void nextTurn() {}
+            public void changeState(final TurnState newState) {
+            }
+            
+            @Override public void nextTurn() {
+            }
+            
             @Override
             public Deck getDeck() { return null; }
+
             @Override
             public List<Player> getPlayers() { 
-                Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
+                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
-                return List.of(p1,p2);
+                return List.of(p1, p2);
             }
-            @Override
-            public void hit() {}
-            @Override
-            public void stand() {}
+
+            @Override public void hit() {
+            }
+
+            @Override public void stand() {
+            }
             
         };
-
         table = new TableImpl(wallet, players, bjEngine);
 
         table.placeBet(P1, STANDARD_BET);
         table.placeBet(P2, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
 
         assertEquals(Outcome.PLAYER_BLACKJACK, result.outcome());
         assertEquals(PAYOUT_BONUS, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBlackHistory().getOrDefault("Marameo", 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getBlackHistory().getOrDefault("Bob", 0));
+        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBlackHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.geStatistics().getBlackHistory().getOrDefault(P2, 0));
     }
 
     @Test
     void testPLayerBlackJackBonus() {
-        GameEngine bjEngine = new GameEngine() {
+        final GameEngine bjEngine = new GameEngine() {
+            
             @Override 
-            public int getPlayerScore(String name) { 
-                return name.equals(P1) ? SCORE_BLACKJACK : SCORE_WINNING; 
+            public int getPlayerScore(final String name) { 
+                return P1.equals(name) ? SCORE_BLACKJACK : SCORE_WINNING; 
             }
+            
             @Override
             public Hand getDealerHand() { 
                 return new Hand() {
@@ -415,26 +465,36 @@ public class TableTest {
                     public int getScore() { return SCORE_MID; }
                 };
             }
+            
             @Override
-            public void changeState(TurnState newState) {}
+            public void changeState(final TurnState newState) {
+            }
+            
             @Override
-            public void nextTurn() {}
+            public void nextTurn() {
+            }
+            
             @Override
             public Deck getDeck() { return null; }
+            
             @Override
             public List<Player> getPlayers() { 
-                Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
+                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
                 return List.of(p1,p2);
             }
+
             @Override
-            public void hit() {}
+            public void hit() {
+            }
+
             @Override
-            public void stand() {}
+            public void stand() {
+            }
             
         };
 
@@ -444,13 +504,13 @@ public class TableTest {
         table.placeBet(P2, STANDARD_BET);
         table.stepPassage();
 
-        RoundResult result = table.getWinner();
+        final RoundResult result = table.getWinner();
 
         assertEquals(Outcome.BLACKJACK_BONUS, result.outcome());
         assertEquals(PAYOUT_BJ_BONUS, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault("Marameo", 0));
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBlackBonusHistory().getOrDefault("Marameo", 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getBlackBonusHistory().getOrDefault("Bob", 0));
+        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBlackBonusHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.geStatistics().getBlackBonusHistory().getOrDefault(P2, 0));
     }
 
     @Test
@@ -480,13 +540,14 @@ public class TableTest {
         assertEquals(ROUND_ONE, table.geStatistics().getTotalRounds());
     }
 
-    
-    private GameEngine createEngine(int pScore, int dScore) {
+    private GameEngine createEngine(final int pScore, final int dScore) {
         return new GameEngine() {
+            
             @Override 
-            public int getPlayerScore(String name) { 
+            public int getPlayerScore(final String name) { 
                 return pScore; 
             }
+            
             @Override
             public Hand getDealerHand() { 
                 return new Hand() {
@@ -494,26 +555,36 @@ public class TableTest {
                     public int getScore() { return dScore; }
                 };
             }
+            
             @Override
-            public void changeState(TurnState newState) {}
+            public void changeState(final TurnState newState) {
+            }
+            
             @Override
-            public void nextTurn() {}
+            public void nextTurn() {
+            }
+           
             @Override
             public Deck getDeck() { return null; }
+            
             @Override
             public List<Player> getPlayers() {
-                Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
+                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
-                return List.of(p1,p2);
+                return List.of(p1, p2);
             }
+
             @Override
-            public void hit() {}
+            public void hit() {
+            }
+
             @Override
-            public void stand() {}
+            public void stand() {
+            }
             
         };
     }

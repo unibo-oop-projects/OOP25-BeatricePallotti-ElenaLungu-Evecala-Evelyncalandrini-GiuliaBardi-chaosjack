@@ -74,11 +74,6 @@ public interface Table {
     int getWalletBalance(String playerName);
 
     /**
-     * @return the number of rounds we have reached
-     */
-    //int getRoundCount();
-
-    /**
      * @return return the statistics for each player
      */
     Statistics geStatistics();
