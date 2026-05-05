@@ -1,5 +1,7 @@
 package it.unibo.chaosjack.model.api;
 
+
+
 import java.util.Optional;
 
 /**
@@ -23,3 +25,4 @@ public interface Deck {
     */
     int remainingCards();
 }
+

@@ -1,0 +1,52 @@
+package it.unibo.chaoskjack.impl;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import it.unibo.chaosjack.model.api.NPC;
+import it.unibo.chaosjack.model.impl.NPCimpl;
+import it.unibo.chaosjack.model.impl.Rank;
+import it.unibo.chaosjack.model.impl.StandardCard;
+import it.unibo.chaosjack.model.impl.Suit;
+
+ class NPCTest {
+    @Test
+    void testMakeBet() {
+     final NPC npc = new NPCimpl("bot-1", 100);
+     npc.makeBet();
+     assertEquals(10, npc.getCurrentBet(), "La scommessa dovrebbe essere 10");
+    }
+
+    @Test
+    void testMakeBetWithLowFunds() {
+        final NPC npc = new NPCimpl("bot-2", 5);
+        npc.makeBet();
+        assertEquals(5, npc.getCurrentBet(), "La scommessa dobrebbe essere 5 perchè fa all-in");
+    }
+
+    @Test
+    void testHitStrategy() {
+        final NPC npc = new NPCimpl("bot-3", 100);
+        npc.addCard(new StandardCard(Rank.SIX, Suit.CLUBS));
+        npc.addCard(new StandardCard(Rank.FOUR, Suit.HEARTS));
+        assertTrue(npc.wantsToHit(), "L'NPC dovrebbe chiedere carta con un punteggio di 10");
+        npc.resetHand();
+        npc.addCard(new StandardCard(Rank.KING, Suit.SPADES));
+        npc.addCard(new StandardCard(Rank.NINE, Suit.DIAMONDS));
+        assertFalse(npc.wantsToHit(), "L'NPC non dovrebbe chiedere carta con 19");
+    }
+
+    @Test
+    void testShouldDouble() {
+        final NPC npc = new NPCimpl("bot-4", 100);
+        npc.addCard(new StandardCard(Rank.FIVE, Suit.SPADES));
+        npc.addCard(new StandardCard(Rank.SIX, Suit.CLUBS));
+        assertTrue(npc.wantsToDouble(), "L'NPC dovrebbe raddoppiare con 11");
+
+        npc.resetHand();
+        npc.addCard(new StandardCard(Rank.JACK, Suit.HEARTS));
+        npc.addCard(new StandardCard(Rank.FOUR, Suit.SPADES));
+        assertFalse(npc.wantsToDouble(), "L'NPC non dovrebbe raddoppaire con 14");
+    }
+}

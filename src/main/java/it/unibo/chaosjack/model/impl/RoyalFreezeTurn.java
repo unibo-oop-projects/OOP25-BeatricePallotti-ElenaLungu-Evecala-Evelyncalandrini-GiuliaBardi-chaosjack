@@ -11,7 +11,7 @@ public class RoyalFreezeTurn implements SpecialRound{
     public int specialScore(List<Card> playersCards){
         int score =0;
         for ( Card c :playersCards){
-            if (c.getName().equals("KING") || c.getName().equals("QUEEN") || c.getName().equals("JACK")){
+            if (c.getName().contains("KING") || c.getName().contains("QUEEN") || c.getName().contains("JACK")){
                 score += 0;
             } 
             else {

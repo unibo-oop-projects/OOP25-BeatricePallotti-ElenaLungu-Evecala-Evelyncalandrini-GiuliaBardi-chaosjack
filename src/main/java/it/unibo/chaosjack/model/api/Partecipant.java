@@ -1,0 +1,49 @@
+package it.unibo.chaosjack.model.api;
+
+
+import it.unibo.chaosjack.model.impl.Hand;
+
+   /**
+   * This interface represents a generic player in Blackjack.
+   */
+
+public interface Partecipant {
+
+    public final static int MAX_SCORE = 21;
+
+    /**
+     * returns the name of the partecipant.
+     * 
+     * @return the partecipant's name
+     */
+    String getName();
+
+    /**
+     * Clears the hand of the partecipants to start a new round.
+     */
+    void resetHand();
+
+    /**
+     * Adds a card to the player's current hand.
+     * 
+     * @param card
+     */
+    void addCard(Card card);
+
+    /**
+     * Checks if the player's score exceeds the maximum limit of 21.
+     * 
+     * @return true if the partecipant is busted
+     */
+    default boolean isBusted() {
+        return getHand().getScore() > MAX_SCORE;
+    }
+
+    /**
+     * Provides a list of all cards currently held by the player.
+     * 
+     * @return the list of the cards in the partecipant's hands
+     */
+    Hand getHand();
+
+}

@@ -12,7 +12,7 @@ public class DoubleHeartsRule implements SpecialRound{
     public int specialScore(List<Card> playersCars){
         int score = 0;
         for (Card c : playersCars) {
-            if (c.getName().equals("HEARTS")) {
+            if (c.getName().contains("HEARTS")) {
                 score += c.getValue()*2;
             }
             else {

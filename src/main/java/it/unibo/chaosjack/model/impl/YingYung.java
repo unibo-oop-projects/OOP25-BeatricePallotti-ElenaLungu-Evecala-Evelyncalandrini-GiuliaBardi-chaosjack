@@ -13,7 +13,7 @@ public class YingYung implements SpecialRound{
     public int specialScore(List<Card> playersCards){
         int score =0;
         for ( Card c: playersCards){
-            if (c.getName().equals("HEARTS") || c.getName().equals("DIAMONDS")){
+            if (c.getName().contains("HEARTS") || c.getName().contains("DIAMONDS")){
                 score -= c.getValue();
             }
             else {

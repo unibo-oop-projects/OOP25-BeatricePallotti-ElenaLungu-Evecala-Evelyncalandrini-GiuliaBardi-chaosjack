@@ -10,6 +10,6 @@ bin/
 
 .settings
 
-*/.DS_Store
+**/.DS_Store
 
 .metals/
