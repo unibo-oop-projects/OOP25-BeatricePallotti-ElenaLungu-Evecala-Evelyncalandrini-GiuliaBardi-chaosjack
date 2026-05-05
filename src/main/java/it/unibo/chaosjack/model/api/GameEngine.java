@@ -6,9 +6,9 @@ import java.util.List;
 public interface GameEngine {
     
 
-    //void changeState(TurnState newState);
+    
 
-      Partecipant getCurrentPlayer();
+    Partecipant getCurrentPlayer();
         
 
     void nextTurn();
@@ -34,15 +34,11 @@ public interface GameEngine {
      */
     List<Partecipant> getPlayers();
 
-    void hit(); // metodo per il controller
-    void stand(); // metodo che richiama il controller
+    void hit(); 
+    void stand(); 
 
-    default int currentScore(Hand hand) {
-        return 0;
-    }
+     int currentScore(Hand hand); 
     
-    default void setSpecialRound(SpecialRound  specialRound) {
-        // Default implementation - can be overridden by subclasses
-    }
+     void setSpecialRound(SpecialRound  specialRound); 
 
 }
