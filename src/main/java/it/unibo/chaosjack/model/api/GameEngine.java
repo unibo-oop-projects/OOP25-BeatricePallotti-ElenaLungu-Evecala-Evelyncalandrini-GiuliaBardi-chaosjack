@@ -1,16 +1,15 @@
 package it.unibo.chaosjack.model.api;
 import it.unibo.chaosjack.model.impl.Hand;
 import java.util.List;
-import it.unibo.chaosjack.model.impl.Player;
+
 
 public interface GameEngine {
     
 
-    void changeState(TurnState newState);
+    //void changeState(TurnState newState);
 
-    default TurnState getActualState() {
-        return null;
-    }
+      Partecipant getCurrentPlayer();
+        
 
     void nextTurn();
 
@@ -33,7 +32,7 @@ public interface GameEngine {
     /**
      * @return the list of players in the game
      */
-    List<Player> getPlayers();
+    List<Partecipant> getPlayers();
 
     void hit(); // metodo per il controller
     void stand(); // metodo che richiama il controller

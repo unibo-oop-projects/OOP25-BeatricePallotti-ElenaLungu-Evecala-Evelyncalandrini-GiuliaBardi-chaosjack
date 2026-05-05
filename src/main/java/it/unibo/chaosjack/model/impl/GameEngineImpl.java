@@ -1,11 +1,13 @@
 package it.unibo.chaosjack.model.impl;
 
 import it.unibo.chaosjack.model.api.GameEngine;
+import it.unibo.chaosjack.model.api.Partecipant;
 import it.unibo.chaosjack.model.api.Deck;
-import it.unibo.chaosjack.model.api.TurnState;
+
 import java.util.List;
 import java.util.Optional;
 import it.unibo.chaosjack.model.api.SpecialRound;
+import it.unibo.chaosjack.model.api.Dealer;
 
 /**
  * This class implements the GameEngine interface and represents the core of the game logic.
@@ -13,17 +15,17 @@ import it.unibo.chaosjack.model.api.SpecialRound;
 public class GameEngineImpl implements GameEngine {
 
     private Deck deck;
-    private Hand dealerHand;
-    private List<Player> players;
+    private Dealer dealer;
+    private List<Partecipant> players;
     //private Wallet walletPlayer;
-    private TurnState currentState;
     private int currentPlayerIndex = -1;
     private Optional<SpecialRound> specialRound = Optional.empty();
+    private Partecipant currentPlayer;
 
-    public GameEngineImpl( Deck deck, List<Player> players) { // ricorda di aggiuungere il wallet
+    public GameEngineImpl( Deck deck, List<Partecipant> players, Dealer dealer) { // ricorda di aggiuungere il wallet
         this.deck = deck;
         this.players = players;
-        this.dealerHand = new Hand();
+        this.dealer = dealer;
 
         this.nextTurn();
     }
@@ -57,11 +59,11 @@ public class GameEngineImpl implements GameEngine {
     /**
      * this method allows to change the state of the game (switch from player's turn to dealer's turn and vice versa)
      */
-    @Override
+    /*@Override
     public void changeState(TurnState newState){
         this.currentState = newState; // questo metodo mi permette di cambiare lo stato del gioco (passare dal turno del giocatore a quello del banco e viceversa)
         
-    }
+    }*/
 
     /**
      * @return the deck of the game
@@ -74,7 +76,7 @@ public class GameEngineImpl implements GameEngine {
     
     @Override
     public Hand getDealerHand() {
-        return dealerHand;
+        return this.dealer.getHand();
     }
 
     
@@ -84,7 +86,7 @@ public class GameEngineImpl implements GameEngine {
      * @return the score of the player with the given name, if there is no player with that name it returns 0
      */
     public int getPlayerScore(String name) { 
-        for ( Player p : players) {
+        for ( Partecipant p : players) {
            if ( p.getName().equals(name) ) {
              return p.getHand().getScore();
            }
@@ -100,20 +102,14 @@ public class GameEngineImpl implements GameEngine {
     public void nextTurn() {
        currentPlayerIndex++; 
          if (currentPlayerIndex < players.size()) { 
-
-            Player nextPlayer = players.get(currentPlayerIndex);
-            if (nextPlayer.isBot()) { // controllo che sia effettivamente presente il giocatore 
-                this.changeState(new BotTurn(this, currentPlayerIndex));
-            } else {
-                this.changeState(new PlayerTurn(this, currentPlayerIndex)); // passo al turno del giocatore successivo
-            } 
+            this.currentPlayer = players.get(currentPlayerIndex);
             
         } 
         /**
          if there aren't other players, the turn passes to the dealer
         */
          else {
-            this.changeState(new DealerTurn(this)); // se non ci sono più giocatori passo al turno del banco
+            this.currentPlayer = dealer;
         }
     }
 
@@ -121,24 +117,26 @@ public class GameEngineImpl implements GameEngine {
      * @return the list of players in the game
      */
     @Override
-    public List<Player> getPlayers() {
+    public List<Partecipant> getPlayers() {
         return players;
     }
 
     @Override
     public void hit(){
-        this.currentState.hit();
+        
     }
 
     @Override
     public void stand(){
-        this.currentState.stand();
+        this.nextTurn();
     }
 
     @Override
-    public TurnState getActualState() {
-        return this.currentState;
+    public Partecipant getCurrentPlayer() {
+        return this.currentPlayer;
     }
+
+    
    }
 
 
