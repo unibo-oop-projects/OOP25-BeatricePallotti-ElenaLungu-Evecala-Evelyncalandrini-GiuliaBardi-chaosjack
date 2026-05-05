@@ -85,6 +85,7 @@ public class GameEngineImpl implements GameEngine {
      * @param name is the game player's name
      * @return the score of the player with the given name, if there is no player with that name it returns 0
      */
+    @Override
     public int getPlayerScore(String name) { 
         for ( Partecipant p : players) {
            if ( p.getName().equals(name) ) {
