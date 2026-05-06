@@ -11,13 +11,21 @@ import it.unibo.chaosjack.model.api.Deck;
 /**
  * Implementation of a standard 52-card deck.
  */
-public class StandardDeck implements Deck {
-    
+public final class StandardDeck implements Deck {
+
     private final List<Card> cards;
 
+    /**
+     * Constructs a new standard deck and generates all 52 cards.
+     */
     public StandardDeck() {
         this.cards = new ArrayList<>();
-        // Automatic Generation of all cards.
+        this.reset();
+    }
+
+    @Override
+    public void reset() {
+        this.cards.clear();
         for (final Suit suit : Suit.values()) {
             for (final Rank rank : Rank.values()) {
                 this.cards.add(new StandardCard(rank, suit));
@@ -30,7 +38,6 @@ public class StandardDeck implements Deck {
         if (this.cards.isEmpty()) {
             return Optional.empty(); 
         }
-        // Removes and returns the last card of the list (the top of the pile).
         return Optional.of(this.cards.remove(this.cards.size() - 1));
     }
 
