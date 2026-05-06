@@ -22,4 +22,9 @@ public interface Deck {
      * @return the number of cards left in the deck.
      */
     int remainingCards();
+
+    /**
+     * Resets the deck, clearing remaining cards and generating a new full set of 52 cards.
+     */
+    void reset();
 }
