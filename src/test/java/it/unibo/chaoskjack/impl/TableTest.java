@@ -9,14 +9,16 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.chaosjack.model.api.Deck;
 import it.unibo.chaosjack.model.api.GameEngine;
+import it.unibo.chaosjack.model.api.Partecipant;
 import it.unibo.chaosjack.model.api.RoundResult;
 import it.unibo.chaosjack.model.api.RoundResult.Outcome;
+import it.unibo.chaosjack.model.api.SpecialRound;
 import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.model.api.Table.State;
-import it.unibo.chaosjack.model.api.TurnState;
+import it.unibo.chaosjack.model.api.Player;
 import it.unibo.chaosjack.model.api.Wallet;
 import it.unibo.chaosjack.model.impl.Hand;
-import it.unibo.chaosjack.model.impl.Player;
+import it.unibo.chaosjack.model.impl.PlayerImpl;
 import it.unibo.chaosjack.model.impl.Rank;
 import it.unibo.chaosjack.model.impl.StandardCard;
 import it.unibo.chaosjack.model.impl.Suit;
@@ -218,10 +220,6 @@ class TableTest {
             }
 
             @Override
-            public void changeState(final TurnState newState) {
-            }
-
-            @Override
             public void nextTurn() {
             }
 
@@ -229,9 +227,9 @@ class TableTest {
             public Deck getDeck() { return null; }
 
             @Override
-            public List<Player> getPlayers() { 
-                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+            public List<Partecipant> getPlayers() { 
+                final Player p1 = new PlayerImpl(P1, STANDARD_BET);
+                final Player p2 = new PlayerImpl(P2, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
 
@@ -246,6 +244,20 @@ class TableTest {
 
             @Override
             public void stand() {
+            }
+
+            @Override
+            public Partecipant getCurrentPlayer() {
+                return null;
+            }
+
+            @Override
+            public int currentScore(Hand hand) {
+                return 0;
+            }
+
+            @Override
+            public void setSpecialRound(SpecialRound specialRound) {
             }
             
         };
@@ -280,10 +292,6 @@ class TableTest {
                     public int getScore() { return SCORE_MID; }
                 };
             }
-
-            @Override
-            public void changeState(final TurnState newState) {
-            }
             
             @Override
             public void nextTurn() {
@@ -293,9 +301,9 @@ class TableTest {
             public Deck getDeck() { return null; }
 
             @Override
-            public List<Player> getPlayers() { 
-                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+            public List<Partecipant> getPlayers() { 
+                final Player p1 = new PlayerImpl(P1, STANDARD_BET);
+                final Player p2 = new PlayerImpl(P2, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
@@ -309,6 +317,20 @@ class TableTest {
 
             @Override
             public void stand() {
+            }
+
+            @Override
+            public Partecipant getCurrentPlayer() {
+                return null;
+            }
+
+            @Override
+            public int currentScore(Hand hand) {
+                return 0;
+            }
+
+            @Override
+            public void setSpecialRound(SpecialRound specialRound) {
             }
             
         };
@@ -345,10 +367,6 @@ class TableTest {
             }
 
             @Override
-            public void changeState(TurnState newState) {
-            }
-
-            @Override
             public void nextTurn() {
             }
 
@@ -356,9 +374,9 @@ class TableTest {
             public Deck getDeck() { return null; }
            
             @Override
-            public List<Player> getPlayers() { 
-                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+            public List<Partecipant> getPlayers() { 
+                final Player p1 = new PlayerImpl(P1, STANDARD_BET);
+                final Player p2 = new PlayerImpl(P2, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
@@ -372,6 +390,20 @@ class TableTest {
             
             @Override
             public void stand() {
+            }
+
+            @Override
+            public Partecipant getCurrentPlayer() {
+                return null;
+            }
+
+            @Override
+            public int currentScore(Hand hand) {
+                return 0;
+            }
+
+            @Override
+            public void setSpecialRound(SpecialRound specialRound) {
             }
             
         };
@@ -407,10 +439,6 @@ class TableTest {
                 };
             }
 
-            @Override
-            public void changeState(final TurnState newState) {
-            }
-            
             @Override public void nextTurn() {
             }
             
@@ -418,9 +446,9 @@ class TableTest {
             public Deck getDeck() { return null; }
 
             @Override
-            public List<Player> getPlayers() { 
-                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+            public List<Partecipant> getPlayers() { 
+                final Player p1 = new PlayerImpl(P1, STANDARD_BET);
+                final Player p2 = new PlayerImpl(P2, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
@@ -432,6 +460,20 @@ class TableTest {
             }
 
             @Override public void stand() {
+            }
+
+            @Override
+            public Partecipant getCurrentPlayer() {
+                return null;
+            }
+
+            @Override
+            public int currentScore(Hand hand) {
+               return 0;
+            }
+
+            @Override
+            public void setSpecialRound(SpecialRound specialRound) {
             }
             
         };
@@ -467,10 +509,6 @@ class TableTest {
             }
             
             @Override
-            public void changeState(final TurnState newState) {
-            }
-            
-            @Override
             public void nextTurn() {
             }
             
@@ -478,9 +516,9 @@ class TableTest {
             public Deck getDeck() { return null; }
             
             @Override
-            public List<Player> getPlayers() { 
-                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+            public List<Partecipant> getPlayers() { 
+                final Player p1 = new PlayerImpl(P1, STANDARD_BET);
+                final Player p2 = new PlayerImpl(P2, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.CLUBS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
@@ -494,6 +532,20 @@ class TableTest {
 
             @Override
             public void stand() {
+            }
+
+            @Override
+            public Partecipant getCurrentPlayer() {
+                return null;
+            }
+
+            @Override
+            public int currentScore(Hand hand) {
+                return 0;
+            }
+
+            @Override
+            public void setSpecialRound(SpecialRound specialRound) {
             }
             
         };
@@ -555,11 +607,7 @@ class TableTest {
                     public int getScore() { return dScore; }
                 };
             }
-            
-            @Override
-            public void changeState(final TurnState newState) {
-            }
-            
+
             @Override
             public void nextTurn() {
             }
@@ -568,9 +616,9 @@ class TableTest {
             public Deck getDeck() { return null; }
             
             @Override
-            public List<Player> getPlayers() {
-                final Player p1 = new Player(P1, false, wallet, STANDARD_BET);
-                final Player p2 = new Player(P2, false, wallet, STANDARD_BET);
+            public List<Partecipant> getPlayers() {
+                final Player p1 = new PlayerImpl(P1, STANDARD_BET);
+                final Player p2 = new PlayerImpl(P2, STANDARD_BET);
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS));
                 p2.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
@@ -584,6 +632,20 @@ class TableTest {
 
             @Override
             public void stand() {
+            }
+
+            @Override
+            public Partecipant getCurrentPlayer() {
+                return null;
+            }
+
+            @Override
+            public int currentScore(Hand hand) {
+                return 0;
+            }
+
+            @Override
+            public void setSpecialRound(SpecialRound specialRound) {
             }
             
         };
