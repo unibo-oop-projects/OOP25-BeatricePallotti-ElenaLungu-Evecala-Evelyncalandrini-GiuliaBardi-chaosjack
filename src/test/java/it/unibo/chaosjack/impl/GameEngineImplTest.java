@@ -1,4 +1,4 @@
-package it.unibo.chaoskjack.impl;
+package it.unibo.chaosjack.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

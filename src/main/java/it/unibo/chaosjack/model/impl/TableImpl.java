@@ -13,12 +13,11 @@ import it.unibo.chaosjack.model.api.Wallet;
 import it.unibo.chaosjack.model.api.Statistics;
 
 /**
- * Implementation of the Table interface
+ * Implementation of the Table interface.
  */
 public final class TableImpl implements Table {
     private static final int MAX_SCORE = 21;
     private State currentState;
-    //private final Map<String, Integer> winCounters = new HashMap<>();
     private final Map<String, Integer> playerPots = new HashMap<>();
     private final Statistics statistics = new StatisticsImpl();
     private final List<String> players = new ArrayList<>();
@@ -26,7 +25,7 @@ public final class TableImpl implements Table {
     private final Wallet wallet;
 
     /**
-     * Constructs a new TableImpl with the specified wallet, playerName and engine
+     * Constructs a new TableImpl with the specified wallet, playerName and engine.
      * 
      * @param wallet wallet the player's starting wallet
      * @param playerName the name of the player
@@ -40,12 +39,12 @@ public final class TableImpl implements Table {
     }
 
     @Override
-    public State getCurrentState() {
+    public final State getCurrentState() {
         return this.currentState;
     }
 
     @Override
-    public void stepPassage() {
+    public final void stepPassage() {
         if (this.currentState == State.FIRST_BET && getPot() > 0) {
             this.currentState = State.PLAYING;
         } else if (this.currentState == State.PLAYING) {
@@ -60,14 +59,14 @@ public final class TableImpl implements Table {
     }
 
     @Override
-    public void otherGame() {
+    public final void otherGame() {
         this.playerPots.clear();
         this.currentState = State.FIRST_BET;
         this.statistics.incrementTotalRound();
     }
 
     @Override
-    public void reset() {
+    public final void reset() {
         this.playerPots.clear();
         this.statistics.resetStats();
         this.currentState = State.FIRST_BET;
@@ -75,12 +74,12 @@ public final class TableImpl implements Table {
     }
 
     @Override
-    public List<String> getPlayers() {
+    public final List<String> getPlayers() {
         return List.copyOf(this.players);
     }
 
     @Override
-    public void placeBet(final String playerName, final int amount) {
+    public final void placeBet(final String playerName, final int amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("The amount must be positive");
         }
@@ -88,8 +87,8 @@ public final class TableImpl implements Table {
             throw new IllegalStateException("Betting is not allowed during the " + currentState + " phase");
         }
         for (final String name : players) {
-            if (name.equals(playerName)){
-                if (!(wallet.removeFunds(amount))) {
+            if (name.equals(playerName)) {
+                if (!wallet.removeFunds(amount)) {
                     throw new IllegalArgumentException("insufficient founds");
                 }
                 final int currentPot = playerPots.getOrDefault(playerName, 0);
@@ -99,12 +98,12 @@ public final class TableImpl implements Table {
     }
 
     @Override
-    public int getPot() {
+    public final int getPot() {
         return playerPots.values().stream().mapToInt(Integer::intValue).sum();
     }
 
     @Override
-    public RoundResult getWinner() {
+    public final RoundResult getWinner() {
         final int dealerScore = getDealerScore();
         final List<String> bestPlayers = new ArrayList<>();
         int max = -1;
@@ -124,7 +123,7 @@ public final class TableImpl implements Table {
 
         final RoundResult result;
 
-        if (bestPlayers.isEmpty() || (dealerScore <= MAX_SCORE && dealerScore > max)) {
+        if (bestPlayers.isEmpty() || dealerScore <= MAX_SCORE && dealerScore > max) {
             result = new RoundResult(Outcome.DEALER_WON, max == -1 ? 0 : max, dealerScore, 0);
         } else if (max == dealerScore) {
             result = new RoundResult(Outcome.PUSH, max, dealerScore, 0);
@@ -164,22 +163,22 @@ public final class TableImpl implements Table {
     }
 
     @Override
-    public int getPlayerScore(final String playerName) {
+    public final int getPlayerScore(final String playerName) {
         return engine.getPlayerScore(playerName);
     }
 
     @Override
-    public int getDealerScore() {
+    public final int getDealerScore() {
         return engine.getDealerHand().getScore();
     }
 
     @Override
-    public int getWalletBalance(final String playerName) {
+    public final int getWalletBalance(final String playerName) {
         return wallet.getBalance();
     }
 
     @Override
-    public Statistics geStatistics() {
+    public final Statistics geStatistics() {
         return this.statistics;
     }
 }

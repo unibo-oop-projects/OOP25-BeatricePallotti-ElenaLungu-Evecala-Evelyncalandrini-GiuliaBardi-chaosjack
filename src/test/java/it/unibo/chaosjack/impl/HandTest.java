@@ -1,4 +1,4 @@
-package it.unibo.chaoskjack.impl;
+package it.unibo.chaosjack.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
