@@ -3,13 +3,13 @@ package it.unibo.chaosjack.model.api;
 
 import it.unibo.chaosjack.model.impl.Hand;
 
-   /**
-   * This interface represents a generic player in Blackjack.
-   */
+    /**
+    * This interface represents a generic player in Blackjack.
+    */
 
 public interface Partecipant {
 
-    public final static int MAX_SCORE = 21;
+    int MAX_SCORE = 21;
 
     /**
      * returns the name of the partecipant.
@@ -24,9 +24,9 @@ public interface Partecipant {
     void resetHand();
 
     /**
-     * Adds a card to the player's current hand.
+     * This methods adds a card in the hand of the partecipant.
      * 
-     * @param card
+     * @param card to add
      */
     void addCard(Card card);
 

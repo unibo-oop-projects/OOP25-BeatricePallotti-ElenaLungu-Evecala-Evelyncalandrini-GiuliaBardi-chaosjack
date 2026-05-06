@@ -8,7 +8,7 @@ import it.unibo.chaosjack.model.api.Deck;
  */
 public class DealerImpl  extends AbstractPlayer implements Dealer {
 
-   private final int  STAY_THRESHOLD = 17;
+   private static final int  STAY_THRESHOLD = 17;
 
   /**
    * Constructs a new Dealer with the default name "Dealer".
@@ -17,26 +17,16 @@ public class DealerImpl  extends AbstractPlayer implements Dealer {
      super("Dealer");
   }
 
-  /**
-   * @return if the dealer should hit
-   */
     @Override
     public boolean shouldHit() {
          return this.getHand().getScore() < STAY_THRESHOLD; 
     }
 
-    /**
-     * Execute the dealer's urn automatically.
-     * @param deck
-     */
     @Override
     public void playTurn(final Deck deck) {
        while (this.shouldHit()){
          deck.draw().ifPresent(this :: addCard);
        }
     }
-
-    
-    
 }
 

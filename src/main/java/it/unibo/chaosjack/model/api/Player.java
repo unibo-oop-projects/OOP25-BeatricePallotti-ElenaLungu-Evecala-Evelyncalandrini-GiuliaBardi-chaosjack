@@ -1,14 +1,14 @@
 package it.unibo.chaosjack.model.api;
 
-   /**
-   * This interface represents the player in the Blackjack game where it can bet money.
-   */
+    /**
+    * This interface represents the player in the Blackjack game where it can bet money.
+    */
 public interface Player extends Partecipant{ 
 
     /**
      * Sets the amount of money the player wants to wager on the current hand.
      * 
-     * @param amount
+     * @param amount of the money
      */
     void setBet(int amount);
 
@@ -22,7 +22,8 @@ public interface Player extends Partecipant{
     /**
      * Updates the player's wallet balance by adding or subtracting a specific amount.
      * 
-     * @param amount
+     * @param amount to add to the wallet
+     * 
      * @return the updated wallet
      */
     boolean updateWallet(int amount);
