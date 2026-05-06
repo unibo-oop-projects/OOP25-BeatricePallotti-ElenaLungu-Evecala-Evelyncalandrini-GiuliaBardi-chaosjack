@@ -13,7 +13,6 @@ public interface Deck {
      * @return an Optional containing the drawn Card, or an empty Optional if the deck is empty
      */
     Optional<Card> draw();
-
     
     /**
      * Shuffles the remaining cards in the deck.
