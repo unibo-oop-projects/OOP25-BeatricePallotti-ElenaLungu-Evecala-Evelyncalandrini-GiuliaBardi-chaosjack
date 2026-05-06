@@ -3,7 +3,7 @@ package it.unibo.chaosjack.model.impl;
 import it.unibo.chaosjack.model.api.Wallet;
 
 public final class StandardWallet implements Wallet {
-    
+
     private int balance;
 
     public StandardWallet(final int initialBalance) {
@@ -33,5 +33,5 @@ public final class StandardWallet implements Wallet {
         }
         return false; // You dont have enough money :))
     }
-    
+
 }
