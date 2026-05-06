@@ -31,10 +31,10 @@ class StandardCardTest {
     @Test
     void testCardNames() {
         final Card card = new StandardCard(Rank.QUEEN, Suit.SPADES);
-        
+
         // Verifichiamo che il nome sia esattamente "QUEEN of SPADES"
         assertEquals("QUEEN of SPADES", card.getName());
-        
+
         // Verifichiamo che anche il toString() faccia il suo dovere
         assertEquals("QUEEN of SPADES", card.toString());
     }
