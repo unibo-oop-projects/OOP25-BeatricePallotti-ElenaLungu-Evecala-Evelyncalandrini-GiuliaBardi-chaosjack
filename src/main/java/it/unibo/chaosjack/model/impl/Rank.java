@@ -16,6 +16,7 @@ public enum Rank {
 
     /**
      * Gets the value of the rank.
+     * 
      * @return the integer value of the card's rank
      */
     public int getValue() {

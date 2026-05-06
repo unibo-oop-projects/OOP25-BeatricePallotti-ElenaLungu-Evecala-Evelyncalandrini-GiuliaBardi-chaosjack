@@ -9,6 +9,7 @@ public interface Deck {
     
     /**
      * Draws a card from the top of the deck.
+     * 
      * @return an Optional containing the drawn Card, or an empty Optional if the deck is empty
      */
     Optional<Card> draw();
