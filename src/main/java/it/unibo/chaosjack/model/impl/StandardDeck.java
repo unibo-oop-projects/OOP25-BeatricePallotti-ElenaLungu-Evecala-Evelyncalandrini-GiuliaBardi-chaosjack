@@ -72,8 +72,8 @@ public final class StandardDeck implements Deck {
         // Aggiungiamo 4 per tipo di ogni carta speciale
         for (int i = 0; i < SPECIAL_CARD_COUNT; i++) {
             pool.add(CardModifier.BUST_MAGNET);
-            pool.add(CardModifier.TAX);
-            pool.add(CardModifier.LUCKY);
+            pool.add(CardModifier.REVERSE);
+            pool.add(CardModifier.GHOST);
         }
 
         // Riempiamo il resto con modificatori NONE

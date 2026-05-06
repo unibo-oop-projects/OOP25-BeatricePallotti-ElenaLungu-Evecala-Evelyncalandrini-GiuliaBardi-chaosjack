@@ -9,6 +9,7 @@ import it.unibo.chaosjack.model.api.CardModifier;
 public final class StandardCard implements Card {
 
     private static final int BUST_VALUE = 12;
+    private static final int GHOST_VALUE = 0;
 
     private final Rank rank;
     private final Suit suit;
@@ -40,10 +41,17 @@ public final class StandardCard implements Card {
 
     @Override
     public int getValue() {
-        if (this.modifier == CardModifier.BUST_MAGNET) {
-            return BUST_VALUE;
+        switch (this.modifier) {
+            case BUST_MAGNET:
+                return BUST_VALUE;
+            case REVERSE:
+                return -this.rank.getValue();
+            case GHOST:
+                return GHOST_VALUE;
+            case NONE:
+                return this.rank.getValue();
         }
-        return this.rank.getValue();
+        return this.rank.getValue(); 
     }
 
     @Override

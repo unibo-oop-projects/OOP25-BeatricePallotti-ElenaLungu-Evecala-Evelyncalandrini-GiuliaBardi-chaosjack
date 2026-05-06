@@ -8,8 +8,8 @@ public enum CardModifier {
     NONE,
     /** Forces the card value to 12. */
     BUST_MAGNET,
-    /** Steals a percentage of the opponent's wallet. */
-    TAX,
-    /** Potential jackpot on win. */
-    LUCKY
+    /** Reverses the value of the card, making it negative. */
+    REVERSE,
+    /** Forces the card value to 0. */
+    GHOST
 }
