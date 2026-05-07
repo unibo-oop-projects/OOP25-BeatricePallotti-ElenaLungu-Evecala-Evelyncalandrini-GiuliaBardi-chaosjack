@@ -1,16 +1,17 @@
 package it.unibo.chaosjack.impl;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.Map;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.chaosjack.model.api.Deck;
 import it.unibo.chaosjack.model.api.GameEngine;
+import it.unibo.chaosjack.model.api.Hand;
 import it.unibo.chaosjack.model.api.Partecipant;
 import it.unibo.chaosjack.model.api.RoundResult;
 import it.unibo.chaosjack.model.api.RoundResult.Outcome;
@@ -19,7 +20,7 @@ import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.model.api.Table.State;
 import it.unibo.chaosjack.model.api.Player;
 import it.unibo.chaosjack.model.api.Wallet;
-import it.unibo.chaosjack.model.impl.Hand;
+import it.unibo.chaosjack.model.impl.HandImpl;
 import it.unibo.chaosjack.model.impl.PlayerImpl;
 import it.unibo.chaosjack.model.impl.Rank;
 import it.unibo.chaosjack.model.impl.StandardCard;
@@ -27,7 +28,7 @@ import it.unibo.chaosjack.model.impl.Suit;
 import it.unibo.chaosjack.model.impl.TableImpl;
 
 /**
- * Test for method of TableImpl.
+ * Test for method of TableImpl
  */
 class TableTest {
     private static final int INITIAL_BALANCE = 2000;
@@ -61,13 +62,13 @@ class TableTest {
 
     private static final boolean NOT_SAMECOLOR_CARD = false;
     private static final boolean SAMECOLOR_CARD = true;
-
     private static final String P1 = "Marameo";
     private static final String P2 = "Bob";
 
     private Table table;
     private Wallet wallet;
     private final List<String> players = List.of(P1, P2);
+<<<<<<< HEAD
 
     @BeforeEach
     void setUp() {
@@ -141,6 +142,7 @@ class TableTest {
         assertThrows(IllegalArgumentException.class, () -> table.placeBet(P2, IMPOSSIBLE_BET));
         assertEquals(INITIAL_POT, table.getPot(), "The plate must not increase if the funds are insufficient");
     }
+<<<<<<< HEAD
 
     @Test
     void testGetWinnerPlayerWins() {
@@ -182,7 +184,6 @@ class TableTest {
         assertEquals(Outcome.DEALER_WON, result.outcome());
         assertEquals(PAYOUT_LOSS, result.getPayOut());
         assertEquals(DEFAULT_INCREMENT, table.geStatistics().getLossHistory().getOrDefault(P1, 0));
-
     }
 
     @Test
@@ -348,7 +349,6 @@ class TableTest {
             @Override
             public void setSpecialRound(final SpecialRound specialRound) {
             }
-
         };
     }
 

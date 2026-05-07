@@ -1,26 +1,22 @@
 package it.unibo.chaosjack.model.impl;
+
 import it.unibo.chaosjack.model.api.SpecialRound;
 import it.unibo.chaosjack.model.api.Card;
 import java.util.List;
 
-public class DoubleHeartsRule implements SpecialRound{
-    
-/**
- * This class represents a special round where the heart cards are worth double
- */
+
+public class DoubleHeartsRule implements SpecialRound {
     @Override
-    public int specialScore(List<Card> playersCars){
+    public final int specialScore(final List<Card> playersCards) {
         int score = 0;
-        for (Card c : playersCars) {
+        for (final Card c : playersCards) {
             if (c.getName().contains("HEARTS")) {
-                score += c.getValue()*2;
-            }
-            else {
+                score += c.getValue() * 2;
+            } else {
                 score += c.getValue();
             }
         }
         return score;
     }
 
-    
 }

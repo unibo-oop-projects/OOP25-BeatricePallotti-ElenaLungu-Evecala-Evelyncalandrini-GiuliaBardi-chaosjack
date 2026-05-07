@@ -11,7 +11,7 @@ import it.unibo.chaosjack.model.api.Partecipant;
 public abstract class AbstractPlayer implements Partecipant {
 
     private final String name;
-    private final Hand hand;
+    private final HandImpl hand;
 
     /**
      * Constructor for a new Base Player.
@@ -20,7 +20,7 @@ public abstract class AbstractPlayer implements Partecipant {
      */
     public AbstractPlayer(final String name) {
         this.name = name;
-        this.hand = new Hand();
+        this.hand = new HandImpl();
 
     }
 
@@ -44,7 +44,7 @@ public abstract class AbstractPlayer implements Partecipant {
      * returns a view of the hand that can't be modified.
      */
     @Override
-    public Hand getHand() {
+    public HandImpl getHand() {
         return this.hand;
     }
 

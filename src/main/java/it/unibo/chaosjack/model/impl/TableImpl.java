@@ -131,7 +131,7 @@ public final class TableImpl implements Table {
                 result = new RoundResult(Outcome.PLAYERS_PUSH, max, dealerScore, getPot() * 2);
         } else {
             final String oneWinner = bestPlayers.get(0);
-            final Hand winnerHand = engine.getPlayers().stream()
+            final HandImpl winnerHand = engine.getPlayers().stream()
                 .filter(p -> p.getName().equals(oneWinner))
                 .findFirst()
                 .get()
