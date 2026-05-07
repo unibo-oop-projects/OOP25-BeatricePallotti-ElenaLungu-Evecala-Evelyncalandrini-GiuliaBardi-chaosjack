@@ -1,6 +1,5 @@
 package it.unibo.chaosjack.impl;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.chaosjack.model.api.Deck;
 import it.unibo.chaosjack.model.api.GameEngine;
-import it.unibo.chaosjack.model.api.Hand;
 import it.unibo.chaosjack.model.api.Partecipant;
 import it.unibo.chaosjack.model.api.RoundResult;
 import it.unibo.chaosjack.model.api.RoundResult.Outcome;
@@ -28,7 +26,7 @@ import it.unibo.chaosjack.model.impl.Suit;
 import it.unibo.chaosjack.model.impl.TableImpl;
 
 /**
- * Test for method of TableImpl
+ * Test for method of TableImpl.
  */
 class TableTest {
     private static final int INITIAL_BALANCE = 2000;
@@ -68,7 +66,6 @@ class TableTest {
     private Table table;
     private Wallet wallet;
     private final List<String> players = List.of(P1, P2);
-<<<<<<< HEAD
 
     @BeforeEach
     void setUp() {
@@ -142,7 +139,6 @@ class TableTest {
         assertThrows(IllegalArgumentException.class, () -> table.placeBet(P2, IMPOSSIBLE_BET));
         assertEquals(INITIAL_POT, table.getPot(), "The plate must not increase if the funds are insufficient");
     }
-<<<<<<< HEAD
 
     @Test
     void testGetWinnerPlayerWins() {
@@ -297,8 +293,8 @@ class TableTest {
             }
 
             @Override
-            public Hand getDealerHand() { 
-                return new Hand() {
+            public HandImpl getDealerHand() { 
+                return new HandImpl() {
                     @Override
                     public int getScore() { 
                         return dScore; 
@@ -329,10 +325,6 @@ class TableTest {
             }
 
             @Override
-            public void hit() {
-            }
-
-            @Override
             public void stand() {
             }
 
@@ -342,12 +334,16 @@ class TableTest {
             }
 
             @Override
-            public int currentScore(final Hand hand) {
+            public int currentScore(final HandImpl hand) {
                 return 0;
             }
 
             @Override
             public void setSpecialRound(final SpecialRound specialRound) {
+            }
+
+            @Override
+            public void dealerTurn() {
             }
         };
     }
