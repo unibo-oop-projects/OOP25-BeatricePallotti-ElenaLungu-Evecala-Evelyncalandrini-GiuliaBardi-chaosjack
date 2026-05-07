@@ -3,13 +3,11 @@ package it.unibo.chaosjack.model.api;
 import java.util.List;
 
 /**
- * Rappresents the game table for the players.
- * 
+ * Rapresents the game table for the players.
  */
 public interface Table {
     /**
      * Rapresents the game phases managed by the table.
-     * 
      */
     enum State {
         FIRST_BET,

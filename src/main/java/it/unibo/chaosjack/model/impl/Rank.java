@@ -14,6 +14,11 @@ public enum Rank {
         this.value = value;
     }
 
+    /**
+     * Gets the value of the rank.
+     * 
+     * @return the integer value of the card's rank
+     */
     public int getValue() {
         return this.value;
     }
