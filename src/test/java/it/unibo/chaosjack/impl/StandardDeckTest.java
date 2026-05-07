@@ -24,7 +24,6 @@ class StandardDeckTest {
     private static final int EXPECTED_EACH_SPECIAL = 4;
     private static final int EXPECTED_NORMAL_CARDS = 40;
 
-
     @Test
     void testInitialDeckSize() {
         final Deck deck = new StandardDeck();

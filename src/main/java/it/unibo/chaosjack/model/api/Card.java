@@ -1,7 +1,5 @@
 package it.unibo.chaosjack.model.api;
 
-
-
 /**
  * Interface representing a generic game card.
  */

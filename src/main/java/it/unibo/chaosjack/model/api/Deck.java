@@ -1,7 +1,5 @@
 package it.unibo.chaosjack.model.api;
 
-
-
 import java.util.Optional;
 
 /**
@@ -12,7 +10,7 @@ public interface Deck {
     /**
      * Draws a card from the top of the deck.
      *
-     * @return an Optional containing the drawn Card, or an empty Optional if the deck is empty
+     * @return an Optional containing the drawn Card, or an empty Optional if the deck is empty.
      */
     Optional<Card> draw();
 
@@ -23,7 +21,7 @@ public interface Deck {
 
     /**
      * @return the number of cards left in the deck.
-    */
+     */
     int remainingCards();
 
     /**
