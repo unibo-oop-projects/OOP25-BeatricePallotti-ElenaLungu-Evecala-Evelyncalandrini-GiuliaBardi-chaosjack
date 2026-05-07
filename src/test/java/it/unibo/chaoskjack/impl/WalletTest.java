@@ -1,4 +1,4 @@
-package it.unibo.chaoskjack.model.impl;
+package it.unibo.chaoskjack.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
