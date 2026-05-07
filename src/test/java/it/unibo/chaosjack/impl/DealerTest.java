@@ -1,4 +1,4 @@
-package it.unibo.chaoskjack.impl;
+package it.unibo.chaosjack.impl;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,6 +11,9 @@ import it.unibo.chaosjack.model.impl.StandardDeck;
 import it.unibo.chaosjack.model.impl.Suit;
 import it.unibo.chaosjack.model.api.Deck;
 
+ /**
+ * Tests for the class DealerImpl.
+ */
  class DealerTest {
 
     private static final int MAX_SCORE = 21;
@@ -28,7 +31,7 @@ import it.unibo.chaosjack.model.api.Deck;
     void testDealerMustStand() {
         final Dealer dealer = new DealerImpl();
         dealer.addCard(new StandardCard(Rank.QUEEN, Suit.CLUBS));
-        dealer.addCard(new StandardCard(Rank.SEVEN, Suit.HEARTS ));
+        dealer.addCard(new StandardCard(Rank.SEVEN, Suit.HEARTS));
         assertFalse(dealer.shouldHit(), "Il dealer non dovrebbe pescare");
 
         dealer.resetHand();
@@ -41,7 +44,7 @@ import it.unibo.chaosjack.model.api.Deck;
     void testDealerPlayTurn() {
         final Dealer dealer = new DealerImpl();
         final Deck deck = new StandardDeck();
-        
+
         dealer.addCard(new StandardCard(Rank.TEN, Suit.CLUBS));
         dealer.playTurn(deck);
         final int score = dealer.getHand().getScore();

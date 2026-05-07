@@ -2,13 +2,13 @@ package it.unibo.chaosjack.model.impl;
 
 import it.unibo.chaosjack.model.api.NPC;
 
-    /**
-     * Implementation of a Non-Player Character (NPC).
-     * This class defines the autonomous behavior of computer-controlled players,
-     * including betting strategies and hitting/doubling logic.
-     */
+/**
+ * Implementation of a Non-Player Character (NPC).
+ * This class defines the autonomous behavior of computer-controlled players,
+ * including betting strategies and hitting/doubling logic.
+ */
 
-public class NPCimpl extends PlayerImpl implements NPC {
+public final class NPCimpl extends PlayerImpl implements NPC {
 
     private static final int STANDARD_BET = 10;
     private static final int STOP_THRESHOLD = 15;
@@ -18,11 +18,11 @@ public class NPCimpl extends PlayerImpl implements NPC {
     /**
      * Constructs a new NPC player.
      * 
-     * @param name
-     * @param initialFunds
+     * @param name the name of the NPC
+     * @param initialFunds the initial amount of money for the NPC
      */
     public NPCimpl(final String name, final int initialFunds) {
-       super(name , initialFunds); 
+       super(name, initialFunds); 
 
      }
 

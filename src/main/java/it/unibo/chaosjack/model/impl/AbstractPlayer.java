@@ -35,7 +35,7 @@ public abstract class AbstractPlayer implements Partecipant {
     }
 
     @Override
-    public Hand getHand() {
+    public Hand getHand() { //devo controllare questo,fare in modo che 
         return this.hand;
     }
 

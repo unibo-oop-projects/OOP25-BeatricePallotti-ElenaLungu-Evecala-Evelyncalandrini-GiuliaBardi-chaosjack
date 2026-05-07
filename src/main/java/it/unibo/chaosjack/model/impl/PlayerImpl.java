@@ -9,27 +9,24 @@ import it.unibo.chaosjack.model.api.Wallet;
  * Tracks the current bet
  */
 
-public class PlayerImpl extends AbstractPlayer implements Player {  
-    
+public class PlayerImpl extends AbstractPlayer implements Player { 
+
     private final Wallet wallet;
-    private  int currentBet;
+    private int currentBet;
 
     /**
      * Constructs a new human player with a specific name and  initial funds.
-     * @param name
-     * @param initialFunds
+     * 
+     * @param name The name of the player
+     * @param initialFunds The initial amount of money for the player
      */
 
     public PlayerImpl(final String name, final int initialFunds) { 
         super(name); 
         this.wallet = new StandardWallet(initialFunds);
-        this.currentBet = 0; 
-            
+        this.currentBet = 0;
     }
 
-    /**
-     * Sets the bet with an assigned amount.
-     */
     @Override
     public void setBet(final int amount) {
         if (amount > 0 && amount <= this.getWallet()) {
@@ -39,45 +36,29 @@ public class PlayerImpl extends AbstractPlayer implements Player {
         }
     }
 
-    /**
-     * @return the amount of funds of the player.
-     */
     @Override
-    public int getWallet() {
+    public final int getWallet() {
         return this.wallet.getBalance(); 
     }
 
-    /**
-     * Updates the player's wallet balance.
-     * @param  amount to add or subtract
-     * @return true if the operation was successfull
-     */
     @Override
-    public boolean updateWallet(final int amount) {
+    public final boolean updateWallet(final int amount) {
         if (amount > 0) {
             this.wallet.addFunds(amount);
             return true;
-        }else if (amount < 0 ) {
+        } else if (amount < 0) {
             return this.wallet.removeFunds(Math.abs(amount));
         }
         return true; 
     }
 
-    /**
-     * Gets the current bet.
-     */
     @Override
-    public int getCurrentBet() {
+    public final int getCurrentBet() {
         return this.currentBet;
     }
 
-    /**
-     * Executes a Double Down action.
-     * Subtracts the current bet amount from the wallet one more time 
-     * and doubles the value of the bet on the table.
-     */
     @Override
-    public void doubleDown() {
+    public final void doubleDown() {
         this.updateWallet(-this.currentBet);
         this.currentBet *= 2; 
     }

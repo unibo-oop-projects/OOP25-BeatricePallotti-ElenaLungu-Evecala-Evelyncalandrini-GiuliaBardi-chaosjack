@@ -10,24 +10,32 @@ import it.unibo.chaosjack.model.impl.Rank;
 import it.unibo.chaosjack.model.impl.StandardCard;
 import it.unibo.chaosjack.model.impl.Suit;
 
+ /**
+ * Tests for the NPCImpl class.
+ */
  class NPCTest {
     @Test
     void testMakeBet() {
-     final NPC npc = new NPCimpl("bot-1", 100);
-     npc.makeBet();
-     assertEquals(10, npc.getCurrentBet(), "La scommessa dovrebbe essere 10");
+        final int initialFunds = 100;
+        final int expectedBet = 10;
+        final NPC npc = new NPCimpl("bot-1", initialFunds);
+        npc.makeBet();
+        assertEquals(expectedBet, npc.getCurrentBet(), "La scommessa dovrebbe essere 10");
     }
 
     @Test
     void testMakeBetWithLowFunds() {
-        final NPC npc = new NPCimpl("bot-2", 5);
+        final int initialFunds = 5;
+        final int expectedBet = 5;
+        final NPC npc = new NPCimpl("bot-2", initialFunds);
         npc.makeBet();
-        assertEquals(5, npc.getCurrentBet(), "La scommessa dobrebbe essere 5 perchè fa all-in");
+        assertEquals(expectedBet, npc.getCurrentBet(), "La scommessa dobrebbe essere 5 perchè fa all-in");
     }
 
     @Test
     void testHitStrategy() {
-        final NPC npc = new NPCimpl("bot-3", 100);
+        final int initialFunds = 100;
+        final NPC npc = new NPCimpl("bot-3", initialFunds);
         npc.addCard(new StandardCard(Rank.SIX, Suit.CLUBS));
         npc.addCard(new StandardCard(Rank.FOUR, Suit.HEARTS));
         assertTrue(npc.wantsToHit(), "L'NPC dovrebbe chiedere carta con un punteggio di 10");
@@ -39,7 +47,8 @@ import it.unibo.chaosjack.model.impl.Suit;
 
     @Test
     void testShouldDouble() {
-        final NPC npc = new NPCimpl("bot-4", 100);
+        final int initialFunds = 100;
+        final NPC npc = new NPCimpl("bot-4", initialFunds);
         npc.addCard(new StandardCard(Rank.FIVE, Suit.SPADES));
         npc.addCard(new StandardCard(Rank.SIX, Suit.CLUBS));
         assertTrue(npc.wantsToDouble(), "L'NPC dovrebbe raddoppiare con 11");
