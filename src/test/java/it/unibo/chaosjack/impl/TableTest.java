@@ -110,6 +110,17 @@ class TableTest {
     }
 
     @Test
+    void testBettingLogicMultiplayer() {
+        table.placeBet(P1, STANDARD_BET);
+        assertEquals(STANDARD_BET, table.getPot());
+        assertEquals(Table.State.FIRST_BET, table.getCurrentState());
+
+        table.placeBet(P2, STANDARD_BET);
+        assertEquals(STANDARD_BET * 2, table.getPot());
+        assertEquals(Table.State.PLAYING, table.getCurrentState());
+    }
+
+    @Test
     void testStepPassageValidation() {
         assertThrows(IllegalStateException.class, table::stepPassage);
 
