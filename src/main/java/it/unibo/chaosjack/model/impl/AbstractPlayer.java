@@ -11,7 +11,7 @@ import it.unibo.chaosjack.model.api.Partecipant;
 public abstract class AbstractPlayer implements Partecipant {
 
     private final String name;
-    private final HandImpl hand;
+    private HandImpl hand;
 
     /**
      * Constructor for a new Abstract Player.
@@ -35,13 +35,13 @@ public abstract class AbstractPlayer implements Partecipant {
     }
 
     @Override
-    public final Hand getHand() { //devo controllare questo,fare in modo che 
+    public final Hand getHand() {
         return this.hand;
     }
 
     @Override
     public final void resetHand() {
-        this.hand.getCards().clear();
+        this.hand = new HandImpl();
     }
 }
 
