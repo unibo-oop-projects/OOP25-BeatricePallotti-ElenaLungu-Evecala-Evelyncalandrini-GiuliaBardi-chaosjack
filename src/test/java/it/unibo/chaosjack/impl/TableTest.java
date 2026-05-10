@@ -355,7 +355,6 @@ class TableTest {
                 final Player p1 = new PlayerImpl(P1, STANDARD_BET);
                 final Player p2 = new PlayerImpl(P2, STANDARD_BET);
 
-
                 final Suit p1Suit2 = p1Card ? Suit.CLUBS : Suit.HEARTS;
                 p1.getHand().addCard(new StandardCard(Rank.ACE, Suit.CLUBS));
                 p1.getHand().addCard(new StandardCard(Rank.TWO, p1Suit2));

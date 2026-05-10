@@ -1,46 +1,46 @@
 package it.unibo.chaosjack.model.api;
 
 /**
- * This record models the result of a round
+ * This record models the result of a round.
  * 
- * @param outcome rappresent the result of round  
- * @param playerPoints the players's points in his hand
- * @param dealerPoints the dealer's points
- * @param payOut the fishes that the player win in this round
+ * @param outcome rappresent the result of round. 
+ * @param playerPoints the players's points in his hand.
+ * @param dealerPoints the dealer's points.
+ * @param payOut the fishes that the player win in this round.
  */
 public record RoundResult(Outcome outcome, int playerPoints, int dealerPoints, int payOut) {
 
     /**
-     * Possible round results
+     * Possible round results.
      */
     public enum Outcome {
 
         /**
-         * player win
+         * Player win.
          */
         PLAYER_WON("You win!"),
         /**
-         * player win with bonus
+         * Player win with bonus.
          */
         PLAYER_BONUS("Your winnings multiplied"),
         /**
-         * dealer win
+         * Dealer win.
          */
         DEALER_WON("Dealer win!"),
         /**
-         * push with dealer
+         * Push with dealer.
          */
         PUSH("You push with Dealer"),
         /**
-         * push with other players
+         * Push with other players.
          */
         PLAYERS_PUSH("You push with other player"),
         /**
-         * player does BlackJack
+         * Player does BlackJack.
          */
         PLAYER_BLACKJACK("BlackJack!!!"),
         /**
-         * player doea BlackJack with bonus
+         * Player does BlackJack with bonus.
          */
         BLACKJACK_BONUS("BlackJack with BONUS");
 
@@ -65,5 +65,5 @@ public record RoundResult(Outcome outcome, int playerPoints, int dealerPoints, i
     public int getPayOut() {
         return this.payOut;
     }
-    
+ 
 }
