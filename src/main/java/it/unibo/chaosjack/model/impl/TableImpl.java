@@ -96,7 +96,7 @@ public final class TableImpl implements Table {
             }
         }
 
-        if (haveAllPlayersBet()){
+        if (haveAllPlayersBet()) {
             this.stepPassage();
         }
     }

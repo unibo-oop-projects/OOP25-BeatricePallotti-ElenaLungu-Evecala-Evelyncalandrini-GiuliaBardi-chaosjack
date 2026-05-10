@@ -1,6 +1,7 @@
 package it.unibo.chaosjack.model.impl;
 
 import it.unibo.chaosjack.model.api.GameEngine;
+import it.unibo.chaosjack.model.api.Hand;
 import it.unibo.chaosjack.model.api.Partecipant;
 import it.unibo.chaosjack.model.api.Deck;
 
@@ -68,7 +69,7 @@ public final class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public HandImpl getDealerHand() {
+    public Hand getDealerHand() {
         return this.dealer.getHand();
     }
 

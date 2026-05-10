@@ -33,7 +33,7 @@ public interface GameEngine {
      * 
      * @return the hand of the dealer.
      */
-    HandImpl getDealerHand(); 
+    Hand getDealerHand(); 
 
     /** 
      * get the score of a specific player.

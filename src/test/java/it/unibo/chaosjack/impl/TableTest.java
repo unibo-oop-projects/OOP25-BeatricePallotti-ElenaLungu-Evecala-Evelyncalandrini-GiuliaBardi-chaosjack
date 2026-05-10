@@ -8,8 +8,10 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.chaosjack.model.api.Card;
 import it.unibo.chaosjack.model.api.Deck;
 import it.unibo.chaosjack.model.api.GameEngine;
+import it.unibo.chaosjack.model.api.Hand;
 import it.unibo.chaosjack.model.api.Partecipant;
 import it.unibo.chaosjack.model.api.RoundResult;
 import it.unibo.chaosjack.model.api.RoundResult.Outcome;
@@ -304,11 +306,25 @@ class TableTest {
             }
 
             @Override
-            public HandImpl getDealerHand() { 
-                return new HandImpl() {
+            public Hand getDealerHand() { 
+                return new Hand() {
                     @Override
-                    public int getScore() { 
-                        return dScore; 
+                    public int getScore() {
+                        return dScore;
+                    }
+
+                    @Override
+                    public void addCard(final Card card) {
+                    }
+
+                    @Override
+                    public boolean sameColor(final List<Card> cards) {
+                        return false;
+                    }
+
+                    @Override
+                    public List<Card> getCards() {
+                        return null;
                     }
                 };
             }
@@ -355,6 +371,10 @@ class TableTest {
 
             @Override
             public void dealerTurn() {
+            }
+
+            @Override
+            public void setTable(final Table table) {
             }
         };
     }
