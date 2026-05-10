@@ -106,7 +106,7 @@ class TableTest {
     void testBettingLogic() {
         table.placeBet(P1, HIGH_BET);
         assertEquals(HIGH_BET, table.getPot());
-        assertEquals(BALANCE_AFTER_HIGH_BET, wallet.getBalance(), "the account holder balance must decrease");
+        assertEquals(BALANCE_AFTER_HIGH_BET, table.getWalletBalance(P1), "the account holder balance must decrease");
         assertThrows(IllegalArgumentException.class, () -> table.placeBet(P1, NEGATIVE_BET));
     }
 

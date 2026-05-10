@@ -33,7 +33,7 @@ public final class TableImpl implements Table {
      * @param engine the game engine instance
      */
     public TableImpl(final Wallet wallet, final List<String> playerName, final GameEngine engine) { 
-        this.wallet = wallet;
+        this.wallet = new StandardWallet(wallet.getBalance());
         this.players.addAll(playerName);
         this.engine = engine;
         this.reset();
