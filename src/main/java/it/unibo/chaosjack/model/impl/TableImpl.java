@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.chaosjack.model.api.GameEngine;
 import it.unibo.chaosjack.model.api.Hand;
 import it.unibo.chaosjack.model.api.RoundResult;
@@ -32,6 +33,10 @@ public final class TableImpl implements Table {
      * @param playerName the name of the player
      * @param engine the game engine instance
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "The GameEngine is a core architectural componet shared between table and controller."
+    )
     public TableImpl(final Wallet wallet, final List<String> playerName, final GameEngine engine) { 
         this.wallet = new StandardWallet(wallet.getBalance());
         this.players.addAll(playerName);
