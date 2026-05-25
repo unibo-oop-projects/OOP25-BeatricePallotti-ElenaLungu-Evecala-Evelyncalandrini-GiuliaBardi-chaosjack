@@ -388,6 +388,10 @@ class TableTest {
             @Override
             public void setTable(final Table table) {
             }
+            @Override
+            public void hit() {
+                
+            }
 
             @Override
             public void hit() {

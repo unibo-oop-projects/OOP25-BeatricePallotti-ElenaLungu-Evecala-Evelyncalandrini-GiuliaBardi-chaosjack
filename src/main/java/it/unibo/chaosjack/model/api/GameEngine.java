@@ -80,6 +80,7 @@ public interface GameEngine {
      * @param table the teble implementation to link to this engine.
      */
     void setTable(Table table);
+    void hit();
 
     /**
      * allow the players to draw a card from the deck.
