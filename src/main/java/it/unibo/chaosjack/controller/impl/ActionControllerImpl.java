@@ -101,7 +101,8 @@ public class ActionControllerImpl implements ActionController{
 
      //metodi privati per NPC e Dealer
 
-    private void playAutomatedBet() { 
+    @Override
+    public void playAutomatedBet() { 
          while(engine.getCurrentPlayer() instanceof NPC) {
             NPC bot = (NPC) engine.getCurrentPlayer();
 
@@ -111,7 +112,8 @@ public class ActionControllerImpl implements ActionController{
         }
 
     }
-    private void playAutomatedTurns() {
+    @Override
+    public void playAutomatedTurns() {
 
         while(engine.getCurrentPlayer() instanceof NPC) {
             NPC bot = (NPC) engine.getCurrentPlayer();
@@ -130,8 +132,8 @@ public class ActionControllerImpl implements ActionController{
         }
 
     }
-
-    private void playDealerTurns() {
+    @Override
+    public void playDealerTurns() {
 
        Dealer dealer = (Dealer) engine.getCurrentPlayer();
        if (dealer.shouldHit()) {

@@ -9,4 +9,10 @@ public interface ActionController { //metto solo le mosse che l'interfaccia può
     void bet(int amount);
 
     void doubleDown();
+
+    void playAutomatedBet();
+
+    void playAutomatedTurns();
+
+    void playDealerTurns();
 }
