@@ -57,10 +57,9 @@ public class GameFlowControllerImpl implements GameFlowController {
             this.phaseOfGame();
         });
 
-        tableView.setBetHandler(() -> {
-            // *
-            int betAmount = 10; // per ora metto una puntata fissa, poi la cambierò con quella inserita dal player
-            actionController.bet(betAmount);
+        tableView.setBetHandler(amount -> {
+             // per ora metto una puntata fissa, poi la cambierò con quella inserita dal player
+            actionController.bet(amount);
             this.phaseOfGame();
         });
 
