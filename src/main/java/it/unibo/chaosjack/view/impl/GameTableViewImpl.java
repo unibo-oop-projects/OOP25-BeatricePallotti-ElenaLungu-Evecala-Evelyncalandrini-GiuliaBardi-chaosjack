@@ -25,7 +25,7 @@ public class GameTableViewImpl implements GameTableView {
 
     private final Button hitButton = new Button("Hit");
     private final Button standButton = new Button("Stand");
-    private final Button betButton = new Button("Bet");
+    //private final Button betButton = new Button("Bet");
     private final Button doubleButton = new Button("Double Down");
 
     private final Button bet10Button = new Button("10");
