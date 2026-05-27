@@ -36,6 +36,7 @@ public class ViewManagerImpl implements ViewManager{
     @Override
     public void showGameTable() {
         final GameTableView gameTable = new GameTableViewImpl();
+        gameTable.setMenuHandler(() -> this.showMainMenu());
         this.scene.setRoot(gameTable.getRootNode());
         this.stage.setTitle("ChaosJack - Table of Game");
         this.stage.show();

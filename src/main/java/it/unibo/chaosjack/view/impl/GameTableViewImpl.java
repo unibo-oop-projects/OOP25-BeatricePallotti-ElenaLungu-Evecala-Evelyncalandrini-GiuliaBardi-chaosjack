@@ -1,5 +1,7 @@
 package it.unibo.chaosjack.view.impl;
 
+import java.util.function.Consumer;
+
 import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.view.api.GameTableView;
 import javafx.geometry.Insets;
@@ -19,9 +21,16 @@ public class GameTableViewImpl implements GameTableView {
     private final Label statusLabel = new Label("Phase: FIRST BET");
     private final Label potLabel = new Label("Pot: 0 fishes");
 
+    private final Button menuButton = new Button("Menu");
+
     private final Button hitButton = new Button("Hit");
     private final Button standButton = new Button("Stand");
     private final Button betButton = new Button("Bet");
+    private final Button doubleButton = new Button("Double Down");
+
+    private final Button bet10Button = new Button("10");
+    private final Button bet50Button = new Button("50");
+    private final Button bet100Button = new Button("100");
 
     private final HBox dealerCardsBox = new HBox(15);
     private final HBox player1CardsBox = new HBox(15);
@@ -41,20 +50,32 @@ public class GameTableViewImpl implements GameTableView {
 
         final VBox dealerArea = new VBox(10, dealerTitle, dealerCardsBox);
         dealerArea.setAlignment(Pos.CENTER);
-        this.root.setTop(dealerArea);
+        menuButton.setStyle("-fx-background-color: #8B0000; -fx-text-fill: white; -fx-font-size: 14px;");
+        final HBox topBar = new HBox(menuButton);
+        topBar.setAlignment(Pos.TOP_LEFT);
+        final VBox topContainer = new VBox(10, topBar, dealerArea);
+        this.root.setTop(topContainer);
 
         statusLabel.setStyle("-fx-text-fill: white; -fx-font-size: 24px;");
         potLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 20px;");
         
-        hitButton.setStyle("-fx-font-size: 16px; -fx-padding: 10 20;");
-        standButton.setStyle("-fx-font-size: 16px; -fx-padding: 10 20;");
-        betButton.setStyle("-fx-font-size: 16px; -fx-padding: 10 20;");
+        bet10Button.setStyle("-fx-font-size: 14px; -fx-base: #B0CA;");
+        bet50Button.setStyle("-fx-font-size: 14px; -fx-base: #FF69B4;");
+        bet100Button.setStyle("-fx-font-size: 14px; -fx-base: #000000; -fx-text-fill: white;");
+        final HBox bettingBox = new HBox(15, bet10Button, bet50Button, bet100Button);
+        bettingBox.setAlignment(Pos.BASELINE_CENTER);
 
-        final HBox buttonsBox = new HBox(20, betButton, hitButton, standButton);
+        hitButton.setStyle("-fx-font-size: 16px; -fx-padding: 8 20;");
+        standButton.setStyle("-fx-font-size: 16px; -fx-padding: 8 20;");
+        //betButton.setStyle("-fx-font-size: 16px; -fx-padding: 10 20;");
+        doubleButton.setStyle("-fx-font-size: 16px; -fx-padding: 8 20;");
+
+
+        final HBox buttonsBox = new HBox(20, doubleButton, hitButton, standButton);
         buttonsBox.setAlignment(Pos.CENTER);
         buttonsBox.setPadding(new Insets(20, 0, 0, 0));
 
-        final VBox centerArea = new VBox(20, statusLabel, potLabel, buttonsBox);
+        final VBox centerArea = new VBox(20, statusLabel, potLabel, buttonsBox, bettingBox);
         centerArea.setAlignment(Pos.CENTER);
         this.root.setCenter(centerArea);     
 
@@ -97,33 +118,54 @@ public class GameTableViewImpl implements GameTableView {
         this.statusLabel.setText("Current phase: " + state.name());
 
         if (state == Table.State.PLAYING) {
-            this.betButton.setDisable(true);
+            this.setBetButton(true);
             this.hitButton.setDisable(false);
             this.standButton.setDisable(false);
+            this.doubleButton.setDisable(false);
         } else if (state == Table.State.FIRST_BET) {
-            this.betButton.setDisable(false);
+            this.setBetButton(false);
             this.hitButton.setDisable(true);
             this.standButton.setDisable(true);
+            this.doubleButton.setDisable(false);
         } else {
-            this.betButton.setDisable(true);
+            this.setBetButton(true);
             this.hitButton.setDisable(true);
             this.standButton.setDisable(true);
+            this.doubleButton.setDisable(true);
         }
     }
 
+    private void setBetButton(final boolean disable) {
+        this.bet10Button.setDisable(disable);
+        this.bet50Button.setDisable(disable);
+        this.bet100Button.setDisable(disable);
+    }
+
     @Override
-    public void setHitHandler(Runnable handler) {
+    public void setHitHandler(final Runnable handler) {
         this.hitButton.setOnAction(e -> handler.run());
     }
 
     @Override
-    public void setStandHandler(Runnable handler) {
+    public void setStandHandler(final Runnable handler) {
         this.standButton.setOnAction(e -> handler.run());
     }
 
     @Override
-    public void setBetHandler(Runnable handler) {
-        this.betButton.setOnAction(e -> handler.run());
+    public void setBetHandler(final Consumer<Integer> handler) {
+        this.bet10Button.setOnAction(e -> handler.accept(10));
+        this.bet50Button.setOnAction(e -> handler.accept(50));
+        this.bet100Button.setOnAction(e -> handler.accept(100));
+    }
+
+    @Override
+    public void setDoubleDownHandler(final Runnable handler) {
+        this.doubleButton.setOnAction(e -> handler.run());
+    }
+
+    @Override
+    public void setMenuHandler(final Runnable handler) {
+        this.menuButton.setOnAction(e -> handler.run());
     }
 
     public HBox getDealerCardBox() {

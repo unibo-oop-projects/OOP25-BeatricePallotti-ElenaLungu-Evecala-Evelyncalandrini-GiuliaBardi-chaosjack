@@ -1,5 +1,7 @@
 package it.unibo.chaosjack.view.api;
 
+import java.util.function.Consumer;
+
 import it.unibo.chaosjack.model.api.Table;
 import javafx.scene.Parent;
 
@@ -37,8 +39,20 @@ public interface GameTableView {
     void setStandHandler(Runnable handler);
 
     /**
+     * The action of click the button "DoubleHandler".
+     * @param handler the action.
+     */
+    void setDoubleDownHandler(Runnable handler);
+
+    /**
      * The action of click the button "Bet".
      * @param handler the action.
      */
-    void setBetHandler(Runnable handler);
+    void setBetHandler(Consumer<Integer> handler);
+
+    /**
+     * Navigaton in the menu.
+     * @param handler .
+     */
+    void setMenuHandler(Runnable handler);
 }

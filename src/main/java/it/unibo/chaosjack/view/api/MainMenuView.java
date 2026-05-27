@@ -13,6 +13,11 @@ public interface MainMenuView {
     Parent getRootNode();
 
     /**
+     * @return the name inserted by player.
+     */
+    String getPlayerName();
+
+    /**
      * Sets the action for the play button click.
      * @param handler the action.
      */
