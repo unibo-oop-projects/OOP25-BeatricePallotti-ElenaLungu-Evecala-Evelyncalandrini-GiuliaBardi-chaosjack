@@ -95,6 +95,7 @@ public final class GameEngineImpl implements GameEngine {
             ++currentPlayerIndex;
          } else {
             this.currentPlayerIndex = 0;
+            this.currentPlayer = players.get(currentPlayerIndex);
             this.table.stepPassage();
          }
         } else {
@@ -111,7 +112,6 @@ public final class GameEngineImpl implements GameEngine {
     public void dealerTurn() {
         if (this.table.getCurrentState() == Table.State.DEALER_TURN) { 
                 this.currentPlayer = dealer;
-                //this.dealer.playTurn(deck);
         } else {
             throw new IllegalStateException("impossible to play ");
         }
@@ -162,6 +162,7 @@ public final class GameEngineImpl implements GameEngine {
         
         this.dealer.getHand().getCards().clear();
         this.currentPlayerIndex = 0;
+        this.currentPlayer = getPlayers().get(this.currentPlayerIndex);
         this.gameOver = false;
         this.table.reset();
         this.deck.reset();

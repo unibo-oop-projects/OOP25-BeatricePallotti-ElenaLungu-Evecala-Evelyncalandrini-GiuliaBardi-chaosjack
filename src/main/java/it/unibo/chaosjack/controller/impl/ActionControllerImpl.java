@@ -105,7 +105,7 @@ public class ActionControllerImpl implements ActionController{
 
             table.placeBet(bot.getName(),bot.getCurrentBet());
             engine.stand();
-            this.playAutomatedBet();
+            //this.playAutomatedBet();
             
         }
 
@@ -125,7 +125,7 @@ public class ActionControllerImpl implements ActionController{
             } else {
                 engine.stand();
             }
-            this.playAutomatedTurns();
+            //this.playAutomatedTurns();
         }
 
     }
@@ -135,7 +135,7 @@ public class ActionControllerImpl implements ActionController{
        Dealer dealer = (Dealer) engine.getCurrentPlayer();
        if (dealer.shouldHit()) {
            engine.hit(); 
-           this.playDealerTurns(); 
+           //this.playDealerTurns(); 
        } else {
            engine.stand();
        }

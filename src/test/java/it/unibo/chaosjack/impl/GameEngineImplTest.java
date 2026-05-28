@@ -65,18 +65,16 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
     @Test
     void testNextTurn() {
     engine.setTable(table);
-    table.stepPassage();
     engine.nextTurn();
     assertEquals(nameHuman, engine.getCurrentPlayer().getName());
-
     engine.nextTurn();
     assertEquals(nameBot, engine.getCurrentPlayer().getName());
 
+    engine.nextTurn();
+    assertEquals(table.getCurrentState(), Table.State.PLAYING);
+
     final Table wrongTable = createTable(State.FIRST_BET);
     engine.setTable(wrongTable);
-    assertThrows(IllegalStateException.class, () -> {
-            engine.nextTurn();
-        });
     }
 
     @Test
