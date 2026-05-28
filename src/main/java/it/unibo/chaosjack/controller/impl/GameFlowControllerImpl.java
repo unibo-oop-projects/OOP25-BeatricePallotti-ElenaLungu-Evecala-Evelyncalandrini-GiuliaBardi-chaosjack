@@ -34,7 +34,6 @@ public class GameFlowControllerImpl implements GameFlowController {
         this.tableView = tableView;
         this.mainMenuView = mainMenuView;
         this.viewManager = viewManager;
-
         this.connectButtons();
     }
 
@@ -71,7 +70,7 @@ public class GameFlowControllerImpl implements GameFlowController {
     public void newGame() {
         gameEngine.resetGame();
         gameEngine.nextTurn();
-        gameEngine.initialCards();
+        //gameEngine.initialCards();
         tableView.setGameState(Table.State.FIRST_BET);
 
         Random random = new Random();

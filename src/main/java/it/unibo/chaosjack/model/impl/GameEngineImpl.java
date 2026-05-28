@@ -177,6 +177,7 @@ public final class GameEngineImpl implements GameEngine {
 
         this.deck.draw().ifPresent(this.dealer::addCard);
         this.deck.draw().ifPresent(this.dealer::addCard);
+        table.stepPassage();
     }
 
    }
