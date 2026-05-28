@@ -50,4 +50,3 @@ public abstract class AbstractPlayer implements Partecipant {
         this.hand = new HandImpl();
     }
 }
-
