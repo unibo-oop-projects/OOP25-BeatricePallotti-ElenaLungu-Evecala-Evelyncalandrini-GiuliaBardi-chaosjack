@@ -166,7 +166,6 @@ public final class GameEngineImpl implements GameEngine {
         
         this.dealer.getHand().getCards().clear();
         this.currentPlayerIndex = 0;
-        this.currentPlayer = getPlayers().get(this.currentPlayerIndex);
         this.gameOver = false;
         this.table.reset();
         this.deck.reset();

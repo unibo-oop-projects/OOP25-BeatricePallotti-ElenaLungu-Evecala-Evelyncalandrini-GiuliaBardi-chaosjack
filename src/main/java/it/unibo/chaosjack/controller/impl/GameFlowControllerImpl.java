@@ -34,11 +34,8 @@ public class GameFlowControllerImpl implements GameFlowController {
         this.tableView = tableView;
         this.mainMenuView = mainMenuView;
         this.viewManager = viewManager;
-<<<<<<< HEAD
         this.table = table;
 
-=======
->>>>>>> origin/feat-table
         this.connectButtons();
         
     }
@@ -73,15 +70,9 @@ public class GameFlowControllerImpl implements GameFlowController {
     }
 
     public void newGame() {
-        
+        System.err.println("new game");
         gameEngine.resetGame();
-<<<<<<< HEAD
-        System.out.println("stato attuale:" + this.table.getCurrentState()); // Debug log
         gameEngine.nextTurn(); // faccio partire il gioco e faccio avanzare il turno in modo che arrivi al primo giocatore
-=======
-        gameEngine.nextTurn();
-        //gameEngine.initialCards();
->>>>>>> origin/feat-table
         tableView.setGameState(Table.State.FIRST_BET);
 
         Random random = new Random();
@@ -90,14 +81,14 @@ public class GameFlowControllerImpl implements GameFlowController {
         } else {
             gameEngine.setSpecialRound(null);
         }
-        
         this.phaseOfGame();
 
     }
 
     @Override
     public void phaseOfGame() {
-        System.out.println("soo in phase of game. il pot è: " + this.table.getPot()); 
+        this.upDateView();
+        
         this.tableView.updatePot(this.table.getPot());
         
 
@@ -121,6 +112,10 @@ public class GameFlowControllerImpl implements GameFlowController {
                 }
                 break;
             case PLAYING:
+                if (gameEngine.getDealerHand().getCards().isEmpty()) {
+                    gameEngine.initialCards();
+                    this.upDateView();
+                }
                 this.automaticShift(); // se è il turno di un npc faccio fare la
                 break;
             case DEALER_TURN:
@@ -140,9 +135,9 @@ public class GameFlowControllerImpl implements GameFlowController {
             if (gameEngine.getCurrentPlayer() instanceof NPC) {
                 
                 actionController.playAutomatedBet();
-                
+                this.phaseOfGame();
             }
-            this.phaseOfGame();
+            
         });
         pausa.play();
     }
@@ -192,6 +187,28 @@ public class GameFlowControllerImpl implements GameFlowController {
                 break;
         }
         return specialRound;
+    }
+
+    private void upDateView() {
+        if (gameEngine.getPlayers().size() >= 2) {
+            tableView.setPlayerNames(
+                gameEngine.getPlayers().get(0).getName(),
+                gameEngine.getPlayers().get(1).getName()
+            );
+            
+        }
+
+        tableView.updateDealerCard(gameEngine.getDealerHand().getCards());
+
+        if ( gameEngine.getPlayers().size() >= 1) {
+            tableView.updatePlayer1Cards(gameEngine.getPlayers().get(0).getHand().getCards());
+        } 
+
+        if (gameEngine.getPlayers().size() >= 2) {
+            tableView.updatePlayer2Cards(gameEngine.getPlayers().get(1).getHand().getCards());
+        }
+
+
     }
 
     
