@@ -224,7 +224,7 @@ public class GameTableViewImpl implements GameTableView {
     @Override
     public void setPlayerNames(String name1, String name2) {
        this.player1Title.setText(name1.toUpperCase());
-       this.player2Title.setText(name1.toUpperCase());
+       this.player2Title.setText(name2.toUpperCase());
     }
     
 }
