@@ -28,6 +28,7 @@ public final class GameEngineImpl implements GameEngine {
     private Partecipant currentPlayer;
     private Table table;
     private boolean gameOver = false;
+    private Table.State stateStartOfGame = Table.State.FIRST_BET;
     
     
     /**
@@ -95,8 +96,11 @@ public final class GameEngineImpl implements GameEngine {
             ++currentPlayerIndex;
          } else {
             this.currentPlayerIndex = 0;
-            this.currentPlayer = players.get(currentPlayerIndex);
-            this.table.stepPassage();
+            if (this.table.getCurrentState() == this.stateStartOfGame) {
+                this.table.stepPassage();
+            }
+            this.stateStartOfGame = this.table.getCurrentState();
+        
          }
         } else {
             throw new IllegalStateException("impossible to play ");
@@ -162,11 +166,12 @@ public final class GameEngineImpl implements GameEngine {
         
         this.dealer.getHand().getCards().clear();
         this.currentPlayerIndex = 0;
-        this.currentPlayer = getPlayers().get(this.currentPlayerIndex);
         this.gameOver = false;
         this.table.reset();
         this.deck.reset();
         this.deck.shuffle();
+        this.stateStartOfGame = Table.State.FIRST_BET;
+        
     }
 
     public void initialCards() {
@@ -177,7 +182,7 @@ public final class GameEngineImpl implements GameEngine {
 
         this.deck.draw().ifPresent(this.dealer::addCard);
         this.deck.draw().ifPresent(this.dealer::addCard);
-        table.stepPassage();
+        
     }
 
    }
