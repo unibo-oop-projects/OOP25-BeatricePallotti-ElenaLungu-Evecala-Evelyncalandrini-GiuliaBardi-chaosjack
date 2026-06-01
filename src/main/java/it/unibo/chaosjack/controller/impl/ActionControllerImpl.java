@@ -98,7 +98,7 @@ public class ActionControllerImpl implements ActionController{
 
     @Override
     public void playAutomatedBet() { 
-         Partecipant p = engine.getCurrentPlayer();
+        Partecipant p = engine.getCurrentPlayer();
         if (p instanceof NPC) {
             NPC bot = (NPC) p;
             bot.makeBet();

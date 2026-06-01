@@ -6,6 +6,18 @@ package it.unibo.chaosjack.view.api;
 public interface ViewManager {
 
     /**
+     * Returns the instance of the main menu view.
+     * @return the instance.
+     */
+    MainMenuView getMainMenu();
+
+    /**
+     * Returns the instance of the game table view.
+     * @return the instance.
+     */
+    GameTableView getGameTable();
+
+    /**
      * Main Menu.
      */
     void showMainMenu();

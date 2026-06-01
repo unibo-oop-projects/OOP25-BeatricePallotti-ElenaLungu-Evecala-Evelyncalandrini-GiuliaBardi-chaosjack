@@ -24,6 +24,18 @@ public interface GameTableView {
     void setGameState(Table.State state);
 
     /**
+     * Enables or disables the action buttons for the player (e.g., Hit, Stand, Double Down).
+     * @param disable true to disable the buttons, false to enable them.
+     */
+    void setPlayerButtons(final boolean disable);
+
+    /**
+     * Enables or disables the betting buttons (e.g., fishes for 10, 50, 100).
+     * @param disable true to disable the buttons, false to enable them.
+     */
+    void setBetButton(final boolean disable);
+
+    /**
      * @param amount shows the amount of fish in the pot.
      */
     void updatePot(int amount);
@@ -57,6 +69,18 @@ public interface GameTableView {
      * @param handler .
      */
     void setMenuHandler(Runnable handler);
+
+    /**
+     * To see if we are in a special round.
+     * @param ruleName name of round.
+     */
+    void setSpecialRound(String ruleName);
+
+    /**
+     * Show whose turn it is.
+     * @param activeName player's name or dealer.
+     */
+    void setActiveTurn(String activeName);
 
     /**
      * Update grafic of dealer's cards.

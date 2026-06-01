@@ -147,11 +147,17 @@ class TableTest {
         assertThrows(IllegalStateException.class, () -> table.placeBet(P1, POSITIVE_BET));
     }
 
-    @Test
+   @Test
     void testInsufficientFunds() {
         assertThrows(IllegalArgumentException.class, () -> table.placeBet(P2, IMPOSSIBLE_BET));
         assertEquals(INITIAL_POT, table.getPot(), "The plate must not increase if the funds are insufficient");
     }
+
+    /*@Test
+    void testUnknownPlayerCannotBet() {
+        assertThrows(IllegalArgumentException.class, () -> table.placeBet("non found player", STANDARD_BET));
+        assertEquals(INITIAL_POT, table.getPot(), "the pot must non incrase if the player is not ad the table");
+    }*/
 
     @Test
     void testGetWinnerPlayerWins() {

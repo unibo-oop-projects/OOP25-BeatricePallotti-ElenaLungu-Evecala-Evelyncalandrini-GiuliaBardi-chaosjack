@@ -3,6 +3,8 @@ package it.unibo.chaosjack.view.impl;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.swing.text.FlowView.FlowStrategy;
+
 import it.unibo.chaosjack.model.api.Card;
 import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.view.api.GameTableView;
@@ -14,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -36,12 +39,14 @@ public class GameTableViewImpl implements GameTableView {
     private final Button bet50Button = new Button("50");
     private final Button bet100Button = new Button("100");
 
-    private final HBox dealerCardsBox = new HBox(15);
-    private final HBox player1CardsBox = new HBox(15);
-    private final HBox player2CardsBox = new HBox(15);
+    private final FlowPane dealerCardsBox = new FlowPane(17, 17);
+    private final FlowPane player1CardsBox = new FlowPane(17, 17);
+    private final FlowPane player2CardsBox = new FlowPane(17,17);
 
-    private final Label player1Title = new Label("GIOCATORE 1");
-    private final Label player2Title = new Label("GIOCATORE 2");
+    private final Label specialRoundLabel = new Label("");
+    private final Label player1Title = new Label("");
+    private final Label player2Title = new Label("");
+    private final Label dealerTitle = new Label("DEALER");
 
     public GameTableViewImpl() {
         this.root = new BorderPane();
@@ -52,7 +57,6 @@ public class GameTableViewImpl implements GameTableView {
     private void initLayout() {
         dealerCardsBox.setAlignment(Pos.CENTER);
         dealerCardsBox.setMinHeight(150);
-        final Label dealerTitle = new Label("DEALER");
         dealerTitle.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
 
         final VBox dealerArea = new VBox(10, dealerTitle, dealerCardsBox);
@@ -82,9 +86,13 @@ public class GameTableViewImpl implements GameTableView {
         buttonsBox.setAlignment(Pos.CENTER);
         buttonsBox.setPadding(new Insets(20, 0, 0, 0));
 
-        final VBox centerArea = new VBox(20, statusLabel, potLabel, buttonsBox, bettingBox);
+        specialRoundLabel.setStyle("-fx-text-fill: #FF4500; -fx-font-size: 26px; -fx-font-weight: bold; -fx-effect: dropshodow(gaussian, black, 4, 1, 0, 0);");
+        specialRoundLabel.setVisible(false);
+        specialRoundLabel.setManaged(false);
+
+        final VBox centerArea = new VBox(20, specialRoundLabel, statusLabel, potLabel, buttonsBox, bettingBox);
         centerArea.setAlignment(Pos.CENTER);
-        this.root.setCenter(centerArea);     
+        this.root.setCenter(centerArea);    
 
         player1CardsBox.setAlignment(Pos.CENTER);
         player1CardsBox.setMinHeight(150);
@@ -101,9 +109,23 @@ public class GameTableViewImpl implements GameTableView {
         final VBox player2Area = new VBox(10, player2Title, player2CardsBox);
         player2Area.setAlignment(Pos.CENTER);
 
-        final HBox playerContainer = new HBox(100, player1Area, player2Area);
+        /*final HBox playerContainer = new HBox(100, player1Area, player2Area);
         playerContainer.setAlignment(Pos.CENTER);
+        this.root.setBottom(playerContainer);*/
+        final HBox playerContainer = new HBox(20, player1Area, player2Area);
+        playerContainer.setAlignment(Pos.CENTER);
+
+        BorderPane.setMargin(playerContainer, new Insets(0, 0, 60, 0));
         this.root.setBottom(playerContainer);
+
+        //use this for size of card's space
+        player1Area.maxWidthProperty().bind(root.widthProperty().divide(2).subtract(20));
+        player2Area.maxWidthProperty().bind(root.widthProperty().divide(2).subtract(20));
+        
+        dealerCardsBox.prefWrapLengthProperty().bind(root.widthProperty().subtract(100));
+        player1CardsBox.prefWrapLengthProperty().bind(root.widthProperty().divide(2).subtract(20));
+        player2CardsBox.prefWrapLengthProperty().bind(root.widthProperty().divide(2).subtract(20));
+
 
         this.setGameState(Table.State.FIRST_BET);
     }
@@ -120,33 +142,44 @@ public class GameTableViewImpl implements GameTableView {
 
     @Override
     public void setGameState(Table.State state) {
-        this.statusLabel.setText("Current phase: " + state.name());
+        Platform.runLater(() -> {
+           this.statusLabel.setText("Current phase: " + state.name());
 
-        if (state == Table.State.PLAYING ) {
-            this.setBetButton(true);
-            this.setPlayerButtons(false);
-        } else if (state == Table.State.FIRST_BET) {
-            this.setBetButton(false);
-            this.setPlayerButtons(true);
-        } else if (state == Table.State.FINAL_BET) {
-            this.setBetButton(false);
-            this.setPlayerButtons(true);
-        } else {
-            this.setBetButton(false);
-            this.setPlayerButtons(false);
-        }
+           /*switch (state) {
+                case PLAYING -> {
+                    this.setBetButton(true);
+                    this.setPlayerButtons(!isHumanTurn);
+                }
+                case FIRST_BET, FINAL_BET -> {
+                    this.setBetButton(false);
+                    this.setPlayerButtons(isHumanTurn);
+                }
+                case DEALER_TURN, RESULTS -> {
+                    this.setBetButton(true);
+                    this.setPlayerButtons(!isHumanTurn);
+                }
+           }*/
+        });
     }
 
-    private void setPlayerButtons(final boolean disable) {
-        this.hitButton.setDisable(disable);
-        this.standButton.setDisable(disable);
-        this.doubleButton.setDisable(disable);
+    @Override
+    public void setPlayerButtons(final boolean disable) {
+        Platform.runLater(() -> {
+            this.hitButton.setDisable(disable);
+            this.standButton.setDisable(disable);
+            this.doubleButton.setDisable(disable);
+        });
+        
     }
 
-    private void setBetButton(final boolean disable) {
-        this.bet10Button.setDisable(disable);
-        this.bet50Button.setDisable(disable);
-        this.bet100Button.setDisable(disable);
+    @Override
+    public void setBetButton(final boolean disable) {
+        Platform.runLater(() -> {
+            this.bet10Button.setDisable(disable);
+            this.bet50Button.setDisable(disable);
+            this.bet100Button.setDisable(disable);
+        });
+        
     }
 
     @Override
@@ -176,18 +209,45 @@ public class GameTableViewImpl implements GameTableView {
         this.menuButton.setOnAction(e -> handler.run());
     }
 
+    @Override
+    public void setSpecialRound(String ruleName) {
+        Platform.runLater(() -> {
+            boolean isSpecial = ruleName != null && !ruleName.isEmpty();
+
+            this.specialRoundLabel.setVisible(isSpecial);
+            this.specialRoundLabel.setManaged(isSpecial);
+
+            if (isSpecial) {
+                this.specialRoundLabel.setText("SPACIAL ROUND: " + ruleName.toUpperCase());
+            }
+        });
+    }
+
+    @Override
+    public void setActiveTurn(String activeName) {
+        Platform.runLater(() -> {
+           String normalStyle = "-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;";
+           String activeStyle = "-fx-text-fill: #FFD700; -fx-font-size: 20px; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0,8), 10, 0.5, 0, 0);";
+
+           List.of(this.dealerTitle, this.player1Title, this.player2Title)
+            .forEach(label -> label.setStyle(
+                (activeName != null && activeName.equalsIgnoreCase(label.getText())) ? activeStyle : normalStyle
+            ));
+        });
+    }
+
     @FXML
-    private HBox getDealerCardBox() {
+    private FlowPane getDealerCardBox() {
         return this.dealerCardsBox;
     }
 
     @FXML
-    private HBox getPlayer1CardBox() {
+    private FlowPane getPlayer1CardBox() {
         return this.player1CardsBox;
     }
 
     @FXML
-    private HBox getPlayer2CardBox() {
+    private FlowPane getPlayer2CardBox() {
         return this.player2CardsBox;
     }
 
@@ -196,7 +256,7 @@ public class GameTableViewImpl implements GameTableView {
         
             this.dealerCardsBox.getChildren().clear();
             for (final Card c : cards) {
-                this.dealerCardsBox.getChildren().add(new CardViewImpl(c));
+                this.dealerCardsBox.getChildren().add(new CardViewImpl(c).getRootNode());
             }
         
     }
@@ -206,7 +266,7 @@ public class GameTableViewImpl implements GameTableView {
         
             this.player1CardsBox.getChildren().clear();
             for (final Card c : cards) {
-                this.player1CardsBox.getChildren().add(new CardViewImpl(c));
+                this.player1CardsBox.getChildren().add(new CardViewImpl(c).getRootNode());
             }
        
     }
@@ -216,7 +276,7 @@ public class GameTableViewImpl implements GameTableView {
         
             this.player2CardsBox.getChildren().clear();
             for (final Card c : cards) {
-                this.player2CardsBox.getChildren().add(new CardViewImpl(c));
+                this.player2CardsBox.getChildren().add(new CardViewImpl(c).getRootNode());
             }
        
     }
@@ -224,7 +284,7 @@ public class GameTableViewImpl implements GameTableView {
     @Override
     public void setPlayerNames(String name1, String name2) {
        this.player1Title.setText(name1.toUpperCase());
-       this.player2Title.setText(name1.toUpperCase());
+       this.player2Title.setText(name2.toUpperCase());
     }
     
 }

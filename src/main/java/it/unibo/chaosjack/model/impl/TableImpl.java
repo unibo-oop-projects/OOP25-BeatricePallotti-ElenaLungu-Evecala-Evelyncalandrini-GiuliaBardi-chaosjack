@@ -92,6 +92,10 @@ public final class TableImpl implements Table {
         if (!(currentState == State.FIRST_BET || currentState == State.FINAL_BET)) {
             throw new IllegalStateException("Betting is not allowed during the " + currentState + " phase");
         }
+
+        /*if(!players.contains(playerName)) {
+            throw new IllegalArgumentException("Player non found at the table: " + playerName);
+        }*/
         for (final String name : players) {
             if (name.equals(playerName)) {
                 if (!wallet.removeFunds(amount)) {
@@ -101,8 +105,11 @@ public final class TableImpl implements Table {
                 playerPots.put(playerName, currentPot + amount);
             }
         }
-        /* 
-        if (haveAllPlayersBet()) {
+        //wallet.addFunds(amount);
+        /*inal int currentPot = playerPots.getOrDefault(playerName, 0);
+        playerPots.put(playerName, currentPot + amount);*/
+        
+        /*if (haveAllPlayersBet()) {
             this.stepPassage();
         }*/
     }
