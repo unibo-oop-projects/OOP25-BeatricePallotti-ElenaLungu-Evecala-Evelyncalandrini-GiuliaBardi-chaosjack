@@ -70,24 +70,35 @@ public class ActionControllerImpl implements ActionController{
 
     @Override
     public void doubleDown() {
+        System.out.println("--- INIZIO TENTATIVO DOUBLE DOWN ---");
+        
         if(table.getCurrentState() != Table.State.PLAYING) {
+            System.out.println("ERRORE: Il tavolo non è in PLAYING. Stato attuale: " + table.getCurrentState());
             return;
         }
+        
         Player human = getCurrentHumanPlayer();
         if (human == null) {
+            System.out.println("ERRORE: human è null. O non è il tuo turno, o l'engine ha perso il giocatore corrente.");
             return;
         }
+        
         if(human.getHand().getCards().size() != 2) {
+            System.out.println("ERRORE: Non hai 2 carte in mano. Ne hai: " + human.getHand().getCards().size());
             return;
         }
+        
         int currentBet = human.getCurrentBet();
         if(human.getWallet() < currentBet) {
+            System.out.println("ERRORE: Soldi insufficienti. Nel portafoglio hai: " + human.getWallet() + " ma ti servono altri: " + currentBet);
             return;
         }
+        
+        System.out.println("SUCCESSO: Tutti i controlli passati! Raddoppio in corso...");
         human.doubleDown();
         engine.hit();
         this.stand();
-
+        System.out.println("--- DOUBLE DOWN COMPLETATO ---");
     }
 
     private boolean isHumanPlayer(Partecipant p) { //mi serve nei vari metodi per dire sepuò usare i bottoni
