@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import it.unibo.chaosjack.model.api.Card;
 import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.view.api.GameTableView;
+import it.unibo.chaosjack.view.api.PauseMenuView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -16,17 +17,21 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
  * Implementation of playing table.
  */
 public class GameTableViewImpl implements GameTableView {
+    private final StackPane mainRoot;
     private final BorderPane root;
+    private final PauseMenuView pauseMenu;
     private final Label statusLabel = new Label("Phase: FIRST BET");
     private final Label potLabel = new Label("Pot: 0 fishes");
 
     private final Button menuButton = new Button("Menu");
+    private final Button pauseButton = new Button("Pause");
 
     private final Button hitButton = new Button("Hit");
     private final Button standButton = new Button("Stand");
@@ -50,9 +55,27 @@ public class GameTableViewImpl implements GameTableView {
     private final Label dealerScoreLabel = new Label("");
 
     public GameTableViewImpl() {
+        this.mainRoot = new StackPane();
         this.root = new BorderPane();
         this.root.setStyle("-fx-background-color: #2E8B57;");
+        this.pauseMenu = new PauseMenuViewImpl();
+
+        menuButton.setStyle("-fx-background-color: #d92811; -fx-text-fill: white; -fx-font-size: 14px;");
+        pauseButton.setStyle("-fx-background-color: #ffaa00; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+        
+        final HBox floattingTopBar = new HBox(10, menuButton, pauseButton);
+        floattingTopBar.setPadding(new Insets(10));
+        floattingTopBar.setPickOnBounds(false);
+
         this.initLayout();
+
+        this.mainRoot.getChildren().addAll(
+            this.root,
+            floattingTopBar,
+            this.pauseMenu.getRootNode()
+        );
+
+        StackPane.setAlignment(floattingTopBar, Pos.TOP_LEFT);
     }
 
     private void initLayout() {
@@ -67,8 +90,11 @@ public class GameTableViewImpl implements GameTableView {
 
         final VBox dealerArea = new VBox(10, dealerTitle, dealerScoreLabel, dealerCardsBox);
         dealerArea.setAlignment(Pos.CENTER);
-        menuButton.setStyle("-fx-background-color: #d92811; -fx-text-fill: white; -fx-font-size: 14px;");
-        final HBox topBar = new HBox(menuButton);
+        dealerArea.setPadding(new Insets(20, 0, 0, 0));
+        //menuButton.setStyle("-fx-background-color: #d92811; -fx-text-fill: white; -fx-font-size: 14px;");
+        //pauseButton.setStyle("-fx-background-color: #ffaa00; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+
+        final HBox topBar = new HBox(10, menuButton, pauseButton);
         topBar.setAlignment(Pos.TOP_LEFT);
         final VBox topContainer = new VBox(10, topBar, dealerArea);
         this.root.setTop(topContainer);
@@ -132,7 +158,7 @@ public class GameTableViewImpl implements GameTableView {
     
     @Override
     public Parent getRootNode() {
-        return this.root;
+        return this.mainRoot;
     }
 
     @Override
@@ -190,6 +216,16 @@ public class GameTableViewImpl implements GameTableView {
     }
 
     @Override
+    public PauseMenuView getPauseMenu() {
+        return this.pauseMenu;
+    }
+
+    @Override
+    public void setPauseHandler(final Runnable handler) {
+        this.pauseButton.setOnAction(e -> handler.run());
+    }
+
+    @Override
     public void setMenuHandler(final Runnable handler) {
         this.menuButton.setOnAction(e -> handler.run());
     }
@@ -203,7 +239,7 @@ public class GameTableViewImpl implements GameTableView {
             this.specialRoundLabel.setManaged(isSpecial);
 
             if (isSpecial) {
-                this.specialRoundLabel.setText("SPACIAL ROUND: " + ruleName.toUpperCase());
+                this.specialRoundLabel.setText("SPECIAL ROUND: " + ruleName.toUpperCase());
             }
         });
     }

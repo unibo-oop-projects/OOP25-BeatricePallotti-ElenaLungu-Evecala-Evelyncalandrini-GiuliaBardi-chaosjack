@@ -71,6 +71,17 @@ public interface GameTableView extends GameScoreDisplay {
     void setMenuHandler(Runnable handler);
 
     /**
+     * 
+     */
+    PauseMenuView getPauseMenu();
+    
+    /**
+     * 
+     * @param handler
+     */
+    void setPauseHandler(final Runnable handler);
+    
+    /**
      * To see if we are in a special round.
      * @param ruleName name of round.
      */
