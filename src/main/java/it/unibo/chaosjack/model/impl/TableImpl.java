@@ -92,7 +92,21 @@ public final class TableImpl implements Table {
         if (!(currentState == State.FIRST_BET || currentState == State.FINAL_BET)) {
             throw new IllegalStateException("Betting is not allowed during the " + currentState + " phase");
         }
+        /* 
+        final var player = engine.getPlayers().stream()
+            .filter(p -> p.getName().equals(playerName))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Player not found"));
 
+        try {
+            player.setBet(amount);
+            this.wallet.addFunds(amount);
+
+            final int currentPot = playerPots.getOrDefault(playerName, 0);
+            playerPots.put(playerName, currentPot + amount);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Insufficient founds to place this bet");
+        }
         /*if(!players.contains(playerName)) {
             throw new IllegalArgumentException("Player non found at the table: " + playerName);
         }*/
@@ -117,6 +131,7 @@ public final class TableImpl implements Table {
     @Override
     public int getPot() {
         return playerPots.values().stream().mapToInt(Integer::intValue).sum();
+        //return this.wallet.getBalance();
     }
 
     @Override

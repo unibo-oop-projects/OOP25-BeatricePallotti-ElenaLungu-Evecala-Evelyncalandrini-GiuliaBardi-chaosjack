@@ -40,7 +40,7 @@ public class App extends Application {
         
         List<Partecipant> players = new ArrayList<>();
         players.add(new PlayerImpl( "giocatore1", 1000));
-        players.add(new PlayerImpl( "giocatore2", 1000));
+        players.add(new NPCimpl( "giocatore2", 1000));
 
         GameEngineImpl gameEngine = new GameEngineImpl(deck, players, dealer);
         Wallet wallet = new StandardWallet(1000);

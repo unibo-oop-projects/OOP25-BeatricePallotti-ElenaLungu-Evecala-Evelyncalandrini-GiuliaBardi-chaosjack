@@ -10,7 +10,7 @@ import javafx.scene.Parent;
 /**
  * Represents the visual interface of the game table.
  */
-public interface GameTableView {
+public interface GameTableView extends GameScoreDisplay {
 
     /**
      * @return the root node.
@@ -70,6 +70,17 @@ public interface GameTableView {
      */
     void setMenuHandler(Runnable handler);
 
+    /**
+     * 
+     */
+    PauseMenuView getPauseMenu();
+    
+    /**
+     * 
+     * @param handler
+     */
+    void setPauseHandler(final Runnable handler);
+    
     /**
      * To see if we are in a special round.
      * @param ruleName name of round.

@@ -412,6 +412,11 @@ class TableTest {
             public void initialCards() {
             }
 
+            @Override
+            public SpecialRound getSpecialRound() {
+                return null;
+            }
+
         };
     }
 
