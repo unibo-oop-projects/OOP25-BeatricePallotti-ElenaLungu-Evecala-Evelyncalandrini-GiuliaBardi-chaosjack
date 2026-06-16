@@ -98,11 +98,11 @@ public final class TableImpl implements Table {
     }
 
     @Override
-    public RoundResult getWinner() {
+    public RoundEvaluation getWinner() {
         final RoundEvaluation evaluation = evaluator.evaluate(this.engine, getPlayers(), getPot());
         updatePlayersStatistics(evaluation.winners(), evaluation.result(), getDealerScore());
         
-        return evaluation.result();
+        return evaluation;
     }
 
     private void updatePlayersStatistics(final List<String> bestPlayer, final RoundResult roundResult, final int dealerScore) {

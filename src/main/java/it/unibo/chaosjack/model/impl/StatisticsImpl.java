@@ -97,7 +97,7 @@ public final class StatisticsImpl implements Statistics {
 
     @Override
     public void resetStats() {
-        this.totalRounds = 0;
+        this.totalRounds = 1;
         wins.clear();
         losses.clear();
         pushes.clear();

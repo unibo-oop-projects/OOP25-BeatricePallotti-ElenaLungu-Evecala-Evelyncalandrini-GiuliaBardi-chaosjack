@@ -1,7 +1,6 @@
 package it.unibo.chaosjack.view.impl;
 
 import it.unibo.chaosjack.model.api.Statistics;
-import it.unibo.chaosjack.model.impl.StatisticsImpl;
 import it.unibo.chaosjack.view.api.GameTableView;
 import it.unibo.chaosjack.view.api.MainMenuView;
 import it.unibo.chaosjack.view.api.StatisticsView;
@@ -12,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**

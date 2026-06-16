@@ -304,7 +304,7 @@ class TableTest {
             table.placeBet(playersName, STANDARD_BET);
         }
         table.stepPassage();
-        return table.getWinner();
+        return table.getWinner().result();
     }
 
     private GameEngine createEngine (final Map<String, Integer> pScore, final int dScore, final boolean p1Card) {

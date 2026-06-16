@@ -69,9 +69,9 @@ public interface Table {
     int getPot();
 
     /**
-     * @return winner of the round.
+     * @return winner evaluation of the round.
      */
-    RoundResult getWinner();
+    RoundEvaluation getWinner();
 
     /**
      * @param playerName is the player's name.

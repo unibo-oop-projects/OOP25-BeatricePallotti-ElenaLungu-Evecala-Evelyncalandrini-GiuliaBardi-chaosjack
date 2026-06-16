@@ -18,11 +18,11 @@ public record RoundResult(Outcome outcome, int playerPoints, int dealerPoints, i
         /**
          * Player win.
          */
-        PLAYER_WON("You win!"),
+        PLAYER_WON("Wins!"),
         /**
          * Player win with bonus.
          */
-        PLAYER_BONUS("Your winnings multiplied"),
+        PLAYER_BONUS("Wins with bonus"),
         /**
          * Dealer win.
          */
