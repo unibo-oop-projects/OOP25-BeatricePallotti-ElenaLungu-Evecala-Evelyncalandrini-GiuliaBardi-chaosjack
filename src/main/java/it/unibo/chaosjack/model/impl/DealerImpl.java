@@ -3,6 +3,7 @@ package it.unibo.chaosjack.model.impl;
 import it.unibo.chaosjack.model.api.Dealer;
 
 
+
 /**
  * Implementation of {@link Dealer} interface.
  */
