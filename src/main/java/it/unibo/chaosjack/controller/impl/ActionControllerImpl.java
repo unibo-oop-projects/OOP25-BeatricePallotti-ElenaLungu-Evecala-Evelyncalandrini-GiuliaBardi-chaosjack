@@ -29,12 +29,13 @@ public class ActionControllerImpl implements ActionController{
         if (human == null) {
             return;
         }
-        if (human.isBusted() || engine.currentScore(human.getHand())>= Partecipant.MAX_SCORE) {
+        int score = engine.currentScore(human.getHand());
+        if (human.isBusted(score) || engine.currentScore(human.getHand())>= Partecipant.MAX_SCORE) {
             return;
         }
         engine.hit();
 
-        if(human.isBusted() || engine.currentScore(human.getHand())>= Partecipant.MAX_SCORE) {
+        if(human.isBusted(score) || engine.currentScore(human.getHand())>= Partecipant.MAX_SCORE) {
             this.stand();
         }
     }
