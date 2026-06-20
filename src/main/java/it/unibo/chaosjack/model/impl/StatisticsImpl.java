@@ -48,6 +48,7 @@ public final class StatisticsImpl implements Statistics {
             }
 
         }
+        incrementTotalRound();
     }
 
     @Override
@@ -97,7 +98,7 @@ public final class StatisticsImpl implements Statistics {
 
     @Override
     public void resetStats() {
-        this.totalRounds = 1;
+        this.totalRounds = 0;
         wins.clear();
         losses.clear();
         pushes.clear();
