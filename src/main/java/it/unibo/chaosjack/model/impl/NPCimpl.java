@@ -36,13 +36,12 @@ public final class NPCimpl extends PlayerImpl implements NPC {
     } 
 
     @Override
-    public boolean wantsToHit() {
-        return this.getHand().getScore() < STOP_THRESHOLD;
+    public boolean wantsToHit(int currentScore) {
+        return currentScore < STOP_THRESHOLD;
     }
 
     @Override
-    public boolean wantsToDouble() {
-        final int score = this.getHand().getScore();
-        return score >= MIN_DOUBLE_SCORE && score <= MAX_DOUBLE_SCORE && this.getWallet() >= this.getCurrentBet();
+    public boolean wantsToDouble(int currentScore) {
+        return currentScore >= MIN_DOUBLE_SCORE && currentScore <= MAX_DOUBLE_SCORE && this.getWallet() >= this.getCurrentBet();
     }
 }

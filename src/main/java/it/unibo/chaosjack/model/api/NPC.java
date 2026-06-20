@@ -17,12 +17,12 @@ public interface NPC extends Player {
       * 
       * @return true if the NPC should hit
       */
-     boolean wantsToHit();
+     boolean wantsToHit(int currentScore);
 
      /**
       * Decides if the NPC wants to double the bet.
       * 
       * @return true if the NPC should double
       */
-     boolean wantsToDouble();
+     boolean wantsToDouble(int currentScore);
 }

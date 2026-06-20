@@ -20,8 +20,8 @@ public final class DealerImpl extends AbstractPlayer implements Dealer {
   }
 
     @Override
-    public boolean shouldHit() {
-         return this.getHand().getScore() < STAY_THRESHOLD; 
+    public boolean shouldHit(int currentScore) {
+         return currentScore < STAY_THRESHOLD; 
     }
 }
 
