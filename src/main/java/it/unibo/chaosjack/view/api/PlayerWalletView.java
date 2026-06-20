@@ -1,5 +1,8 @@
 package it.unibo.chaosjack.view.api;
 
+import javafx.scene.Parent;
+
+
 /**
  * Visual interface for a player's wallet (chip balance) component.
  *
@@ -21,4 +24,9 @@ public interface PlayerWalletView {
      * @return the full balance string.
      */
     String getDisplayedBalance();
+
+    /**
+     * @return the root node of the wallet view.
+     */
+    Parent getRootNode();
 }

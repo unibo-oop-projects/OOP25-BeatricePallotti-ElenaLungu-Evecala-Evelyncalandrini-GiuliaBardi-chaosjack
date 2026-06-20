@@ -2,6 +2,7 @@ package it.unibo.chaosjack.view.impl;
 
 import it.unibo.chaosjack.view.api.PlayerWalletView;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -63,5 +64,10 @@ public final class PlayerWalletViewImpl extends VBox implements PlayerWalletView
     @Override
     public String getDisplayedBalance() {
         return balanceLabel.getText();
+    }
+
+    @Override
+    public Parent getRootNode() {
+        return this;
     }
 }
