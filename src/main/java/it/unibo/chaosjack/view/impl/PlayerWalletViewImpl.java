@@ -1,5 +1,6 @@
 package it.unibo.chaosjack.view.impl;
 
+import it.unibo.chaosjack.view.api.PlayerWalletView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -10,15 +11,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- * JavaFX visual component that displays a player's wallet (chip balance).
- *
- * <p>"Casino Premium" design: dark semi-transparent background, rounded borders,
- * drop shadow and gold/white text for an elegant green-table look.</p>
- *
- * <p>Exposes {@link #setPlayerName(String)} and {@link #updateBalance(int)}
- * methods to allow the Controller to update the view cleanly.</p>
+ * Implementation of {@link PlayerWalletView}.
  */
-public final class PlayerWalletView extends VBox {
+public final class PlayerWalletViewImpl extends VBox implements PlayerWalletView {
     private static final double PREF_WIDTH = 200;
     private static final double PADDING = 14;
     private static final int CORNER_RADIUS = 16;
@@ -30,11 +25,11 @@ public final class PlayerWalletView extends VBox {
     private static final String GOLD_HEX = "#F5C542";
     private static final String GOLD_BORDER_HEX = "#C9A227";
     private static final String CHIP_EMOJI = "\uD83D\uDCB0";
-    
+
     private final Label nameLabel;
     private final Label balanceLabel;
 
-    public PlayerWalletView() {
+    public PlayerWalletViewImpl() {
         super();
         this.setSpacing(SPACING);
         this.setAlignment(Pos.CENTER);
@@ -67,18 +62,22 @@ public final class PlayerWalletView extends VBox {
         this.getChildren().addAll(nameLabel, balanceLabel);
     }
 
+    @Override
     public void setPlayerName(final String name) {
         nameLabel.setText(name.toUpperCase(java.util.Locale.ROOT));
     }
 
+    @Override
     public void updateBalance(final int newBalance) {
         balanceLabel.setText(CHIP_EMOJI + " " + newBalance + " fiches");
     }
 
+    @Override
     public String getDisplayedBalance() {
         return balanceLabel.getText();
     }
 
+    @Override
     public String getDisplayedName() {
         return nameLabel.getText();
     }
