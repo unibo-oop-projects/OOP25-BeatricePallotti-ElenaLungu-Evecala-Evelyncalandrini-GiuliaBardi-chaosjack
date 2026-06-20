@@ -50,7 +50,7 @@ public class ActionControllerImpl implements ActionController{
             return;
         }
         
-        engine.stand(); //faccio effettivamente stand
+        engine.stand(); 
     }
 
     @Override
@@ -85,6 +85,11 @@ public class ActionControllerImpl implements ActionController{
           return;
         }
         human.doubleDown();
+        try {
+            table.placeBet(human.getName(), currentBet);
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            return;
+        }
         engine.hit();
         this.stand();
     }
