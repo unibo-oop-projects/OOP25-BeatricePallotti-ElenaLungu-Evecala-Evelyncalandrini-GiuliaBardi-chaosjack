@@ -11,5 +11,5 @@ public interface Dealer extends Partecipant {
      * 
      * @return true if the dealer should hit
      */
-    boolean shouldHit();
+    boolean shouldHit(int currentScore);
 }

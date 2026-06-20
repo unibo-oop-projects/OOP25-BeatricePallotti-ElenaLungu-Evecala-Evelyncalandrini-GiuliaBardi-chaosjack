@@ -120,11 +120,12 @@ public class ActionControllerImpl implements ActionController{
         if(engine.getCurrentPlayer() instanceof NPC) {
             NPC bot = (NPC) engine.getCurrentPlayer();
 
-            if (bot.wantsToDouble()) {
+            int botscore = engine.currentScore(bot.getHand());
+            if (bot.wantsToDouble(botscore)) {
                 bot.doubleDown();
                 engine.hit();
                 engine.stand();
-            } else if(bot.wantsToHit()) {
+            } else if(bot.wantsToHit(botscore)) {
                 engine.hit();
             } else {
                 engine.stand();
@@ -137,7 +138,8 @@ public class ActionControllerImpl implements ActionController{
     public void playDealerTurns() {
 
        Dealer dealer = (Dealer) engine.getCurrentPlayer();
-       if (dealer.shouldHit()) {
+       int dealerScore = engine.currentScore(dealer.getHand());
+       if (dealer.shouldHit(dealerScore)) {
            engine.hit(); 
            //this.playDealerTurns(); 
        } else {
