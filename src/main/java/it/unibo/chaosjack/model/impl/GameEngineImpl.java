@@ -61,6 +61,7 @@ public final class GameEngineImpl implements GameEngine {
    @Override
     public int currentScore(final Hand hand) {
         if (this.specialRound.isPresent()) {
+            
             return this.specialRound.get().specialScore(hand.getCards());
         } else {
             return hand.getScore();
@@ -96,11 +97,13 @@ public final class GameEngineImpl implements GameEngine {
             ++currentPlayerIndex;
          } else {
             this.currentPlayerIndex = 0;
-            /*if (this.table.getCurrentState() == this.stateStartOfGame) {
-                this.table.stepPassage();
-            }*/
+        
+           this.currentPlayer = players.get(currentPlayerIndex);
+           ++currentPlayerIndex;
+           
             this.table.stepPassage();
             this.stateStartOfGame = this.table.getCurrentState();
+            
         
          }
         } else {
@@ -182,7 +185,7 @@ public final class GameEngineImpl implements GameEngine {
         }
 
         this.deck.draw().ifPresent(this.dealer::addCard);
-        this.deck.draw().ifPresent(this.dealer::addCard);
+        
         
     }
 

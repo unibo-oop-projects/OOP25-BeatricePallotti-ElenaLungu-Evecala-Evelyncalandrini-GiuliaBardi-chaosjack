@@ -20,6 +20,7 @@ import it.unibo.chaosjack.model.api.Wallet;
 import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.view.api.GameTableView;
 import it.unibo.chaosjack.view.api.MainMenuView;
+import it.unibo.chaosjack.view.api.PauseMenuView;
 import it.unibo.chaosjack.view.api.ViewManager;
 import it.unibo.chaosjack.view.impl.ViewManagerImpl;
 import javafx.application.Application;
@@ -33,6 +34,7 @@ public class App extends Application {
         final ViewManager viewManager = new ViewManagerImpl(primaryStage);
         GameTableView gameTableView = viewManager.getGameTable();
         MainMenuView mainMenuView = viewManager.getMainMenu();
+        PauseMenuView pauseMenuView = gameTableView.getPauseMenu();
 
         Deck deck = new StandardDeck();
         Dealer dealer = new DealerImpl();
@@ -47,7 +49,7 @@ public class App extends Application {
         gameEngine.setTable(table);
 
         ActionControllerImpl actionController = new ActionControllerImpl(table, gameEngine);
-        GameFlowController gameFlow = new GameFlowControllerImpl(gameEngine, actionController, gameTableView, mainMenuView, viewManager, table);
+        GameFlowController gameFlow = new GameFlowControllerImpl(gameEngine, actionController, gameTableView, mainMenuView, viewManager, table,pauseMenuView);
         
         viewManager.showMainMenu();
     }

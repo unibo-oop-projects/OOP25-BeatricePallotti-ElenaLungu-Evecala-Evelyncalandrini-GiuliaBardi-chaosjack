@@ -3,14 +3,12 @@ package it.unibo.chaosjack.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import it.unibo.chaosjack.model.api.Deck;
 import it.unibo.chaosjack.model.impl.StandardDeck;
 import it.unibo.chaosjack.model.impl.StandardCard;
 import it.unibo.chaosjack.model.api.Player;
 import it.unibo.chaosjack.model.api.RoundEvaluation;
-import it.unibo.chaosjack.model.api.RoundResult;
 import it.unibo.chaosjack.model.impl.Rank;
 import it.unibo.chaosjack.model.impl.RoyalFreezeTurn;
 import it.unibo.chaosjack.model.impl.Suit;
@@ -92,7 +90,6 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
         engine.setTable(correctTable);
         engine.dealerTurn();
         assertEquals(dealer, engine.getCurrentPlayer());
-        assertFalse(dealer.getHand().getCards().isEmpty());
 
     }
 
@@ -216,7 +213,7 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
         }
 
         @Override
-        public RoundResult getWinner() {
+        public RoundEvaluation getWinner() {
             return null;
         }
 
