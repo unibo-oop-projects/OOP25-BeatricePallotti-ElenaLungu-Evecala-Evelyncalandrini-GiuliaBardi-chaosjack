@@ -40,12 +40,12 @@ public class App extends Application {
         Dealer dealer = new DealerImpl();
         
         List<Partecipant> players = new ArrayList<>();
-        players.add(new PlayerImpl( "giocatore1", 1000));
-        players.add(new NPCimpl( "giocatore2", 1000));
+        players.add(new PlayerImpl( "Player", 1000));
+        players.add(new NPCimpl( "NPC", 1000));
 
         GameEngineImpl gameEngine = new GameEngineImpl(deck, players, dealer);
         Wallet wallet = new StandardWallet(1000);
-        Table table = new TableImpl(List.of("giocatore1", "giocatore2"), gameEngine);
+        Table table = new TableImpl(List.of("Player", "NPC"), gameEngine);
         gameEngine.setTable(table);
 
         ActionControllerImpl actionController = new ActionControllerImpl(table, gameEngine);

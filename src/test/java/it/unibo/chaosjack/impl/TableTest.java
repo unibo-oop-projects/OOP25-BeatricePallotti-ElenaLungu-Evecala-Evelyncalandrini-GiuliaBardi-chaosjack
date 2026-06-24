@@ -53,7 +53,7 @@ class TableTest {
     private static final int PAYOUT_LOSS = 0;
 
     private static final int ROUND_ONE = 1;
-    private static final int ROUND_TWO = 2;
+    private static final int ROUND_START = 0;
     private static final int DEFAULT_INCREMENT = 1;
 
     private static final boolean NOT_SAMECOLOR_CARD = false;
@@ -278,15 +278,15 @@ class TableTest {
         table.otherGame();
 
         assertEquals(INITIAL_POT, table.getPot(), "the pot must be empty");
-        assertEquals(ROUND_TWO, table.geStatistics().getTotalRounds());
+        assertEquals(ROUND_ONE, table.geStatistics().getTotalRounds());
         assertEquals(State.FIRST_BET, table.getCurrentState());
     }
 
    @Test
    void testIncremetsRound() {
-    assertEquals(ROUND_ONE, table.geStatistics().getTotalRounds());
+    assertEquals(ROUND_START, table.geStatistics().getTotalRounds());
     table.otherGame();
-    assertEquals(ROUND_TWO, table.geStatistics().getTotalRounds());
+    assertEquals(ROUND_ONE, table.geStatistics().getTotalRounds());
 
    }
 
@@ -295,7 +295,7 @@ class TableTest {
         table.placeBet(P1, STANDARD_BET);
         table.reset();
         assertEquals(INITIAL_POT, table.getPot());
-        assertEquals(ROUND_ONE, table.geStatistics().getTotalRounds());
+        assertEquals(ROUND_START, table.geStatistics().getTotalRounds());
     }
 
     private RoundResult playRound(final GameEngine engine, final Map<String, Integer> player) {
