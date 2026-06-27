@@ -61,7 +61,7 @@ public class GameFlowControllerImpl implements GameFlowController {
 
         mainMenuView.setStatsHandler(() -> {
 
-            this.viewManager.showStatistics(this.table.geStatistics());
+            this.viewManager.showStatistics(this.table.getStatistics());
 
         });
 
