@@ -58,7 +58,7 @@ public final class PlayerWalletViewImpl extends VBox implements PlayerWalletView
 
     @Override
     public void updateBalance(final int newBalance) {
-        balanceLabel.setText(CHIP_EMOJI + " " + newBalance + " fiches");
+        balanceLabel.setText(CHIP_EMOJI + " " + newBalance);
     }
 
     @Override
