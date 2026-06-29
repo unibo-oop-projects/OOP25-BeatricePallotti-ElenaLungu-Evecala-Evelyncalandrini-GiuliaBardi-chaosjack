@@ -53,7 +53,7 @@ class TableTest {
     private static final int PAYOUT_LOSS = 0;
 
     private static final int ROUND_ONE = 1;
-    private static final int ROUND_TWO = 2;
+    private static final int ROUND_START = 0;
     private static final int DEFAULT_INCREMENT = 1;
 
     private static final boolean NOT_SAMECOLOR_CARD = false;
@@ -62,7 +62,6 @@ class TableTest {
     private static final String P2 = "Bob";
 
     private Table table;
-    //private Wallet wallet;
     private final List<String> players = List.of(P1, P2);
 
     @BeforeEach
@@ -130,7 +129,7 @@ class TableTest {
 
         assertEquals(Outcome.PLAYER_WON, result.outcome());
         assertEquals(PAYOUT_WIN_SINGLE, result.getPayOut(), "the wins must be double value of the pot");
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getWinHistory().getOrDefault(P1, 0));
     }
 
     @Test
@@ -140,8 +139,8 @@ class TableTest {
         final RoundResult result = playRound(winEngine, score);
         assertEquals(Outcome.PLAYERS_PUSH, result.outcome());
         assertEquals(PAYOUT_WIN_DOUBLE, result.getPayOut(), "the wins must be double value of the pot");
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getPushHistory().getOrDefault(P1, 0));
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getPushHistory().getOrDefault(P2, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getPushHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getPushHistory().getOrDefault(P2, 0));
     }
 
     @Test
@@ -151,8 +150,8 @@ class TableTest {
         final RoundResult result = playRound(pushEngine, score);
         assertEquals(Outcome.PUSH, result.outcome());
         assertEquals(PAYOUT_LOSS, result.getPayOut(), "Standard push with dealer");
-        assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getLossHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.getStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getLossHistory().getOrDefault(P1, 0));
     }
 
     @Test
@@ -162,7 +161,7 @@ class TableTest {
         final RoundResult result = playRound(lossEngine, score);
         assertEquals(Outcome.DEALER_WON, result.outcome());
         assertEquals(PAYOUT_LOSS, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getLossHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getLossHistory().getOrDefault(P1, 0));
     }
 
     @Test
@@ -172,8 +171,8 @@ class TableTest {
         final RoundResult result = playRound(outEngine, score);
         assertEquals(Outcome.DEALER_WON, result.outcome());
         assertEquals(PAYOUT_LOSS, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getLossHistory().getOrDefault(P1, 0));
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getLossHistory().getOrDefault(P2, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getLossHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getLossHistory().getOrDefault(P2, 0));
     }
 
     @Test
@@ -183,8 +182,8 @@ class TableTest {
         final RoundResult result = playRound(outDealerEngine, score);
         assertEquals(Outcome.PLAYER_WON, result.outcome());
         assertEquals(PAYOUT_WIN_DOUBLE, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault(P2, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.getStatistics().getWinHistory().getOrDefault(P2, 0));
     }
 
     @Test
@@ -195,8 +194,8 @@ class TableTest {
 
         assertEquals(Outcome.PLAYER_WON, result.outcome());
         assertEquals(PAYOUT_WIN_DOUBLE, result.getPayOut());
-        assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P2, 0));
+        assertEquals(INITIAL_POT, table.getStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getWinHistory().getOrDefault(P2, 0));
     }
 
     @Test
@@ -207,8 +206,8 @@ class TableTest {
 
         assertEquals(Outcome.PLAYER_BONUS, result.outcome());
         assertEquals(PAYOUT_BONUS, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBonusHistory().getOrDefault(P1, 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getBonusHistory().getOrDefault(P2, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getBonusHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.getStatistics().getBonusHistory().getOrDefault(P2, 0));
     }
 
     @Test
@@ -219,8 +218,8 @@ class TableTest {
 
         assertEquals(Outcome.PLAYER_BLACKJACK, result.outcome());
         assertEquals(PAYOUT_BONUS, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBlackHistory().getOrDefault(P1, 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getBlackHistory().getOrDefault(P2, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getBlackHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.getStatistics().getBlackHistory().getOrDefault(P2, 0));
     }
 
     @Test
@@ -230,14 +229,14 @@ class TableTest {
         final RoundResult result = playRound(bjEngine, score);
         assertEquals(Outcome.BLACKJACK_BONUS, result.outcome());
         assertEquals(PAYOUT_BJ_BONUS, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getBlackBonusHistory().getOrDefault(P1, 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getBlackBonusHistory().getOrDefault(P2, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getBlackBonusHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.getStatistics().getBlackBonusHistory().getOrDefault(P2, 0));
     }
 
     @Test
-    void testTieResolvedByCardCount_PlayerAgainstDealer() {
-        final var score = Map.of(P1,20, P2, 10);
+    void testTieResolvedByCardCountPlayerAgainstDealer() {
+        final var score = Map.of(P1, 20, P2, 10);
         final var pCards = Map.of(P1, 2, P2, 2);
 
         final GameEngine engine = createEngineWithCards(score, pCards, 20, 3, NOT_SAMECOLOR_CARD);
@@ -248,8 +247,8 @@ class TableTest {
     }
 
     @Test
-    void testTieResolvedByCardCount_DealerAgainstPlayer() {
-        final var score = Map.of(P1,20, P2, 10);
+    void testTieResolvedByCardCountDealerAgainstPlayer() {
+        final var score = Map.of(P1, 20, P2, 10);
         final var pCards = Map.of(P1, 3, P2, 2);
 
         final GameEngine engine = createEngineWithCards(score, pCards, 20, 2, NOT_SAMECOLOR_CARD);
@@ -259,8 +258,8 @@ class TableTest {
     }
 
     @Test
-    void testTieResolvedByCardCount_Players() {
-        final var score = Map.of(P1,20, P2, 20);
+    void testTieResolvedByCardCountPlayers() {
+        final var score = Map.of(P1, 20, P2, 20);
         final var pCards = Map.of(P1, 2, P2, 3);
 
         final GameEngine engine = createEngineWithCards(score, pCards, 18, 2, NOT_SAMECOLOR_CARD);
@@ -268,8 +267,8 @@ class TableTest {
 
         assertEquals(Outcome.PLAYER_WON, result.outcome());
         assertEquals(PAYOUT_WIN_DOUBLE, result.getPayOut());
-        assertEquals(DEFAULT_INCREMENT, table.geStatistics().getWinHistory().getOrDefault(P1, 0));
-        assertEquals(INITIAL_POT, table.geStatistics().getWinHistory().getOrDefault(P2, 0));
+        assertEquals(DEFAULT_INCREMENT, table.getStatistics().getWinHistory().getOrDefault(P1, 0));
+        assertEquals(INITIAL_POT, table.getStatistics().getWinHistory().getOrDefault(P2, 0));
     }
 
     @Test
@@ -278,15 +277,15 @@ class TableTest {
         table.otherGame();
 
         assertEquals(INITIAL_POT, table.getPot(), "the pot must be empty");
-        assertEquals(ROUND_TWO, table.geStatistics().getTotalRounds());
+        assertEquals(ROUND_ONE, table.getStatistics().getTotalRounds());
         assertEquals(State.FIRST_BET, table.getCurrentState());
     }
 
    @Test
    void testIncremetsRound() {
-    assertEquals(ROUND_ONE, table.geStatistics().getTotalRounds());
+    assertEquals(ROUND_START, table.getStatistics().getTotalRounds());
     table.otherGame();
-    assertEquals(ROUND_TWO, table.geStatistics().getTotalRounds());
+    assertEquals(ROUND_ONE, table.getStatistics().getTotalRounds());
 
    }
 
@@ -295,7 +294,7 @@ class TableTest {
         table.placeBet(P1, STANDARD_BET);
         table.reset();
         assertEquals(INITIAL_POT, table.getPot());
-        assertEquals(ROUND_ONE, table.geStatistics().getTotalRounds());
+        assertEquals(ROUND_START, table.getStatistics().getTotalRounds());
     }
 
     private RoundResult playRound(final GameEngine engine, final Map<String, Integer> player) {
@@ -307,10 +306,16 @@ class TableTest {
         return table.getWinner().result();
     }
 
-    private GameEngine createEngine (final Map<String, Integer> pScore, final int dScore, final boolean p1Card) {
+    private GameEngine createEngine(final Map<String, Integer> pScore, final int dScore, final boolean p1Card) {
         return createEngineWithCards(pScore, Map.of(P1, 2, P2, 2), dScore, 2, p1Card);
     }
-    private GameEngine createEngineWithCards(final Map<String, Integer> pScore, final Map<String, Integer> pCardsCount, final int dScore, final int dCardsCount, final boolean p1Card) {
+
+    private GameEngine createEngineWithCards(
+        final Map<String, Integer> pScore,
+        final Map<String, Integer> pCardsCount,
+        final int dScore, final int dCardsCount,
+        final boolean p1Card
+    ) {
         final Player p1 = new PlayerImpl(P1, INITIAL_BALANCE);
         final Player p2 = new PlayerImpl(P2, INITIAL_BALANCE);
 
@@ -324,8 +329,8 @@ class TableTest {
             p2.getHand().addCard(new StandardCard(Rank.TWO, i == 0 ? Suit.CLUBS : p1Suit2));
         }
 
-        final List<Partecipant> players = List.of(p1,p2);
-        
+        final List<Partecipant> player = List.of(p1, p2);
+
         return new GameEngine() {
 
             @Override 
@@ -373,7 +378,7 @@ class TableTest {
 
             @Override
             public List<Partecipant> getPlayers() {
-                return players;
+                return player;
             }
 
             @Override

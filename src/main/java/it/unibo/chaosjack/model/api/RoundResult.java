@@ -18,11 +18,11 @@ public record RoundResult(Outcome outcome, int playerPoints, int dealerPoints, i
         /**
          * Player win.
          */
-        PLAYER_WON("Wins!"),
+        PLAYER_WON(" Wins!"),
         /**
          * Player win with bonus.
          */
-        PLAYER_BONUS("Wins with bonus"),
+        PLAYER_BONUS(" Wins with bonus"),
         /**
          * Dealer win.
          */
@@ -38,11 +38,11 @@ public record RoundResult(Outcome outcome, int playerPoints, int dealerPoints, i
         /**
          * Player does BlackJack.
          */
-        PLAYER_BLACKJACK("BlackJack!!!"),
+        PLAYER_BLACKJACK(" BlackJack!!!"),
         /**
          * Player does BlackJack with bonus.
          */
-        BLACKJACK_BONUS("BlackJack with BONUS");
+        BLACKJACK_BONUS(" BlackJack with BONUS");
 
         private final String message;
 

@@ -14,9 +14,7 @@ import it.unibo.chaosjack.model.impl.GameEngineImpl;
 import it.unibo.chaosjack.model.impl.NPCimpl;
 import it.unibo.chaosjack.model.impl.PlayerImpl;
 import it.unibo.chaosjack.model.impl.StandardDeck;
-import it.unibo.chaosjack.model.impl.StandardWallet;
 import it.unibo.chaosjack.model.impl.TableImpl;
-import it.unibo.chaosjack.model.api.Wallet;
 import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.view.api.GameTableView;
 import it.unibo.chaosjack.view.api.MainMenuView;
@@ -26,33 +24,41 @@ import it.unibo.chaosjack.view.impl.ViewManagerImpl;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-
+/**
+ * Main application class for ChaosJack.
+ */
 public class App extends Application {
 
+    /**
+     * Initializes the core game components, links the Model, View, and Controller.
+     * 
+     * @param primaryStage the primary stage for this application.
+     */
     @Override
     public void start(final Stage primaryStage) {
         final ViewManager viewManager = new ViewManagerImpl(primaryStage);
-        GameTableView gameTableView = viewManager.getGameTable();
-        MainMenuView mainMenuView = viewManager.getMainMenu();
-        PauseMenuView pauseMenuView = gameTableView.getPauseMenu();
+        final GameTableView gameTableView = viewManager.getGameTable();
+        final MainMenuView mainMenuView = viewManager.getMainMenu();
+        final PauseMenuView pauseMenuView = gameTableView.getPauseMenu();
 
-        Deck deck = new StandardDeck();
-        Dealer dealer = new DealerImpl();
-        
-        List<Partecipant> players = new ArrayList<>();
-        players.add(new PlayerImpl( "giocatore1", 1000));
-        players.add(new NPCimpl( "giocatore2", 1000));
+        final Deck deck = new StandardDeck();
+        final Dealer dealer = new DealerImpl();
 
-        GameEngineImpl gameEngine = new GameEngineImpl(deck, players, dealer);
-        Wallet wallet = new StandardWallet(1000);
-        Table table = new TableImpl(List.of("giocatore1", "giocatore2"), gameEngine);
+        final List<Partecipant> players = new ArrayList<>();
+        final int initialBalance = 1000;
+        players.add(new PlayerImpl("Player", initialBalance));
+        players.add(new NPCimpl("NPC", initialBalance));
+
+        final GameEngineImpl gameEngine = new GameEngineImpl(deck, players, dealer);
+        final Table table = new TableImpl(List.of("Player", "NPC"), gameEngine);
         gameEngine.setTable(table);
 
-        ActionControllerImpl actionController = new ActionControllerImpl(table, gameEngine);
-        GameFlowController gameFlow = new GameFlowControllerImpl(gameEngine, actionController, gameTableView, mainMenuView, viewManager, table,pauseMenuView);
-        
+        final ActionControllerImpl actionController = new ActionControllerImpl(table, gameEngine);
+        final GameFlowController gameFlow = new GameFlowControllerImpl(
+            gameEngine, actionController, gameTableView, mainMenuView, viewManager, table, pauseMenuView
+        );
+
+        gameFlow.toString();
         viewManager.showMainMenu();
     }
-
-    
 }

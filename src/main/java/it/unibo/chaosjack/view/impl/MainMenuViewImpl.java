@@ -11,7 +11,11 @@ import javafx.scene.layout.VBox;
 /**
  * Implementation of Main Menu View.
  */
-public class MainMenuViewImpl implements MainMenuView {
+public final class MainMenuViewImpl implements MainMenuView {
+
+    private static final int BOX_SPACING = 25;
+    private static final String BUTTON_STYLE = "-fx-font-size: 18px; -fx-padding: 10 25;";
+
     private final VBox root;
     private final Button playButton = new Button("Play");
     private final Button statsButton = new Button("Statistics");
@@ -20,8 +24,11 @@ public class MainMenuViewImpl implements MainMenuView {
     private final Label nameLabel = new Label("Name: ");
     private final TextField nameField = new TextField("Giocatore 1");
 
+    /**
+     * Initializes the main menu view and its layout components.
+     */
     public MainMenuViewImpl() {
-        this.root = new VBox(25);
+        this.root = new VBox(BOX_SPACING);
         this.initLayout();
     }
 
@@ -35,9 +42,9 @@ public class MainMenuViewImpl implements MainMenuView {
 
         this.nameLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
 
-        this.playButton.setStyle("-fx-font-size: 18px; -fx-padding: 10 25;");
-        this.statsButton.setStyle("-fx-font-size: 18px; -fx-padding: 10 25;");
-        this.exitButton.setStyle("-fx-font-size: 18px; -fx-padding: 10 25;");
+        this.playButton.setStyle(BUTTON_STYLE);
+        this.statsButton.setStyle(BUTTON_STYLE);
+        this.exitButton.setStyle(BUTTON_STYLE);
 
         this.root.getChildren().addAll(title, playButton, statsButton, exitButton);
     }
@@ -54,17 +61,17 @@ public class MainMenuViewImpl implements MainMenuView {
     }
 
     @Override
-    public void setPlayHandler(Runnable handler) {
+    public void setPlayHandler(final Runnable handler) {
         this.playButton.setOnAction(e -> handler.run());
     }
 
     @Override
-    public void setStatsHandler(Runnable handler) {
+    public void setStatsHandler(final Runnable handler) {
         this.statsButton.setOnAction(e -> handler.run());
     }
 
     @Override
-    public void setExitHandler(Runnable handler) {
+    public void setExitHandler(final Runnable handler) {
         this.exitButton.setOnAction(e -> handler.run());
     }
 

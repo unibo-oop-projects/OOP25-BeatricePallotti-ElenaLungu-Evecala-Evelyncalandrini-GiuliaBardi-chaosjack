@@ -16,7 +16,11 @@ import javafx.stage.Stage;
 /**
  * Implementation of ViewManger's interface.
  */
-public class ViewManagerImpl implements ViewManager{
+public final class ViewManagerImpl implements ViewManager {
+
+    private static final double BASE_WIDTH = 1280.0;
+    private static final double BASE_HEIGHT = 720.0;
+
     private final Stage stage;
     private final Scene mainScene;
     private final StackPane rootContainer;
@@ -25,9 +29,11 @@ public class ViewManagerImpl implements ViewManager{
     private final MainMenuView mainMenu = new MainMenuViewImpl();
     private final GameTableView gameTable = new GameTableViewImpl();
 
-    private static final double BASE_WIDTH = 1280.0;
-    private static final double BASE_HEIGHT = 720.0;
-
+    /**
+     * Initializes the view manager with the primary stage, setting up the main scene and resize listeners.
+     * 
+     * @param stage the primary stage.
+     */
     public ViewManagerImpl(final Stage stage) {
         this.stage = stage;
         this.rootContainer = new StackPane();
@@ -51,12 +57,6 @@ public class ViewManagerImpl implements ViewManager{
 
     @Override
     public void showMainMenu() {
-        /*this.mainMenu.setStatsHandler(() -> {
-            StatisticsImpl stats = new StatisticsImpl();
-            this.showStatistics(stats);
-        });
-        this.mainMenu.setExitHandler(() -> System.exit(0));*/
-
         switchView(this.mainMenu.getRootNode(), "#1a1a1a");
         this.stage.setTitle("ChaosJack - Main Menu");
         if (!this.stage.isShowing()) {
@@ -68,6 +68,7 @@ public class ViewManagerImpl implements ViewManager{
     public void showGameTable() {
         this.gameTable.setMenuHandler(() -> this.showMainMenu());
         switchView(this.gameTable.getRootNode(), "#2E8B57");
+        this.rootContainer.getChildren().add(this.gameTable.getPauseMenu().getRootNode());
         this.stage.setTitle("ChaosJack - Table of Game");
         if (!this.stage.isShowing()) {
             this.stage.show();
@@ -75,25 +76,17 @@ public class ViewManagerImpl implements ViewManager{
     }
 
     @Override
-    public void showStatistics(Statistics stats) {
+    public void showStatistics(final Statistics stats) {
         final StatisticsView statsView = new StatisticsViewImpl();
-        Parent statsRoot = statsView.createRoot(stats, () -> {
+        final Parent statsRoot = statsView.createRoot(stats, () -> {
             this.showMainMenu();
         });
 
         stage.setTitle("ChaosJack - Statistics");
-
-        
-        /*final Scene scene = new Scene(statsView.createRoot(stats, ), 800, 500);
-        
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        this.stage.show();*/
         switchView(statsRoot, "#2b2b2b");
     }
 
-    private void switchView(Parent rootContent, String backgroundColor) {
+    private void switchView(final Parent rootContent, final String backgroundColor) {
 
         if (rootContent instanceof Region) {
             ((Region) rootContent).setPrefSize(BASE_WIDTH, BASE_HEIGHT);
@@ -105,7 +98,7 @@ public class ViewManagerImpl implements ViewManager{
         this.currentScale = new Scale(1, 1, 0, 0);
         rootContent.getTransforms().add(this.currentScale);
 
-        Group group = new Group(rootContent);
+        final Group group = new Group(rootContent);
         this.rootContainer.getChildren().setAll(group);
         this.rootContainer.setStyle("-fx-background-color: " + backgroundColor + ";");
         updateScale();
@@ -113,14 +106,14 @@ public class ViewManagerImpl implements ViewManager{
 
     private void updateScale() {
         if (this.currentScale != null) {
-            double scaleX = this.mainScene.getWidth() / BASE_WIDTH;
-            double scaleY = this.mainScene.getHeight() / BASE_HEIGHT;
+            final double scaleX = this.mainScene.getWidth() / BASE_WIDTH;
+            final double scaleY = this.mainScene.getHeight() / BASE_HEIGHT;
 
-            double finalScale = Math.min(scaleX, scaleY);
+            final double finalScale = Math.min(scaleX, scaleY);
 
             this.currentScale.setX(finalScale);
             this.currentScale.setY(finalScale);
         }
     }
-    
+
 }

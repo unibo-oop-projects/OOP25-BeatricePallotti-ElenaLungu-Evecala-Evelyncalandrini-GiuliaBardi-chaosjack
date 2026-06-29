@@ -26,12 +26,10 @@ public final class HandImpl implements Hand {
         int assesCount = 0;
 
         for (final Card c : cards) {
-             score += c.getValue();
+            score  += c.getValue();
               if (c.getName().contains("ACE")) {
                 assesCount++;
               }
-             
-        
         }
 
         while (score > MAX_SCORE && assesCount > 0) { 

@@ -9,28 +9,32 @@ public interface ViewManager {
 
     /**
      * Returns the instance of the main menu view.
+     * 
      * @return the instance.
      */
     MainMenuView getMainMenu();
 
     /**
      * Returns the instance of the game table view.
+     * 
      * @return the instance.
      */
     GameTableView getGameTable();
 
     /**
-     * Main Menu.
+     * Screen Main Menu.
      */
     void showMainMenu();
 
     /**
-     * Gaming table.
+     * Screen Gaming table.
      */
     void showGameTable();
 
     /**
      * Statistics and scores.
+     * 
+     * @param stats are game's statistics.
      */
     void showStatistics(Statistics stats);
 }

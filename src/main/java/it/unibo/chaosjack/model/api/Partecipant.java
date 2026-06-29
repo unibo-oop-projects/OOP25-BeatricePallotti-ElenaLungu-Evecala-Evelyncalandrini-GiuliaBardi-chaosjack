@@ -32,8 +32,8 @@ public interface Partecipant {
      * 
      * @return true if the partecipant is busted
      */
-    default boolean isBusted() {
-        return getHand().getScore() > MAX_SCORE;
+    default boolean isBusted(int currentScore) {
+        return currentScore > MAX_SCORE;
     }
 
     /**

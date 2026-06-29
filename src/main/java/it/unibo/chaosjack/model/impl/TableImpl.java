@@ -18,17 +18,18 @@ import it.unibo.chaosjack.model.api.Statistics;
  * Implementation of the Table interface.
  */
 public final class TableImpl implements Table {
+
     private State currentState;
     private final Map<String, Integer> playerPots = new HashMap<>();
     private final Statistics statistics = new StatisticsImpl();
     private final List<String> players = new ArrayList<>();
     private final GameEngine engine;
     private final RoundEvaluator evaluator = new RoundEvaluator();
+    private boolean doUpdate = true;
 
     /**
-     * Constructs a new TableImpl with the specified wallet, playerName and engine.
+     * Constructs a new TableImpl with the specified playerName and engine.
      * 
-     * @param wallet wallet the player's starting wallet
      * @param playerName the name of the player
      * @param engine the game engine instance
      */
@@ -49,7 +50,7 @@ public final class TableImpl implements Table {
 
     @Override
     public void stepPassage() {
-       if (this.currentState == State.FIRST_BET && getPot() <= 0){
+       if (this.currentState == State.FIRST_BET && getPot() <= 0) {
             throw new IllegalStateException();
        }
 
@@ -61,6 +62,7 @@ public final class TableImpl implements Table {
         this.playerPots.clear();
         this.currentState = State.FIRST_BET;
         this.statistics.incrementTotalRound();
+        this.doUpdate = true;
     }
 
     @Override
@@ -68,6 +70,7 @@ public final class TableImpl implements Table {
         this.playerPots.clear();
         this.statistics.resetStats();
         this.currentState = State.FIRST_BET;
+        this.doUpdate = true;
     }
 
     @Override
@@ -80,7 +83,7 @@ public final class TableImpl implements Table {
         if (amount <= 0) {
             throw new IllegalArgumentException("The amount must be positive");
         }
-        
+
         if (!(currentState == State.FIRST_BET || currentState == State.FINAL_BET || currentState == State.PLAYING)) {
             throw new IllegalStateException("Betting is not allowed during the " + currentState + " phase");
         }
@@ -100,8 +103,11 @@ public final class TableImpl implements Table {
     @Override
     public RoundEvaluation getWinner() {
         final RoundEvaluation evaluation = evaluator.evaluate(this.engine, getPlayers(), getPot());
-        updatePlayersStatistics(evaluation.winners(), evaluation.result(), getDealerScore());
-        
+        if (this.doUpdate) {
+            updatePlayersStatistics(evaluation.winners(), evaluation.result(), getDealerScore());
+            this.doUpdate = false;
+        }
+
         return evaluation;
     }
 
@@ -112,7 +118,7 @@ public final class TableImpl implements Table {
                 statistics.updateStats(name, roundResult, bet);
                 engine.getPlayers().stream()
                     .filter(p -> p.getName().equals(name))
-                    .map (p -> (Player) p)
+                    .map(p -> (Player) p)
                     .findFirst()
                     .ifPresent(player -> player.updateWallet(roundResult.getPayOut()));
             } else {
@@ -142,7 +148,7 @@ public final class TableImpl implements Table {
     }
 
     @Override
-    public Statistics geStatistics() {
+    public Statistics getStatistics() {
         return this.statistics;
     }
 

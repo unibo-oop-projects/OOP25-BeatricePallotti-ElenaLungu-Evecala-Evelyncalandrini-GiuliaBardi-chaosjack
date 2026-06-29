@@ -26,29 +26,7 @@ public final class YingYung implements SpecialRound {
                 }
             } else {
                 score += c.getValue();
-            }
-
-            
-
-            /*if (c.getName().contains("HEARTS") || c.getName().contains("DIAMONDS") ) {
-                if (c.getModifier() == CardModifier.NONE) {
-                score -= c.getValue();
-                } else {
-                    score += c.getValue();
-                }
-            } else {
-                
-                score += c.getValue();
-                
-            }
-
-            if (score < 0) {
-                score = 0;
-            }
-            
-            
-        }*/
-        
+            }        
         }
         return score;
     }

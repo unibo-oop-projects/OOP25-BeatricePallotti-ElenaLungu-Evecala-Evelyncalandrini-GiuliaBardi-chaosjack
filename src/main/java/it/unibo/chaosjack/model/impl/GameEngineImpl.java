@@ -171,7 +171,7 @@ public final class GameEngineImpl implements GameEngine {
         this.dealer.getHand().getCards().clear();
         this.currentPlayerIndex = 0;
         this.gameOver = false;
-        this.table.reset();
+        this.table.otherGame();
         this.deck.reset();
         this.deck.shuffle();
         this.stateStartOfGame = Table.State.FIRST_BET;

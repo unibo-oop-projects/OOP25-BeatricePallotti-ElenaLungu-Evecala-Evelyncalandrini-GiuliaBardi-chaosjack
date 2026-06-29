@@ -233,7 +233,7 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
         }
 
         @Override
-        public Statistics geStatistics() {
+        public Statistics getStatistics() {
             return null;
         }
 

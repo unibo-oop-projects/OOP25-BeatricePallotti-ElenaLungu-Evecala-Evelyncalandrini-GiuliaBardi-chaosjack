@@ -35,7 +35,7 @@ public class RoundEvaluator {
             final int score = engine.getPlayerScore(name);
             if (score <= MAX_SCORE) {
                 final int cardsCount = getPlayerCardCount(engine, name);
-                if (score > max || (score == max && cardsCount < minCards)) {
+                if (score > max || score == max && cardsCount < minCards) {
                     max = score;
                     minCards = cardsCount;
                     bestPlayers.clear();
@@ -58,7 +58,15 @@ public class RoundEvaluator {
             .orElse(2);
     }
 
-    private RoundResult calculateRoundResult (final GameEngine engine, final List<String> bestPlayer, final int maxScore, final int minCards, final int dealerScore, final int dealerCardsCount, final int pot) {
+    private RoundResult calculateRoundResult(
+        final GameEngine engine,
+        final List<String> bestPlayer,
+        final int maxScore,
+        final int minCards,
+        final int dealerScore,
+        final int dealerCardsCount,
+        final int pot
+    ) {
         if (bestPlayer.isEmpty()) {
             return new RoundResult(Outcome.DEALER_WON, 0, dealerScore, 0);
         }
@@ -85,16 +93,22 @@ public class RoundEvaluator {
         return calculateSingleWinnerResult(engine, bestPlayer.get(0), maxScore, dealerScore, pot);
     }
 
-    private RoundResult calculateSingleWinnerResult(final GameEngine engine, final String winner, final int playerScore, final int dealerScore, final int pot) {
+    private RoundResult calculateSingleWinnerResult(
+        final GameEngine engine,
+        final String winner,
+        final int playerScore,
+        final int dealerScore,
+        final int pot
+    ) {
         final Hand winnerHand = engine.getPlayers().stream()
                 .filter(p -> p.getName().equals(winner))
                 .findFirst()
                 .get()
                 .getHand();
-        
+
         final boolean isMonocolor = winnerHand.sameColor(winnerHand.getCards());
         final int bonus = isMonocolor ? 3 : 2;
-        final boolean isBlackjack = (playerScore == MAX_SCORE);
+        final boolean isBlackjack = playerScore == MAX_SCORE;
 
         if (isBlackjack && isMonocolor) {
             return new RoundResult(Outcome.BLACKJACK_BONUS, playerScore, dealerScore, pot * (bonus + 2));
@@ -110,5 +124,5 @@ public class RoundEvaluator {
 
         return new RoundResult(Outcome.PLAYER_WON, playerScore, dealerScore, pot * bonus);
     }
-    
+
 }

@@ -24,7 +24,6 @@ public final class RoyalFreezeTurn implements SpecialRound {
                 score += c.getValue();
             }
          }
-         
          return score;
         } 
 
