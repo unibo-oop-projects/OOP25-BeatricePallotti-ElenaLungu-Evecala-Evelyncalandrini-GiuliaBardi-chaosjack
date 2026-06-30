@@ -81,12 +81,13 @@ public final class ActionControllerImpl implements ActionController {
         if (human == null) {
             return;
         }
-        try {
-           table.placeBet(human.getName(), amount);
-           human.setBet(amount);
-           engine.stand();
-        } catch (IllegalStateException | IllegalArgumentException ignored) { 
-            ignored.getMessage();
+        if (human.getWallet() < amount) {
+            return;
+        }
+        if (table.getCurrentState() == Table.State.FIRST_BET || table.getCurrentState() == Table.State.FINAL_BET) {
+            table.placeBet(human.getName(), amount);
+            human.setBet(amount);
+            engine.stand();
         }
     }
 
