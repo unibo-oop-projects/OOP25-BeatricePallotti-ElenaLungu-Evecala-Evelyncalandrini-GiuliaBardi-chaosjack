@@ -10,20 +10,20 @@ import java.util.List;
  * this class implements the interface SpecialRound. In this round all the HEARTS cards are worth double.
  */
 
-public class DoubleHeartsRule implements SpecialRound {
+public final class DoubleHeartsRule implements SpecialRound {
     @Override
-    public final int specialScore(final List<Card> playersCards) {
+    public int specialScore(final List<Card> playersCards) {
         int score = 0;
-        
+
         for (final Card c : playersCards) {
-            if (c.getName().contains("HEARTS") && (c.getModifier() == CardModifier.NONE)) {
+            if (c.getName().contains("HEARTS") && c.getModifier() == CardModifier.NONE) {
                 score += c.getValue() * 2;
             } else {
                 score += c.getValue();
             }
 
         }
-        
+
         return score;
     }
 
@@ -31,6 +31,5 @@ public class DoubleHeartsRule implements SpecialRound {
     public String getDescription() {
         return "Double Hearts Rule";
     }
-
 
 }

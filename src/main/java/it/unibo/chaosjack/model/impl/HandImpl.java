@@ -26,7 +26,7 @@ public final class HandImpl implements Hand {
         int assesCount = 0;
 
         for (final Card c : cards) {
-            score  += c.getValue();
+            score += c.getValue();
               if (c.getName().contains("ACE")) {
                 assesCount++;
               }
@@ -57,6 +57,6 @@ public final class HandImpl implements Hand {
 
     @Override
     public List<Card> getCards() {
-        return this.cards;
+        return List.copyOf(this.cards);
     }
 }

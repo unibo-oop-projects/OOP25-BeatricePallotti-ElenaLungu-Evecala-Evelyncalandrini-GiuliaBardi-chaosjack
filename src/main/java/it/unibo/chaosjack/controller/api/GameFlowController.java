@@ -1,23 +1,27 @@
 package it.unibo.chaosjack.controller.api;
 
+/**
+ * Model the main flow controller of the game.
+ */
+
 public interface GameFlowController {
     /**
-     * faccio giocare i giocatori non umani 
+     * Allows bots to draw cards.
      */
     void automaticShift();
 
     /**
-     * gestisce le fasi del gioco, ad esempio se è il turno del dealer o dei npc, se è il momento di mostrare i risultati eccetera
+     * Manages the game phases.
      */
     void phaseOfGame();
 
     /**
-     * inizializza una nuova partita
+     * Start a new game.
      */
     void newGame();
 
     /**
-     * faccio scommettere gli npc in maniera utomatica
+     * Allow bot to bet automatically.
      */
     void automaticBet();
 }

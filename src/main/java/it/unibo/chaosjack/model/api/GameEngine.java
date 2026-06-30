@@ -80,7 +80,6 @@ public interface GameEngine {
      * @param table the teble implementation to link to this engine.
      */
     void setTable(Table table);
-    
 
     /**
      * allow the players to draw a card from the deck.
@@ -92,13 +91,26 @@ public interface GameEngine {
      */
     boolean isGameOver();
 
+    /**
+     * reset all game parameters.
+     */
     void resetGame();
 
+    /**
+     * deals the initial cards to the players.
+     */
     void initialCards();
 
+    /**
+     * deals the initial card to the dealer.
+     */
     void initialCardsDealer();
 
+    /**
+     * get the active special round.
+     * 
+     * @return the active special round (null if there isn't active special round).
+     */
     SpecialRound getSpecialRound();
-
 
 }
