@@ -3,7 +3,10 @@ package it.unibo.chaosjack.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import it.unibo.chaosjack.model.api.Deck;
 import it.unibo.chaosjack.model.impl.StandardDeck;
 import it.unibo.chaosjack.model.impl.StandardCard;
@@ -34,8 +37,9 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
   * Test for GameEngineImpl class.
   */
  class GameEngineImplTest {
-    private static final int YING_YUNG_SCORE = -2;
-
+    private static final int FOUND_REMOVE = -1000;
+    private static final int PLACE_BET = 50;
+    private static final int UNDER_SCORE = -2;
     private Dealer dealer;
     private GameEngine engine;
     private SpecialRound specialRound;
@@ -66,6 +70,7 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
     @Test
     void testNextTurn() {
     engine.setTable(table);
+    engine.resetGame();
     engine.nextTurn();
     assertEquals(nameHuman, engine.getCurrentPlayer().getName());
     engine.nextTurn();
@@ -117,7 +122,7 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
         specialRound = new YingYung();
         engine.setSpecialRound(specialRound);
         score = engine.currentScore(engine.getPlayers().get(0).getHand());
-        assertEquals(YING_YUNG_SCORE, score);
+        assertEquals(UNDER_SCORE, score);
 
         specialRound = new RoyalFreezeTurn();
         engine.getPlayers().get(0).getHand().addCard(new StandardCard(Rank.JACK, Suit.HEARTS, CardModifier.NONE));
@@ -151,7 +156,7 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
     @Test
     void testStand() {
         engine.setTable(table);
-        table.stepPassage();
+        engine.resetGame();
         engine.nextTurn();
         assertEquals(nameHuman, engine.getCurrentPlayer().getName());
 
@@ -164,6 +169,68 @@ import it.unibo.chaosjack.model.impl.DoubleHeartsRule;
         engine.stand();
         assertEquals(Table.State.RESULTS, thirdTable.getCurrentState());
 
+    }
+
+    @Test
+    void testHit() {
+        engine.setTable(table);
+        engine.resetGame();
+        engine.nextTurn();
+
+        engine.hit();
+        final int finalSize = engine.getCurrentPlayer().getHand().getCards().size();
+        assertEquals(1, finalSize);
+    }
+
+    @Test
+    void testGameOver() {
+        final Table errorTable = createTable(Table.State.PLAYING);
+        engine.setTable(errorTable);
+        final boolean gameOver = engine.isGameOver();
+        assertFalse(gameOver);
+
+        final Table rightTable = createTable(Table.State.RESULTS);
+        engine.setTable(rightTable);
+        final boolean secondGameOver = engine.isGameOver();
+        assertTrue(secondGameOver);
+    }
+
+    @Test
+    void testResetGame() {
+        engine.setTable(table);
+        engine.getPlayers().get(0).getHand().addCard(new StandardCard(Rank.ACE, Suit.SPADES, CardModifier.NONE));
+        engine.getPlayers().get(1).getHand().addCard(new StandardCard(Rank.TWO, Suit.HEARTS, CardModifier.NONE));
+        engine.getDealerHand().addCard(new StandardCard(Rank.TEN, Suit.CLUBS, CardModifier.NONE));
+        engine.resetGame();
+        final int humanSize = engine.getPlayers().get(0).getHand().getCards().size();
+        final int botSize = engine.getPlayers().get(1).getHand().getCards().size();
+        final int dealerSize = engine.getDealerHand().getCards().size();
+        assertEquals(0, humanSize);
+        assertEquals(0, botSize);
+        assertEquals(0, dealerSize);
+
+        ((Player) engine.getPlayers().get(0)).updateWallet(FOUND_REMOVE);
+
+        engine.resetGame();
+        engine.nextTurn();
+        final String name = engine.getCurrentPlayer().getName();
+        assertEquals(nameBot, name);
+    }
+
+    @Test
+    void testInitialCardandDealer() {
+        engine.setTable(table);
+        ((Player) engine.getPlayers().get(1)).setBet(PLACE_BET);
+        engine.resetGame();
+
+        engine.initialCards();
+        engine.initialCardsDealer();
+        final int hSize = engine.getPlayers().get(0).getHand().getCards().size();
+        final int bSize = engine.getPlayers().get(1).getHand().getCards().size();
+        final int dsize = engine.getDealerHand().getCards().size();
+        assertEquals(0, hSize);
+        assertEquals(2, bSize);
+        assertEquals(1, dsize);
     }
 
     private Table createTable(final Table.State initialState) {

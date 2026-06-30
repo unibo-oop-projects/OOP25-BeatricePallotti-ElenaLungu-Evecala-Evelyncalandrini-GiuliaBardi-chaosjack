@@ -102,15 +102,15 @@ public interface GameEngine {
     void initialCards();
 
     /**
-     * deals the initial card to the dealer.
-     */
-    void initialCardsDealer();
-
-    /**
      * get the active special round.
      * 
      * @return the active special round (null if there isn't active special round).
      */
     SpecialRound getSpecialRound();
+
+    /**
+     * deals the initial cards to the dealer.
+     */
+    void initialCardsDealer();
 
 }

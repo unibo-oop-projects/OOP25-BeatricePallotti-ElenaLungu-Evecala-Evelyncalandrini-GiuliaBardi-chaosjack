@@ -10,7 +10,6 @@ import it.unibo.chaosjack.model.impl.Rank;
 import it.unibo.chaosjack.model.impl.StandardCard;
 import it.unibo.chaosjack.model.impl.Suit;
 
-
  /**
   * Tests for the class DealerImpl.
   */
