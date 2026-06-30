@@ -85,7 +85,8 @@ public final class ActionControllerImpl implements ActionController {
            table.placeBet(human.getName(), amount);
            human.setBet(amount);
            engine.stand();
-        } catch (IllegalStateException | IllegalArgumentException e) {
+        } catch (IllegalStateException | IllegalArgumentException ignored) { 
+            ignored.getMessage();
         }
     }
 
