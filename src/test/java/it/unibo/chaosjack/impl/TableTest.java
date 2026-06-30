@@ -429,6 +429,10 @@ class TableTest {
                 return null;
             }
 
+            @Override
+            public void initialCardsDealer() {
+            }
+
         };
     }
 

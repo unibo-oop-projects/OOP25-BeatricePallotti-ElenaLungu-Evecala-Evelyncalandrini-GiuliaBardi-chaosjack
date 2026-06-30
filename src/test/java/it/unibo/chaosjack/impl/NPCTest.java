@@ -14,51 +14,54 @@ import it.unibo.chaosjack.model.impl.Suit;
   * Tests for the NPCImpl class.
   */
  class NPCTest {
-    private static final int INITIAL_FUNDS = 100;
-    private static final int INITIAL_FUNDS_LOW = 5;
-    private static final int BET_NORMAL = 10;
-    private static final int BET_ALL_IN = 5;
-    private static final int SCORE_HIT_TRUE = 10;
-    private static final int SCORE_HIT_FALSE = 19;
-    private static final int SCORE_DOUBLE_TRUE = 11;
-    private static final int SCORE_DOUBLE_FALSE = 14;
+
+    private static final int SCORE_TO_HIT = 10;
+    private static final int SCORE_TO_STAND = 19;
+    private static final int SCORE_DOUBLE = 11;
+    private static final int SCORE_NO_DOUBLE = 14;
 
     @Test
     void testMakeBet() {
-        final NPC npc = new NPCimpl("bot-1", INITIAL_FUNDS);
+        final int initialFunds = 100;
+        final int expectedBet = 10;
+        final NPC npc = new NPCimpl("bot-1", initialFunds);
         npc.makeBet();
-        assertEquals(BET_NORMAL, npc.getCurrentBet(), "La scommessa dovrebbe essere 10");
+        assertEquals(expectedBet, npc.getCurrentBet(), "La scommessa dovrebbe essere 10");
     }
 
     @Test
     void testMakeBetWithLowFunds() {
-        final NPC npc = new NPCimpl("bot-2", INITIAL_FUNDS_LOW);
+        final int initialFunds = 5;
+        final int expectedBet = 5;
+        final NPC npc = new NPCimpl("bot-2", initialFunds);
         npc.makeBet();
-        assertEquals(BET_ALL_IN, npc.getCurrentBet(), "La scommessa dobrebbe essere 5 perchè fa all-in");
+        assertEquals(expectedBet, npc.getCurrentBet(), "La scommessa dobrebbe essere 5 perchè fa all-in");
     }
 
     @Test
     void testHitStrategy() {
-        final NPC npc = new NPCimpl("bot-3", INITIAL_FUNDS);
+        final int initialFunds = 100;
+        final NPC npc = new NPCimpl("bot-3", initialFunds);
         npc.addCard(new StandardCard(Rank.SIX, Suit.CLUBS));
         npc.addCard(new StandardCard(Rank.FOUR, Suit.HEARTS));
-        assertTrue(npc.wantsToHit(SCORE_HIT_TRUE), "L'NPC dovrebbe chiedere carta con un punteggio di 10");
+        assertTrue(npc.wantsToHit(SCORE_TO_HIT), "L'NPC dovrebbe chiedere carta con un punteggio di 10");
         npc.resetHand();
         npc.addCard(new StandardCard(Rank.KING, Suit.SPADES));
         npc.addCard(new StandardCard(Rank.NINE, Suit.DIAMONDS));
-        assertFalse(npc.wantsToHit(SCORE_HIT_FALSE), "L'NPC non dovrebbe chiedere carta con 19");
+        assertFalse(npc.wantsToHit(SCORE_TO_STAND), "L'NPC non dovrebbe chiedere carta con 19");
     }
 
     @Test
     void testShouldDouble() {
-        final NPC npc = new NPCimpl("bot-4", INITIAL_FUNDS);
+        final int initialFunds = 100;
+        final NPC npc = new NPCimpl("bot-4", initialFunds);
         npc.addCard(new StandardCard(Rank.FIVE, Suit.SPADES));
         npc.addCard(new StandardCard(Rank.SIX, Suit.CLUBS));
-        assertTrue(npc.wantsToDouble(SCORE_DOUBLE_TRUE), "L'NPC dovrebbe raddoppiare con 11");
+        assertTrue(npc.wantsToDouble(SCORE_DOUBLE), "L'NPC dovrebbe raddoppiare con 11");
 
         npc.resetHand();
         npc.addCard(new StandardCard(Rank.JACK, Suit.HEARTS));
         npc.addCard(new StandardCard(Rank.FOUR, Suit.SPADES));
-        assertFalse(npc.wantsToDouble(SCORE_DOUBLE_FALSE), "L'NPC non dovrebbe raddoppaire con 14");
+        assertFalse(npc.wantsToDouble(SCORE_NO_DOUBLE), "L'NPC non dovrebbe raddoppaire con 14");
     }
 }

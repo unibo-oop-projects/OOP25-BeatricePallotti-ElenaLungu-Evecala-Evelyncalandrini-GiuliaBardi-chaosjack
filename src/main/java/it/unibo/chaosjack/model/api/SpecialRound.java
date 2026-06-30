@@ -17,9 +17,9 @@ public interface SpecialRound {
     int specialScore(List<Card> playersCards);
 
     /**
-     * Returns a brief description of the special round rule.
-     * 
-     * @return the description of the special round
+     * get the name of the special round.
+     *
+     * @return the name of the special round.
      */
     String getDescription();
 

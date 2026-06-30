@@ -1,44 +1,44 @@
 package it.unibo.chaosjack.controller.api;
 
 /**
- * This interface defines the actions that can be triggered from the UI buttons.
+ * Interface that provides methos to handle player decisions.
  */
 public interface ActionController {
 
     /**
-     * Requests a new card for the current player.
+     * Requests anew card for the current partecipant.
      */
     void hit();
 
     /**
-     * Passes the turn of the current player.
+     * Ends the current partecipant's turn.
      */
     void stand();
 
     /**
-     * Places a bet for the current player.
-     *
-     * @param amount the amount to bet
+     * places a bet for the current player.
+     * 
+     * @param amount the amount fot the bet
      */
     void bet(int amount);
 
     /**
-     * Doubles the current bet and requests one last card.
+     * doubles the initial bet and gives a card to the partecipant.
      */
     void doubleDown();
 
     /**
-     * Plays the automated bet for NPCs.
+     * Execute the beting phase automatically for the NPC.
      */
     void playAutomatedBet();
 
     /**
-     * Plays the automated turns for NPCs.
+     * Manages automatically resolves the game turn for NPC.
      */
     void playAutomatedTurns();
 
     /**
-     * Plays the automated turns for the dealer.
+     * Executes the dealer's turn.
      */
     void playDealerTurns();
 }

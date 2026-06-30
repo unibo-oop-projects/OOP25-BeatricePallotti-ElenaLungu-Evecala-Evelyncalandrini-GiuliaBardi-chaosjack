@@ -16,10 +16,11 @@ public final class YingYung implements SpecialRound {
     @Override
     public int specialScore(final List<Card> playersCards) {
         int score = 0;
-        for (final Card c : playersCards) {
+        for (final Card c: playersCards) {
             if (c.getModifier() == CardModifier.NONE) {
                 if (c.getName().contains("HEARTS") || c.getName().contains("DIAMONDS")) {
                     score -= c.getValue();
+
                 } else {
                     score += c.getValue();
                 }
@@ -35,4 +36,3 @@ public final class YingYung implements SpecialRound {
         return "Ying Yung";
     }
 }
-

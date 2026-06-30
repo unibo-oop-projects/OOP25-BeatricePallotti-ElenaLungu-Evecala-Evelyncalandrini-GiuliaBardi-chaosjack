@@ -14,21 +14,22 @@ public final class DoubleHeartsRule implements SpecialRound {
     @Override
     public int specialScore(final List<Card> playersCards) {
         int score = 0;
+
         for (final Card c : playersCards) {
             if (c.getName().contains("HEARTS") && c.getModifier() == CardModifier.NONE) {
                 score += c.getValue() * 2;
             } else {
                 score += c.getValue();
             }
+
         }
+
         return score;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDescription() {
         return "Double Hearts Rule";
     }
+
 }

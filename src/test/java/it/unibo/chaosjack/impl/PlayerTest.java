@@ -71,7 +71,7 @@ import it.unibo.chaosjack.model.impl.Suit;
       player.setBet(initialBet);
       player.doubleDown();
       assertEquals(expectedBet, player.getCurrentBet(), "La scommessa dovrebbe essere 40");
-      assertEquals(expectedFunds, player.getWallet(), "Il portafoglio dovrebbe avere 80");
+      assertEquals(expectedFunds, player.getWallet(), "Il portafoglio dovrebbe avere 60");
    }
 
    @Test

@@ -1,5 +1,8 @@
 package it.unibo.chaosjack.controller.impl;
 
+import java.util.Optional;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.chaosjack.controller.api.ActionController;
 import it.unibo.chaosjack.model.api.Dealer;
 import it.unibo.chaosjack.model.api.GameEngine;
@@ -9,28 +12,30 @@ import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.model.api.Partecipant;
 
 /**
- * Implementation of the ActionController interface.
+ * Implementation of the {@link ActionController} interface.
+ * This class manages game actions,actions between the Table and GameEngine 
  */
 public final class ActionControllerImpl implements ActionController {
 
-    private static final int SPECIAL_ROUND_MAX_CARDS = 5;
-
+    private static final int MAX_CARDS_ALLOWED = 5;
     private final Table table;
     private final GameEngine engine;
 
     /**
      * Constructs a new ActionControllerImpl.
-     *
-     * @param table the game table
-     * @param engine the game engine
+     * 
+     * @param table the current game table
+     * @param engine the game engine managing the rules
      */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
+
+    @SuppressFBWarnings(
         value = "EI_EXPOSE_REP2",
-        justification = "The controller needs to hold references to the shared table and engine."
+        justification = "The MVC's controller has to share the mutable references to Table and Engine."
     )
     public ActionControllerImpl(final Table table, final GameEngine engine) {
         this.table = table;
         this.engine = engine;
+
     }
 
     @Override
@@ -42,18 +47,17 @@ public final class ActionControllerImpl implements ActionController {
         if (human == null) {
             return;
         }
-        //aggiungo il controllo per le carte massime nei turni speciali
-        if (engine.getSpecialRound() != null && human.getHand().getCards().size() >= SPECIAL_ROUND_MAX_CARDS) {
+        if (human.getHand().getCards().size() >= MAX_CARDS_ALLOWED) {
             this.stand();
             return;
         }
-        final int score = engine.currentScore(human.getHand());
-        if (human.isBusted(score) || engine.currentScore(human.getHand()) >= Partecipant.MAX_SCORE) {
+        int score = engine.currentScore(human.getHand());
+        if (human.isBusted(score) || score >= Partecipant.MAX_SCORE) {
             return;
         }
         engine.hit();
-
-        if (human.isBusted(score) || engine.currentScore(human.getHand()) >= Partecipant.MAX_SCORE) {
+        score = engine.currentScore(human.getHand());
+        if (human.isBusted(score) || score >= Partecipant.MAX_SCORE) {
             this.stand();
         }
     }
@@ -68,8 +72,7 @@ public final class ActionControllerImpl implements ActionController {
         if (human == null) {
             return;
         }
-
-        engine.stand();
+        engine.stand(); 
     }
 
     @Override
@@ -83,13 +86,12 @@ public final class ActionControllerImpl implements ActionController {
            human.setBet(amount);
            engine.stand();
         } catch (IllegalStateException | IllegalArgumentException e) {
-            java.util.logging.Logger.getLogger(this.getClass().getName()).warning(e.getMessage());
         }
     }
 
     @Override
      public void doubleDown() {
-        if (table.getCurrentState() != Table.State.PLAYING) {
+       if (table.getCurrentState() != Table.State.PLAYING) {
            return;
         }
         final Player human = getCurrentHumanPlayer();
@@ -103,7 +105,6 @@ public final class ActionControllerImpl implements ActionController {
         if (human.getWallet() < currentBet) {
           return;
         }
-        table.placeBet(human.getName(), currentBet);
         human.doubleDown();
         try {
             table.placeBet(human.getName(), currentBet);
@@ -114,11 +115,9 @@ public final class ActionControllerImpl implements ActionController {
         this.stand();
     }
 
-    private boolean isHumanPlayer(final Partecipant p) { //mi serve nei vari metodi per dire sepuò usare i bottoni
+    private boolean isHumanPlayer(final Partecipant p) {
         return p instanceof Player && !(p instanceof NPC);
     }
-
-    //metodi per NPC e Dealer
 
     @Override
     public void playAutomatedBet() {
@@ -129,23 +128,26 @@ public final class ActionControllerImpl implements ActionController {
 
             table.placeBet(bot.getName(), bot.getCurrentBet());
             engine.stand();
+
         }
+
     }
 
     @Override
     public void playAutomatedTurns() {
+
         if (engine.getCurrentPlayer() instanceof NPC) {
             final NPC bot = (NPC) engine.getCurrentPlayer();
 
             final int botscore = engine.currentScore(bot.getHand());
             final int cardsInHand = bot.getHand().getCards().size();
 
-            if (engine.getSpecialRound() != null && cardsInHand >= SPECIAL_ROUND_MAX_CARDS) {
+            if (cardsInHand >= MAX_CARDS_ALLOWED) {
                engine.stand();
                return;
             }
 
-            if (bot.wantsToDouble(botscore) && cardsInHand == 2) {
+            if (bot.wantsToDouble(botscore) && cardsInHand == 2) { 
                 bot.doubleDown();
                 engine.hit();
                 engine.stand();
@@ -154,32 +156,34 @@ public final class ActionControllerImpl implements ActionController {
             } else {
                 engine.stand();
             }
+
         }
+
     }
 
     @Override
     public void playDealerTurns() {
+
        final Dealer dealer = (Dealer) engine.getCurrentPlayer();
        final int dealerScore = engine.currentScore(dealer.getHand());
        final int cardsInHand = dealer.getHand().getCards().size();
 
-       if (engine.getSpecialRound() != null && cardsInHand >= SPECIAL_ROUND_MAX_CARDS) {
+       if (cardsInHand >= MAX_CARDS_ALLOWED) {
            engine.stand();
            return;
        }
        if (dealer.shouldHit(dealerScore)) {
-           engine.hit();
+           engine.hit(); 
        } else {
            engine.stand();
        }
+
     }
 
-    //metodo per il player umano per non fare troppe ripetizioni
     private Player getCurrentHumanPlayer() {
-        final Partecipant current = engine.getCurrentPlayer();
-        if (isHumanPlayer(current)) {
-            return (Player) current;
-        }
-        return null;
+        return Optional.ofNullable(engine.getCurrentPlayer())
+        .filter(this::isHumanPlayer)
+        .map(p -> (Player) p)
+        .orElse(null);
     }
-}
+} 

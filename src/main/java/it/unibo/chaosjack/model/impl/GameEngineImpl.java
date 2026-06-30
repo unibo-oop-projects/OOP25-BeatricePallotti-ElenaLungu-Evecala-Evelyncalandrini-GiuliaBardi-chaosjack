@@ -3,8 +3,10 @@ package it.unibo.chaosjack.model.impl;
 import it.unibo.chaosjack.model.api.GameEngine;
 import it.unibo.chaosjack.model.api.Hand;
 import it.unibo.chaosjack.model.api.Partecipant;
+import it.unibo.chaosjack.model.api.Player;
 import it.unibo.chaosjack.model.api.Deck;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +14,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.chaosjack.model.api.Table;
 import it.unibo.chaosjack.model.api.Table.State;
 import it.unibo.chaosjack.model.api.SpecialRound;
-
 import it.unibo.chaosjack.model.api.Dealer;
 
 /**
@@ -28,6 +29,7 @@ public final class GameEngineImpl implements GameEngine {
     private Partecipant currentPlayer;
     private Table table;
     private boolean gameOver;
+    private final List<Partecipant> activePlayers = new ArrayList<>();
 
     /**
      * constructor for the GameEngineImpl class.
@@ -36,7 +38,7 @@ public final class GameEngineImpl implements GameEngine {
      * @param players is the list of player  playing. 
      * @param dealer is the dealer of the game.
      */
-    public GameEngineImpl(final Deck deck, final List<Partecipant> players, final Dealer dealer) {
+    public GameEngineImpl(final Deck deck, final List<Partecipant> players, final Dealer dealer) { 
         this.deck = deck;
         this.players = List.copyOf(players);
         this.dealer = dealer;
@@ -59,6 +61,7 @@ public final class GameEngineImpl implements GameEngine {
    @Override
     public int currentScore(final Hand hand) {
         if (this.specialRound.isPresent()) {
+
             return this.specialRound.get().specialScore(hand.getCards());
         } else {
             return hand.getScore();
@@ -76,33 +79,37 @@ public final class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public int getPlayerScore(final String name) {
+    public int getPlayerScore(final String name) { 
         for (final Partecipant p : players) {
            if (p.getName().equals(name)) {
              return this.currentScore(p.getHand());
             }
         }
-        return 0;
+        return 0; 
     }
 
     @Override
     public void nextTurn() {
         if (table.getCurrentState() == Table.State.PLAYING 
-            || table.getCurrentState() == Table.State.FINAL_BET 
-            || table.getCurrentState() == Table.State.FIRST_BET) {
+        || table.getCurrentState() == Table.State.FINAL_BET 
+        || table.getCurrentState() == Table.State.FIRST_BET) {
 
-         if (currentPlayerIndex < players.size()) {
-            this.currentPlayer = players.get(currentPlayerIndex);
+         if (currentPlayerIndex < this.activePlayers.size()) { 
+            this.currentPlayer = this.activePlayers.get(currentPlayerIndex);
             ++currentPlayerIndex;
          } else {
             this.currentPlayerIndex = 0;
-            this.currentPlayer = players.get(currentPlayerIndex);
-            ++currentPlayerIndex;
+
+           this.currentPlayer = this.activePlayers.get(currentPlayerIndex);
+           ++currentPlayerIndex;
+
             this.table.stepPassage();
+
          }
         } else {
-            throw new IllegalStateException("impossible to play ");
+            throw new IllegalStateException("impossible to play");
         }
+
     }
 
     @SuppressFBWarnings(
@@ -111,7 +118,7 @@ public final class GameEngineImpl implements GameEngine {
     )
     @Override
     public void dealerTurn() {
-        if (this.table.getCurrentState() == Table.State.DEALER_TURN) {
+        if (this.table.getCurrentState() == Table.State.DEALER_TURN) { 
                 this.currentPlayer = dealer;
         } else {
             throw new IllegalStateException("impossible to play ");
@@ -158,24 +165,36 @@ public final class GameEngineImpl implements GameEngine {
 
     @Override
     public void resetGame() {
+
+        this.activePlayers.clear();
         for (final Partecipant p : players) {
-            p.getHand().getCards().clear();
+            p.resetHand();
+            if (p instanceof Player && ((Player) p).getWallet() > 0) {
+                    this.activePlayers.add(p);
+            }
         }
 
-        this.dealer.getHand().getCards().clear();
+        this.dealer.resetHand();
         this.currentPlayerIndex = 0;
         this.gameOver = false;
         this.table.otherGame();
         this.deck.reset();
         this.deck.shuffle();
+
     }
 
     @Override
     public void initialCards() {
-        for (final Partecipant p : this.players) {
+        for (final Partecipant p : this.activePlayers) {
+           if (p instanceof Player && ((Player) p).getCurrentBet() > 0) {
            this.deck.draw().ifPresent(p::addCard);
            this.deck.draw().ifPresent(p::addCard);
-        }
+           }
+        } 
+    }
+
+    @Override
+    public void initialCardsDealer() {
         this.deck.draw().ifPresent(this.dealer::addCard);
     }
 
@@ -183,4 +202,5 @@ public final class GameEngineImpl implements GameEngine {
     public SpecialRound getSpecialRound() {
         return this.specialRound.orElse(null);
     }
-}
+
+   }

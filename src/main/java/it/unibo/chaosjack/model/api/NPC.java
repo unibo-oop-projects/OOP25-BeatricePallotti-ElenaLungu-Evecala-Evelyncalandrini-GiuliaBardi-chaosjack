@@ -15,7 +15,7 @@ public interface NPC extends Player {
      /**
       * Decides if the NPC wants to draw another card.
       * 
-      * @param currentScore the current score of the NPC
+      * @param currentScore score of the NPC
       * @return true if the NPC should hit
       */
      boolean wantsToHit(int currentScore);
@@ -23,7 +23,7 @@ public interface NPC extends Player {
      /**
       * Decides if the NPC wants to double the bet.
       * 
-      * @param currentScore the current score of the NPC
+      * @param currentScore score of the NPC
       * @return true if the NPC should double
       */
      boolean wantsToDouble(int currentScore);

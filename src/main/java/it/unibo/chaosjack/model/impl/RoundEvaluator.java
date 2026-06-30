@@ -33,7 +33,7 @@ public class RoundEvaluator {
 
         for (final String name : players) {
             final int score = engine.getPlayerScore(name);
-            if (score <= MAX_SCORE) {
+            if (score <= MAX_SCORE && score > 0) {
                 final int cardsCount = getPlayerCardCount(engine, name);
                 if (score > max || score == max && cardsCount < minCards) {
                     max = score;
@@ -87,7 +87,7 @@ public class RoundEvaluator {
         }
 
         if (bestPlayer.size() > 1) {
-            return new RoundResult(Outcome.PLAYERS_PUSH, maxScore, dealerScore, pot * 2); //getPot() *2
+            return new RoundResult(Outcome.PLAYERS_PUSH, maxScore, dealerScore, pot * 2);
         }
 
         return calculateSingleWinnerResult(engine, bestPlayer.get(0), maxScore, dealerScore, pot);

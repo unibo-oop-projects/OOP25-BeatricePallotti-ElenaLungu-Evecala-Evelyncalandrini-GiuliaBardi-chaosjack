@@ -9,7 +9,7 @@ public interface Dealer extends Partecipant {
      * Decides whether the dealer should take another card.
      * The dealer typically hits until the hand reaches a total of 17.
      * 
-     * @param currentScore the current score of the dealer
+     * @param currentScore score of the dealer
      * @return true if the dealer should hit
      */
     boolean shouldHit(int currentScore);

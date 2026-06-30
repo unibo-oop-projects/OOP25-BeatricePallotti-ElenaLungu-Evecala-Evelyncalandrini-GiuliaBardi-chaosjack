@@ -92,17 +92,24 @@ public interface GameEngine {
     boolean isGameOver();
 
     /**
-     * reset the game.
+     * reset all game parameters.
      */
     void resetGame();
 
     /**
-     * distribute the initial cards to the players.
+     * deals the initial cards to the players.
      */
     void initialCards();
 
     /**
-     * @return the special round.
+     * deals the initial card to the dealer.
+     */
+    void initialCardsDealer();
+
+    /**
+     * get the active special round.
+     * 
+     * @return the active special round (null if there isn't active special round).
      */
     SpecialRound getSpecialRound();
 
