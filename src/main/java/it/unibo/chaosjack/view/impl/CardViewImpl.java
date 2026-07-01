@@ -17,7 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Graphic rappresentation of a card in JavaFX
+ * Graphic rappresentation of a card in JavaFX.
  */
 public final class CardViewImpl extends StackPane implements CardView {
 
