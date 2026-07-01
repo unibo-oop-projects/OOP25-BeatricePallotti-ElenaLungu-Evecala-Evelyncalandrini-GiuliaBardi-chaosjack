@@ -55,10 +55,6 @@ public final class HandImpl implements Hand {
         return card.getName().contains("HEARTS") || card.getName().contains("DIAMONDS");
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
-        value = "EI_EXPOSE_REP",
-        justification = "The list of cards must be modifiable or accessible."
-    )
     @Override
     public List<Card> getCards() {
         return this.cards;
